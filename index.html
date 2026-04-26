@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Data Quality Risk Intelligence</title>
+<title>DQ Risk Intelligence Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -15,7 +15,6 @@
   --purple: #7c3aed;
   --purple-light: #ede9fe;
   --purple-dark: #5b21b6;
-  --purple-mid: #8b5cf6;
   --green: #059669;
   --green-light: #d1fae5;
   --amber: #d97706;
@@ -24,8 +23,6 @@
   --red-light: #fee2e2;
   --blue: #2563eb;
   --blue-light: #dbeafe;
-  --grey: #6b7280;
-  --grey-light: #f3f4f6;
   --text: #111827;
   --text2: #374151;
   --text3: #6b7280;
@@ -39,305 +36,106 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: var(--text); min-height: 100vh; }
 
-/* ── HEADER ── */
-.header {
-  background: linear-gradient(135deg, #1e0a3c 0%, #3b0764 40%, #6d28d9 75%, #7c3aed 100%);
-  padding: 0 28px;
-  position: relative;
-  overflow: hidden;
-}
-.header::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle at 20% 50%, rgba(139,92,246,0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(109,40,217,0.4) 0%, transparent 40%);
-  pointer-events: none;
-}
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent);
-}
-/* Subtle dot grid */
-.header-grid {
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 28px 28px;
-  pointer-events: none;
-}
-.header-inner {
-  position: relative; z-index: 1;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 0;
-}
-.header-left { display: flex; align-items: center; gap: 14px; }
-.logo-mark {
-  width: 36px; height: 36px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 700; color: #fff;
-  backdrop-filter: blur(4px);
-  flex-shrink: 0;
-}
-.header-title-block {}
-.header-eyebrow {
-  font-size: 10px; font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.14em;
-  color: rgba(196,181,253,0.9);
-  margin-bottom: 2px;
-}
-.header-title {
-  font-size: 22px; font-weight: 700;
-  color: #fff; letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-.header-subtitle {
-  font-size: 12px; color: rgba(196,181,253,0.8);
-  font-weight: 400; margin-top: 2px;
-}
-
-/* Connect to Knowledge Sources button */
-.connect-btn {
-  display: flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.22);
-  color: #fff;
-  font-family: var(--sans); font-size: 12px; font-weight: 600;
-  padding: 9px 16px; border-radius: 8px;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: all 0.18s;
-  position: relative;
-}
-.connect-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.4); }
-.connect-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 6px #4ade80;
-  animation: pulse 2s infinite;
-}
+/* ── MODULE NAV ── */
+.module-nav { background: #100523; padding: 0 28px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; z-index: 100; }
+.module-nav-logo { display: flex; align-items: center; gap: 10px; padding: 10px 24px 10px 0; margin-right: 28px; border-right: 1px solid rgba(255,255,255,0.08); }
+.nav-logo-mark { width: 26px; height: 26px; background: linear-gradient(135deg, #7c3aed, #a78bfa); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; }
+.nav-logo-text { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: -0.01em; line-height: 1.2; }
+.nav-logo-sub { font-size: 9px; color: rgba(167,139,250,0.7); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+.module-tab { display: flex; align-items: center; gap: 8px; padding: 12px 18px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.45); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.18s; white-space: nowrap; position: relative; top: 1px; user-select: none; }
+.module-tab:hover { color: rgba(255,255,255,0.75); }
+.module-tab.active { color: #fff; border-bottom-color: #a78bfa; }
+.module-tab-icon { font-size: 14px; }
+.module-tab-badge { font-size: 9px; font-weight: 700; background: rgba(167,139,250,0.2); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); padding: 1px 6px; border-radius: 10px; }
+.module-tab.active .module-tab-badge { background: rgba(167,139,250,0.25); color: #c4b5fd; }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.nav-sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade80; animation: pulse 2s infinite; }
+.nav-sync-text { font-size: 11px; color: rgba(255,255,255,0.35); }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.module-view { display: none; }
+.module-view.active { display: block; }
 
-/* ── KNOWLEDGE SOURCES MODAL ── */
-.ks-modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-  z-index: 200; display: none; align-items: center; justify-content: center;
-}
-.ks-modal-overlay.show { display: flex; }
-.ks-modal {
-  background: var(--surface); border-radius: 14px;
-  box-shadow: var(--shadow-lg); width: 520px;
-  overflow: hidden; animation: fadeUp 0.25s ease;
-}
-.ks-modal-header {
-  background: linear-gradient(135deg, #1e0a3c, #6d28d9);
-  padding: 20px 24px; position: relative;
-}
-.ks-modal-header h3 { color: #fff; font-size: 16px; font-weight: 700; }
-.ks-modal-header p { color: rgba(196,181,253,0.8); font-size: 12px; margin-top: 3px; }
-.ks-modal-close {
-  position: absolute; top: 16px; right: 16px;
-  background: rgba(255,255,255,0.1); border: none; color: #fff;
-  width: 28px; height: 28px; border-radius: 6px;
-  cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
-}
-.ks-modal-body { padding: 20px 24px; }
-.ks-section-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 10px; }
-
-/* Drag & drop zone */
-.drop-zone {
-  border: 2px dashed var(--border2); border-radius: 10px;
-  padding: 28px; text-align: center;
-  background: var(--surface2); cursor: pointer;
-  transition: all 0.18s; margin-bottom: 16px;
-}
-.drop-zone:hover { border-color: var(--purple); background: var(--purple-light); }
-.drop-icon { font-size: 28px; margin-bottom: 8px; }
-.drop-title { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 4px; }
-.drop-sub { font-size: 11px; color: var(--text3); }
-.drop-formats { margin-top: 8px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
-.fmt-tag {
-  font-family: var(--mono); font-size: 9px; padding: 2px 7px;
-  border: 1px solid var(--border2); border-radius: 3px; color: var(--text3);
-}
-
-/* Connection options */
-.conn-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-.conn-option {
-  border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
-  cursor: pointer; transition: all 0.15s; display: flex; align-items: flex-start; gap: 10px;
-}
-.conn-option:hover { border-color: var(--purple); background: var(--purple-light); }
-.conn-icon { font-size: 20px; flex-shrink: 0; }
-.conn-label { font-size: 12px; font-weight: 600; color: var(--text2); }
-.conn-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.ks-actions { display: flex; gap: 10px; }
-.btn-ks-confirm {
-  flex: 1; background: var(--purple); color: #fff;
-  border: none; border-radius: 7px; padding: 10px;
-  font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer;
-  transition: opacity 0.15s;
-}
-.btn-ks-confirm:hover { opacity: 0.88; }
-.btn-ks-cancel {
-  flex: 1; background: none; color: var(--text3);
-  border: 1px solid var(--border2); border-radius: 7px; padding: 10px;
-  font-family: var(--sans); font-size: 13px; cursor: pointer; transition: all 0.15s;
-}
-.btn-ks-cancel:hover { border-color: var(--text3); color: var(--text2); }
+/* ── HEADER ── */
+.header { background: linear-gradient(135deg, #1e0a3c 0%, #3b0764 40%, #6d28d9 75%, #7c3aed 100%); padding: 0 28px; position: relative; overflow: hidden; }
+.header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 50%, rgba(139,92,246,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(109,40,217,0.4) 0%, transparent 40%); pointer-events: none; }
+.header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(167,139,250,0.5), transparent); }
+.header-grid { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+.header-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+.header-left { display: flex; align-items: center; gap: 14px; }
+.logo-mark { width: 36px; height: 36px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; backdrop-filter: blur(4px); flex-shrink: 0; }
+.header-eyebrow { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(196,181,253,0.9); margin-bottom: 2px; }
+.header-title { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+.header-subtitle { font-size: 12px; color: rgba(196,181,253,0.8); font-weight: 400; margin-top: 2px; }
+.connect-btn { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); color: #fff; font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: 8px; cursor: pointer; backdrop-filter: blur(6px); transition: all 0.18s; }
+.connect-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.4); }
+.connect-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade80; animation: pulse 2s infinite; }
 
 /* ── FILTER BAR ── */
-.filter-bar {
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 10px 28px; display: flex; align-items: center; gap: 10px;
-  flex-wrap: wrap;
-}
-.filter-group { display: flex; align-items: center; gap: 6px; position: relative; }
+.filter-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 28px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filter-group { display: flex; align-items: center; gap: 6px; }
 .filter-label { font-size: 11px; color: var(--text3); font-weight: 500; white-space: nowrap; }
-.filter-select {
-  background: var(--surface2); border: 1px solid var(--border);
-  color: var(--text2); font-family: var(--sans); font-size: 12px; font-weight: 500;
-  padding: 5px 28px 5px 10px; border-radius: 6px; cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 8px center;
-  transition: border-color 0.15s;
-}
+.filter-select { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 5px 28px 5px 10px; border-radius: 6px; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; transition: border-color 0.15s; }
 .filter-select:focus { outline: none; border-color: var(--purple); }
-.filter-search {
-  margin-left: auto; display: flex; align-items: center;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 6px; padding: 5px 10px; gap: 6px;
-}
-.filter-search input {
-  border: none; background: none; font-family: var(--sans); font-size: 12px;
-  color: var(--text2); width: 180px; outline: none;
-}
+.filter-divider { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
+.filter-search { margin-left: auto; display: flex; align-items: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; gap: 6px; }
+.filter-search input { border: none; background: none; font-family: var(--sans); font-size: 12px; color: var(--text2); width: 180px; outline: none; }
 .filter-search input::placeholder { color: var(--text4); }
 .search-icon { color: var(--text4); font-size: 13px; }
 
-/* ── TOOLTIP SYSTEM — body-level, never clipped ── */
+/* ── TOOLTIP ── */
 .tt-trigger { cursor: default; }
-.tooltip-icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 15px; height: 15px; border-radius: 50%;
-  background: var(--border); color: var(--text3);
-  font-size: 9px; font-weight: 700;
-  margin-left: 4px; flex-shrink: 0; transition: background 0.15s;
-  cursor: default; vertical-align: middle;
-}
+.tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: var(--border); color: var(--text3); font-size: 9px; font-weight: 700; margin-left: 4px; flex-shrink: 0; transition: background 0.15s; cursor: default; vertical-align: middle; }
 .tooltip-icon:hover { background: var(--purple); color: #fff; }
-/* The single floating tooltip node — appended to body by JS */
-#tt-float {
-  display: none;
-  position: fixed;
-  background: #1f2937; color: #e5e7eb;
-  font-size: 11px; line-height: 1.55; padding: 9px 13px;
-  border-radius: 8px; width: 230px; z-index: 99999;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  pointer-events: none;
-}
-#tt-float::before {
-  content: ''; position: absolute;
-  bottom: 100%; left: 14px;
-  border: 5px solid transparent;
-  border-bottom-color: #1f2937;
-}
-
-/* Criticality filter colors */
-.crit-low    { color: var(--green); }
-.crit-med    { color: var(--amber); }
-.crit-high   { color: #ea580c; }
-.crit-crit   { color: var(--red); }
+#tt-float { display: none; position: fixed; background: #1f2937; color: #e5e7eb; font-size: 11px; line-height: 1.55; padding: 9px 13px; border-radius: 8px; width: 240px; z-index: 99999; box-shadow: 0 6px 20px rgba(0,0,0,0.3); pointer-events: none; }
+#tt-float::before { content: ''; position: absolute; bottom: 100%; left: 14px; border: 5px solid transparent; border-bottom-color: #1f2937; }
 
 /* ── MAIN LAYOUT ── */
 .main-wrap { padding: 20px 28px; }
 
-/* ── TOP SECTION: metrics col + two charts ── */
-.top-section {
-  display: grid;
-  grid-template-columns: 160px 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 18px;
-  align-items: stretch;
-}
-
-/* KPI COLUMN — vertical stack */
-.kpi-col { display: flex; flex-direction: column; gap: 10px; }
-.kpi-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 14px;
-  box-shadow: var(--shadow-sm); position: relative;
-  flex: 1;
-}
-.kpi-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  border-radius: 10px 10px 0 0;
-}
-.kpi-card.k-green::before { background: var(--green); }
-.kpi-card.k-red::before   { background: var(--red); }
+/* Top section: 6-metric row + 2 donuts + heatmap */
+.top-section { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; box-shadow: var(--shadow-sm); position: relative; }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 10px 10px 0 0; }
+.kpi-card.k-blue::before   { background: #3b82f6; }
 .kpi-card.k-purple::before { background: var(--purple); }
-.kpi-label { font-size: 10px; color: var(--text3); font-weight: 500; display: flex; align-items: flex-start; margin-bottom: 6px; line-height: 1.35; gap: 3px; }
-.kpi-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; margin-bottom: 4px; }
-.kpi-delta { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; }
+.kpi-card.k-green::before  { background: var(--green); }
+.kpi-card.k-orange::before { background: #ea580c; }
+.kpi-card.k-red::before    { background: var(--red); }
+.kpi-card.k-amber::before  { background: var(--amber); }
+.kpi-label { font-size: 10px; color: var(--text3); font-weight: 500; margin-bottom: 7px; line-height: 1.35; display: flex; align-items: flex-start; gap: 3px; }
+.kpi-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; margin-bottom: 5px; }
+.kpi-delta { font-size: 10px; font-weight: 600; display: flex; align-items: center; gap: 3px; margin-bottom: 3px; }
+.kpi-commentary { font-size: 10px; color: var(--text3); line-height: 1.4; margin-top: 4px; }
 .delta-up   { color: var(--green); }
 .delta-down { color: var(--red); }
-.delta-neutral { color: var(--text3); }
+.delta-neutral { color: var(--text4); }
 
-/* ── CHART CARDS ── */
-.chart-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow-sm);
-  display: flex; flex-direction: column;
-}
+/* Charts row: 2 donuts + heatmap side by side */
+.charts-section { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 14px; margin-bottom: 18px; }
+.chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
 .chart-title-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-shrink: 0; }
 .chart-title { font-size: 13px; font-weight: 700; color: var(--text); }
-
-/* Donut — fills available space */
 .donut-chart-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
-.donut-wrap { position: relative; width: 100%; max-width: 220px; aspect-ratio: 1; margin: 0 auto 0; }
-.donut-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.donut-center {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-.donut-center-val { font-size: 26px; font-weight: 700; color: var(--text); }
-.donut-center-lbl { font-size: 10px; color: var(--text3); font-weight: 500; }
-.donut-legend { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 220px; padding-top: 12px; }
-.legend-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 10px; border-radius: 7px; cursor: pointer;
-  transition: background 0.15s, box-shadow 0.15s;
-  border: 1.5px solid transparent;
-}
+.donut-wrap { position: relative; width: 100%; max-width: 160px; aspect-ratio: 1; margin: 0 auto 8px; }
+.donut-wrap svg { width: 100%; height: 100%; }
+.donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.donut-center-val { font-size: 24px; font-weight: 700; color: var(--text); }
+.donut-center-lbl { font-size: 9px; color: var(--text3); font-weight: 500; }
+.donut-legend { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+.legend-item { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 6px; cursor: pointer; transition: background 0.15s; border: 1.5px solid transparent; }
 .legend-item:hover { background: var(--surface2); }
 .legend-item.filter-active { border-color: var(--purple); background: var(--purple-light); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.legend-label { font-size: 11px; color: var(--text2); font-weight: 600; }
-.legend-pct { font-size: 11px; color: var(--text3); margin-left: auto; font-family: var(--mono); }
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-size: 10px; color: var(--text2); font-weight: 600; line-height: 1.3; }
+.legend-pct { font-size: 10px; color: var(--text3); margin-left: auto; font-family: var(--mono); white-space: nowrap; }
 
 /* Heatmap */
-.heatmap-table { width: 100%; border-collapse: separate; border-spacing: 4px; }
-.heatmap-table th {
-  font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--text3); font-weight: 600; padding: 4px 6px; text-align: center;
-}
+.heatmap-table { width: 100%; border-collapse: separate; border-spacing: 4px; flex: 1; }
+.heatmap-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); font-weight: 600; padding: 4px 5px; text-align: center; }
 .heatmap-table th.row-header { text-align: left; }
-.heatmap-table td.row-label { font-size: 11px; color: var(--text2); font-weight: 500; padding: 4px 10px 4px 0; white-space: nowrap; }
-.hm-cell {
-  height: 38px; border-radius: 6px;
-  font-family: var(--mono); font-size: 12px; font-weight: 600;
-  text-align: center; cursor: pointer;
-  transition: transform 0.13s, box-shadow 0.13s;
-  border: 2px solid transparent;
-  user-select: none;
-}
-.hm-cell:hover { transform: scale(1.08); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.heatmap-table td.row-label { font-size: 10px; color: var(--text2); font-weight: 500; padding: 3px 8px 3px 0; white-space: nowrap; }
+.hm-cell { height: 40px; border-radius: 6px; font-family: var(--mono); font-size: 11px; font-weight: 600; text-align: center; cursor: pointer; transition: transform 0.13s, box-shadow 0.13s; border: 2px solid transparent; user-select: none; }
+.hm-cell:hover { transform: scale(1.07); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
 .hm-cell.filter-active { border-color: var(--purple) !important; box-shadow: 0 0 0 2px var(--purple-light); transform: scale(1.05); }
 .hm-90 { background: #d1fae5; color: #065f46; }
 .hm-80 { background: #a7f3d0; color: #065f46; }
@@ -345,342 +143,394 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
 .hm-60 { background: #fed7aa; color: #7c2d12; }
 .hm-40 { background: #fee2e2; color: #7f1d1d; }
 
-/* ── BOTTOM GRID — 60/40 ── */
+/* Bottom grid */
 .bottom-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; }
-
-/* Active filter indicator */
-.active-filter-bar {
-  display: none; align-items: center; gap: 8px;
-  padding: 6px 14px; background: var(--purple-light);
-  border-bottom: 1px solid #ddd6fe; font-size: 11px; color: var(--purple-dark);
-  flex-wrap: wrap;
-}
+.active-filter-bar { display: none; align-items: center; gap: 8px; padding: 6px 14px; background: var(--purple-light); border-bottom: 1px solid #ddd6fe; font-size: 11px; color: #5b21b6; flex-wrap: wrap; }
 .active-filter-bar.show { display: flex; }
-.filter-pill {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: var(--purple); color: #fff;
-  font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 20px;
-}
+.filter-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--purple); color: #fff; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
 .filter-pill-x { cursor: pointer; opacity: 0.7; margin-left: 2px; }
 .filter-pill-x:hover { opacity: 1; }
 .clear-all-filters { margin-left: auto; font-size: 11px; color: var(--purple); font-weight: 600; cursor: pointer; text-decoration: underline; }
-
-/* Dimmed rows when filter active */
-.inv-table tbody tr.dimmed { opacity: 0.25; pointer-events: none; }
-
-/* ── DATA ASSET INVENTORY ── */
-.inventory-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden;
-}
-.inv-header {
-  padding: 14px 18px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
+.inv-table tbody tr.dimmed { opacity: 0.22; pointer-events: none; }
+.inventory-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.inv-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .inv-title { font-size: 13px; font-weight: 700; color: var(--text); }
 .inv-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
 .inv-table { width: 100%; border-collapse: collapse; }
 .inv-table thead tr { border-bottom: 1px solid var(--border); background: var(--surface2); }
-.inv-table th {
-  font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--text4); font-weight: 600; padding: 8px 14px; text-align: left;
-}
-.inv-table tbody tr {
-  border-bottom: 1px solid var(--border); cursor: pointer;
-  transition: background 0.12s;
-}
+.inv-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text4); font-weight: 600; padding: 7px 10px; text-align: left; white-space: nowrap; }
+.inv-table tbody tr { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; }
 .inv-table tbody tr:hover { background: #faf5ff; }
 .inv-table tbody tr.selected { background: #f5f3ff; }
 .inv-table tbody tr:last-child { border-bottom: none; }
-.inv-table td { padding: 11px 14px; vertical-align: middle; }
-
+.inv-table td { padding: 9px 10px; vertical-align: middle; }
 .asset-name { font-size: 12px; font-weight: 600; color: var(--text); }
 .asset-id { font-family: var(--mono); font-size: 10px; color: var(--text4); margin-top: 1px; }
-.domain-badge {
-  font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px;
-  background: var(--purple-light); color: var(--purple-dark);
-}
+.domain-badge { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 4px; background: var(--purple-light); color: #5b21b6; }
+.rule-count { font-family: var(--mono); font-size: 11px; color: var(--text2); font-weight: 500; }
+/* Residual risk pills — 3 new categories */
+.rr-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.rr-low    { background: var(--green-light); color: var(--green); }
+.rr-medium { background: var(--amber-light); color: var(--amber); }
+.rr-high   { background: var(--red-light);   color: var(--red); }
+.rr-score  { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 24px; border-radius: 5px; font-family: var(--mono); font-size: 11px; font-weight: 700; padding: 0 6px; }
+.rrs-low   { background: var(--green-light); color: var(--green); }
+.rrs-med   { background: var(--amber-light); color: var(--amber); }
+.rrs-high  { background: var(--red-light);   color: var(--red); }
+.asset-type-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+.opt-count { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--amber); }
 
-.rule-count { font-family: var(--mono); font-size: 12px; color: var(--text2); font-weight: 500; }
-
-.health-pill {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
-}
-.hp-effective  { background: var(--green-light); color: var(--green); }
-.hp-optimize   { background: var(--amber-light); color: var(--amber); }
-.hp-gaps       { background: var(--red-light);   color: var(--red); }
-
-.risk-score {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 36px; height: 26px; border-radius: 5px;
-  font-family: var(--mono); font-size: 12px; font-weight: 700;
-}
-.rs-low  { background: var(--green-light); color: var(--green); }
-.rs-med  { background: var(--amber-light); color: var(--amber); }
-.rs-high { background: var(--red-light);   color: var(--red); }
-
-/* ── RIGHT: DQ RISK INSIGHTS ── */
-.insights-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden;
-  display: flex; flex-direction: column;
-}
-.ins-header {
-  padding: 14px 18px; border-bottom: 1px solid var(--border);
-  background: linear-gradient(135deg, #1e0a3c, #4c1d95);
-  display: flex; align-items: center; gap: 8px;
-}
+/* DQ Rule Insights panel */
+.insights-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; }
+.ins-header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, #1e0a3c, #4c1d95); display: flex; align-items: center; gap: 8px; }
 .ins-title { font-size: 13px; font-weight: 700; color: #fff; }
 .ins-sub { font-size: 11px; color: rgba(196,181,253,0.8); margin-top: 1px; }
 .ai-spark { font-size: 16px; }
-.ins-body { flex: 1; overflow-y: auto; padding: 14px; }
+.ins-body { flex: 1; overflow-y: auto; padding: 12px; }
 
-/* Insight sections */
-.ins-section { margin-bottom: 10px; }
-.ins-section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 12px; border-radius: 7px; cursor: pointer;
-  font-size: 12px; font-weight: 600;
-  transition: opacity 0.15s;
-}
+/* Asset score bar inside insights panel */
+.asset-score-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; }
+.asb-item { text-align: center; }
+.asb-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text4); font-weight: 600; margin-bottom: 4px; }
+.asb-val { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.asb-sub { font-size: 9px; color: var(--text4); margin-top: 2px; }
+.conf-low-prompt { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 7px; padding: 8px 10px; margin-bottom: 10px; font-size: 11px; color: #78350f; line-height: 1.5; }
+
+.ins-section { margin-bottom: 8px; }
+.ins-section-header { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 7px; cursor: pointer; font-size: 11px; font-weight: 700; transition: opacity 0.15s; }
 .ins-section-header:hover { opacity: 0.85; }
-.ish-gaps    { background: var(--red-light);   color: var(--red); }
-.ish-optimize { background: var(--amber-light); color: var(--amber); }
+.ish-gap      { background: var(--red-light);    color: var(--red); }
+.ish-optimize { background: var(--amber-light);  color: var(--amber); }
 .ish-effective { background: var(--green-light); color: var(--green); }
-.ins-count { font-family: var(--mono); font-size: 11px; }
+.ins-count { font-family: var(--mono); font-size: 10px; }
 .ins-chevron { font-size: 10px; transition: transform 0.2s; }
 .ins-chevron.open { transform: rotate(180deg); }
-
-.ins-items { display: none; padding-top: 8px; }
+.ins-items { display: none; padding-top: 6px; }
 .ins-items.open { display: block; }
 
-/* Individual insight card */
-.insight-item {
-  border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
-  margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
-  position: relative;
-}
+.insight-item { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 7px; cursor: pointer; transition: all 0.15s; position: relative; }
 .insight-item:hover { border-color: var(--purple); box-shadow: 0 2px 8px rgba(124,58,237,0.1); }
 .insight-item.active { border-color: var(--purple); background: #faf5ff; }
-.insight-item::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 3px; border-radius: 8px 0 0 8px;
-}
-.ii-gap::before    { background: var(--red); }
-.ii-optimize::before { background: var(--amber); }
+.insight-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 8px 0 0 8px; }
+.ii-gap::before       { background: var(--red); }
+.ii-optimize::before  { background: var(--amber); }
 .ii-effective::before { background: var(--green); }
-
-.ii-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
-.ii-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
-.iib-gap      { background: var(--red-light);   color: var(--red); }
-.iib-optimize { background: var(--amber-light); color: var(--amber); }
+.ii-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; gap: 6px; flex-wrap: wrap; }
+.ii-badge { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+.iib-gap       { background: var(--red-light);   color: var(--red); }
+.iib-optimize  { background: var(--amber-light); color: var(--amber); }
 .iib-effective { background: var(--green-light); color: var(--green); }
-.ii-conf { font-size: 10px; font-family: var(--mono); color: var(--purple); font-weight: 600; }
-.ii-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.ii-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
-
-/* Expanded detail */
-.ii-detail { display: none; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+.ii-scores { display: flex; align-items: center; gap: 8px; }
+.ii-score-item { font-size: 9px; color: var(--text4); font-family: var(--mono); }
+.ii-score-val { font-weight: 700; color: var(--text2); }
+.ii-title { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.ii-desc { font-size: 11px; color: var(--text3); line-height: 1.45; }
+.ii-detail { display: none; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
 .ii-detail.open { display: block; }
-.ii-detail-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text4); margin-bottom: 5px; font-weight: 600; }
-.ii-detail-value { font-size: 12px; color: var(--text2); margin-bottom: 10px; line-height: 1.5; }
+.ii-detail-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text4); margin-bottom: 5px; font-weight: 600; }
+.reg-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.reg-tag { font-size: 9px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--blue-light); color: var(--blue); border: 1px solid #bfdbfe; }
+.impact-row { display: flex; align-items: center; gap: 6px; background: var(--green-light); border-radius: 5px; padding: 6px 9px; margin-bottom: 10px; }
+.impact-text { font-size: 10px; font-weight: 600; color: var(--green); }
 
-.reg-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-.reg-tag {
-  font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 4px;
-  background: var(--blue-light); color: var(--blue); border: 1px solid #bfdbfe;
-}
-.impact-row {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--green-light); border-radius: 6px; padding: 7px 10px;
-  margin-bottom: 12px;
-}
-.impact-icon { font-size: 13px; }
-.impact-text { font-size: 11px; font-weight: 600; color: var(--green); }
+/* Source system selector */
+.system-selector-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.system-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 4px 9px; color: var(--text2); }
+.system-tag-dir { font-size: 9px; color: var(--text4); font-style: italic; }
+.system-add-btn { font-size: 10px; font-weight: 600; color: var(--purple); border: 1px dashed var(--purple); border-radius: 5px; padding: 4px 9px; cursor: pointer; background: none; font-family: var(--sans); transition: background 0.15s; }
+.system-add-btn:hover { background: var(--purple-light); }
 
-/* Actions */
-.action-row { display: flex; gap: 6px; margin-bottom: 10px; }
-.act-btn {
-  flex: 1; padding: 8px 6px; border-radius: 6px;
-  font-family: var(--sans); font-size: 11px; font-weight: 700;
-  cursor: pointer; border: none; transition: all 0.15s;
-  letter-spacing: 0.02em;
-}
+/* Rule display (NL + SQL for all rules) */
+.rule-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px; margin-bottom: 8px; }
+.rule-block-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text4); font-weight: 600; margin-bottom: 5px; }
+.rule-block-text { font-size: 11px; color: var(--text2); line-height: 1.6; }
+.code-block { background: #0f172a; border-radius: 7px; padding: 9px 12px; font-family: var(--mono); font-size: 10px; color: #e2e8f0; line-height: 1.7; white-space: pre; overflow-x: auto; border: 1px solid #1e293b; margin-bottom: 8px; }
+
+.action-row { display: flex; gap: 6px; margin-bottom: 8px; }
+.act-btn { flex: 1; padding: 7px 5px; border-radius: 6px; font-family: var(--sans); font-size: 10px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; }
 .act-accept  { background: var(--purple); color: #fff; }
-.act-accept:hover  { background: var(--purple-dark); }
+.act-accept:hover { background: var(--purple-dark); }
 .act-modify  { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
-.act-modify:hover  { border-color: var(--purple); color: var(--purple); }
+.act-modify:hover { border-color: var(--purple); color: var(--purple); }
 .act-reject  { background: var(--surface2); color: var(--text3); border: 1px solid var(--border2); }
-.act-reject:hover  { border-color: var(--red); color: var(--red); }
+.act-reject:hover { border-color: var(--red); color: var(--red); }
 
-/* AI Reasoning */
-.ai-reasoning {
-  border: 1px solid var(--border); border-radius: 7px; overflow: hidden;
-}
-.ai-reasoning-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 12px; background: var(--surface2); cursor: pointer;
-  font-size: 11px; font-weight: 600; color: var(--text2);
-}
-.ai-reasoning-body { display: none; padding: 10px 12px; background: var(--surface); }
+.ai-reasoning { border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+.ai-reasoning-header { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; background: var(--surface2); cursor: pointer; font-size: 10px; font-weight: 600; color: var(--text2); }
+.ai-reasoning-body { display: none; padding: 9px 10px; }
 .ai-reasoning-body.open { display: block; }
-.exp-section { margin-bottom: 8px; }
-.exp-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text4); font-weight: 600; margin-bottom: 4px; }
-.exp-signals { display: flex; flex-wrap: wrap; gap: 4px; }
-.exp-signal {
-  font-size: 10px; padding: 2px 8px; border-radius: 3px;
-  background: var(--purple-light); color: var(--purple-dark);
-  font-family: var(--mono);
-}
+.exp-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text4); font-weight: 600; margin-bottom: 4px; }
+.exp-signals { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.exp-signal { font-size: 9px; padding: 2px 7px; border-radius: 3px; background: var(--purple-light); color: #5b21b6; font-family: var(--mono); }
 
 /* ── FOOTER ── */
-.footer-bar {
-  position: sticky; bottom: 0;
-  background: var(--surface); border-top: 1px solid var(--border);
-  padding: 10px 28px; display: flex; align-items: center; justify-content: space-between;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
-}
+.footer-bar { position: sticky; bottom: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 28px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -2px 10px rgba(0,0,0,0.06); }
 .footer-left { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 8px; }
-.footer-badge {
-  background: var(--amber-light); color: var(--amber);
-  font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px;
-}
+.footer-badge { background: var(--amber-light); color: var(--amber); font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
 .footer-sync { font-size: 11px; color: var(--text4); }
 .footer-actions { display: flex; gap: 8px; }
-.foot-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 8px 16px; border-radius: 7px;
-  font-family: var(--sans); font-size: 12px; font-weight: 600;
-  cursor: pointer; border: 1px solid var(--border2);
-  background: var(--surface); color: var(--text2);
-  transition: all 0.15s;
-}
+.foot-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 7px; font-family: var(--sans); font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border2); background: var(--surface); color: var(--text2); transition: all 0.15s; }
 .foot-btn:hover { border-color: var(--purple); color: var(--purple); }
-.foot-btn-primary {
-  background: var(--purple); color: #fff; border-color: var(--purple);
-}
-.foot-btn-primary:hover { background: var(--purple-dark); border-color: var(--purple-dark); color: #fff; opacity: 1; }
+.foot-btn-primary { background: var(--purple); color: #fff; border-color: var(--purple); }
+.foot-btn-primary:hover { background: var(--purple-dark); border-color: var(--purple-dark); color: #fff; }
 
-/* ── MODIFY RULE MODAL ── */
-.modify-modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.55); backdrop-filter: blur(3px);
-  z-index: 300; display: none; align-items: center; justify-content: center;
-}
-.modify-modal-overlay.show { display: flex; }
-.modify-modal {
-  background: var(--surface); border-radius: 14px;
-  box-shadow: var(--shadow-lg); width: 620px; max-height: 90vh;
-  overflow-y: auto; animation: fadeUp 0.25s ease;
-}
-.mm-header {
-  background: linear-gradient(135deg, #1e0a3c, #6d28d9);
-  padding: 18px 22px; position: sticky; top: 0; z-index: 1;
-  display: flex; align-items: flex-start; justify-content: space-between;
-}
+/* ── SHARED MODALS ── */
+.ks-modal-overlay, .modify-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; }
+.ks-modal-overlay.show, .modify-modal-overlay.show { display: flex; }
+.ks-modal { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow-lg); width: 540px; overflow: hidden; animation: fadeUp 0.25s ease; }
+.ks-modal-header { background: linear-gradient(135deg, #1e0a3c, #6d28d9); padding: 20px 24px; position: relative; }
+.ks-modal-header h3 { color: #fff; font-size: 16px; font-weight: 700; }
+.ks-modal-header p { color: rgba(196,181,253,0.8); font-size: 12px; margin-top: 3px; }
+.ks-modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+.ks-modal-body { padding: 20px 24px; }
+.ks-section-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 8px; }
+.drop-zone { border: 2px dashed var(--border2); border-radius: 10px; padding: 22px; text-align: center; background: var(--surface2); cursor: pointer; transition: all 0.18s; margin-bottom: 10px; }
+.drop-zone:hover { border-color: var(--purple); background: var(--purple-light); }
+.drop-icon { font-size: 26px; margin-bottom: 6px; }
+.drop-title { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 3px; }
+.drop-sub { font-size: 11px; color: var(--text3); }
+.drop-formats { margin-top: 7px; display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+.fmt-tag { font-family: var(--mono); font-size: 9px; padding: 2px 6px; border: 1px solid var(--border2); border-radius: 3px; color: var(--text3); }
+/* Context field in KS modal */
+.ks-context-label { font-size: 10px; font-weight: 600; color: var(--text3); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+.ks-context-box { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; font-family: var(--sans); font-size: 11px; color: var(--text2); resize: vertical; min-height: 60px; outline: none; transition: border-color 0.15s; line-height: 1.6; }
+.ks-context-box:focus { border-color: var(--purple); }
+.ks-context-hint { font-size: 10px; color: var(--text4); margin-top: 4px; margin-bottom: 12px; }
+.conn-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.conn-option { border: 1px solid var(--border); border-radius: 8px; padding: 11px 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: flex-start; gap: 10px; }
+.conn-option:hover { border-color: var(--purple); background: var(--purple-light); }
+.conn-icon { font-size: 18px; flex-shrink: 0; }
+.conn-label { font-size: 12px; font-weight: 600; color: var(--text2); }
+.conn-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.ks-actions { display: flex; gap: 10px; }
+.btn-ks-confirm { flex: 1; background: var(--purple); color: #fff; border: none; border-radius: 7px; padding: 10px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-ks-cancel { flex: 1; background: none; color: var(--text3); border: 1px solid var(--border2); border-radius: 7px; padding: 10px; font-family: var(--sans); font-size: 13px; cursor: pointer; }
+
+/* Modify modal */
+.modify-modal-overlay { z-index: 300; }
+.modify-modal { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow-lg); width: 660px; max-height: 92vh; overflow-y: auto; animation: fadeUp 0.25s ease; }
+.mm-header { background: linear-gradient(135deg, #1e0a3c, #6d28d9); padding: 18px 22px; position: sticky; top: 0; z-index: 1; display: flex; align-items: flex-start; justify-content: space-between; }
 .mm-header h3 { color: #fff; font-size: 15px; font-weight: 700; }
-.mm-header p  { color: rgba(196,181,253,0.8); font-size: 11px; margin-top: 3px; }
-.mm-close {
-  background: rgba(255,255,255,0.1); border: none; color: #fff;
-  width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
-  font-size: 14px; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
+.mm-header p { color: rgba(196,181,253,0.8); font-size: 11px; margin-top: 3px; }
+.mm-close { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .mm-body { padding: 20px 22px; }
-.mm-section { margin-bottom: 18px; }
-.mm-label {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.1em; color: var(--text3); margin-bottom: 7px;
-  display: flex; align-items: center; gap: 6px;
-}
-.mm-label-badge {
-  font-size: 9px; padding: 1px 7px; border-radius: 3px;
-  background: var(--purple-light); color: var(--purple);
-}
-.mm-system-info {
-  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;
-}
-.mm-sys-tag {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 6px; padding: 6px 12px; font-size: 11px; color: var(--text2);
-}
-.mm-sys-tag strong { color: var(--text); font-weight: 600; }
-.mm-code-block {
-  background: #0f172a; border-radius: 8px; padding: 14px 16px;
-  font-family: var(--mono); font-size: 11px; color: #e2e8f0;
-  line-height: 1.8; white-space: pre; overflow-x: auto;
-  border: 1px solid #1e293b;
-}
-.mm-code-block .kw  { color: #818cf8; }
-.mm-code-block .fn  { color: #34d399; }
-.mm-code-block .str { color: #fbbf24; }
-.mm-code-block .cm  { color: #64748b; }
-.mm-nl-box {
-  width: 100%; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 10px 14px; font-family: var(--sans);
-  font-size: 12px; color: var(--text2); resize: vertical; min-height: 72px;
-  outline: none; transition: border-color 0.15s; line-height: 1.6;
-}
+.mm-section { margin-bottom: 16px; }
+.mm-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 7px; display: flex; align-items: center; gap: 6px; }
+.mm-label-badge { font-size: 9px; padding: 1px 7px; border-radius: 3px; background: var(--purple-light); color: var(--purple); }
+/* System selector in modal */
+.mm-systems-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.mm-sys-tag { display: flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 11px; color: var(--text2); cursor: default; }
+.mm-sys-dir { font-size: 9px; color: var(--text4); font-style: italic; }
+.mm-sys-add { background: none; border: 1px dashed var(--border2); border-radius: 6px; padding: 5px 10px; font-size: 11px; color: var(--purple); cursor: pointer; font-family: var(--sans); font-weight: 600; transition: all 0.15s; }
+.mm-sys-add:hover { background: var(--purple-light); border-color: var(--purple); }
+.mm-code-block { background: #0f172a; border-radius: 8px; padding: 12px 14px; font-family: var(--mono); font-size: 11px; color: #e2e8f0; line-height: 1.8; white-space: pre; overflow-x: auto; border: 1px solid #1e293b; }
+.mm-sql-edit { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px; font-family: var(--mono); font-size: 11px; color: #e2e8f0; resize: vertical; min-height: 120px; outline: none; transition: border-color 0.15s; line-height: 1.8; }
+.mm-sql-edit:focus { border-color: var(--purple-mid); }
+.mm-nl-box { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: var(--sans); font-size: 12px; color: var(--text2); resize: vertical; min-height: 72px; outline: none; transition: border-color 0.15s; line-height: 1.6; }
 .mm-nl-box:focus { border-color: var(--purple); }
 .mm-nl-hint { font-size: 11px; color: var(--text4); margin-top: 5px; }
-.mm-actions { display: flex; gap: 8px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
-.mm-btn-save {
-  flex: 1; background: var(--purple); color: #fff; border: none;
-  border-radius: 7px; padding: 10px; font-family: var(--sans);
-  font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s;
-}
-.mm-btn-save:hover { opacity: 0.88; }
-.mm-btn-cancel {
-  flex: 1; background: none; color: var(--text3);
-  border: 1px solid var(--border2); border-radius: 7px; padding: 10px;
-  font-family: var(--sans); font-size: 13px; cursor: pointer; transition: all 0.15s;
-}
-.mm-btn-cancel:hover { border-color: var(--text3); color: var(--text2); }
+.mm-tab-row { display: flex; gap: 0; margin-bottom: 12px; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+.mm-tab { flex: 1; padding: 7px 10px; font-size: 11px; font-weight: 600; text-align: center; cursor: pointer; background: var(--surface2); color: var(--text3); transition: all 0.15s; border: none; font-family: var(--sans); }
+.mm-tab.active { background: var(--purple); color: #fff; }
+.mm-tab-panel { display: none; }
+.mm-tab-panel.active { display: block; }
+.mm-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.mm-btn-save { flex: 1; background: var(--purple); color: #fff; border: none; border-radius: 7px; padding: 10px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; }
+.mm-btn-cancel { flex: 1; background: none; color: var(--text3); border: 1px solid var(--border2); border-radius: 7px; padding: 10px; font-family: var(--sans); font-size: 13px; cursor: pointer; }
 
-/* Asset type badge */
-.asset-type-badge {
-  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
-  background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fadeup { animation: fadeUp 0.4s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.fadeup   { animation: fadeUp 0.4s ease both; }
 .fadeup-1 { animation: fadeUp 0.4s 0.07s ease both; }
-.fadeup-2 { animation: fadeUp 0.4s 0.14s ease both; }
 .fadeup-3 { animation: fadeUp 0.4s 0.21s ease both; }
-
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-/* Toast */
-.toast {
-  position: fixed; bottom: 70px; right: 28px;
-  background: #1f2937; color: #f9fafb;
-  font-size: 12px; padding: 10px 18px;
-  border-radius: 8px; z-index: 300;
-  display: none; animation: fadeUp 0.25s ease;
-  box-shadow: var(--shadow-lg);
-}
+.toast { position: fixed; bottom: 70px; right: 28px; background: #1f2937; color: #f9fafb; font-size: 12px; padding: 10px 18px; border-radius: 8px; z-index: 9999; display: none; animation: fadeUp 0.25s ease; box-shadow: var(--shadow-lg); }
 .toast.show { display: block; }
+
+/* ══════════════════════════════════════════
+   MODULE 2 — REPORTING RISK INTELLIGENCE
+   ══════════════════════════════════════════ */
+.rri-header { background: linear-gradient(135deg, #0a1628 0%, #0f2547 45%, #1a3a6e 80%, #1e4080 100%); padding: 0 28px; position: relative; overflow: hidden; }
+.rri-header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 15% 60%, rgba(37,99,235,0.35) 0%, transparent 50%), radial-gradient(circle at 85% 20%, rgba(29,78,216,0.4) 0%, transparent 40%); pointer-events: none; }
+.rri-header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(96,165,250,0.5), transparent); }
+.rri-header-grid { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+.rri-header-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+.rri-header-left { display: flex; align-items: center; gap: 14px; }
+.rri-logo-mark { width: 36px; height: 36px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px; backdrop-filter: blur(4px); flex-shrink: 0; }
+.rri-header-eyebrow { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(147,197,253,0.9); margin-bottom: 2px; }
+.rri-header-title { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+.rri-header-subtitle { font-size: 12px; color: rgba(147,197,253,0.8); font-weight: 400; margin-top: 2px; }
+.rri-period-btn { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: 8px; cursor: pointer; backdrop-filter: blur(6px); }
+.rri-period-label { font-size: 10px; font-weight: 500; color: rgba(147,197,253,0.7); margin-right: 2px; }
+.rri-alert-strip { background: #fef3c7; border-bottom: 1px solid #fcd34d; padding: 8px 28px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #78350f; }
+.rri-alert-action { margin-left: auto; font-size: 11px; font-weight: 700; color: #b45309; cursor: pointer; text-decoration: underline; }
+.rri-main { padding: 20px 28px; }
+.rri-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text4); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.rri-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.rri-scorecards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.rsc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow-sm); cursor: pointer; transition: all 0.18s; position: relative; overflow: hidden; }
+.rsc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 10px 10px 0 0; }
+.rsc-amber::before { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.rsc-red::before { background: linear-gradient(90deg, #dc2626, #ef4444); }
+.rsc-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.rsc-card.selected { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(37,99,235,0.15), var(--shadow); }
+.rsc-report-name { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.rsc-report-sub { font-size: 10px; color: var(--text4); margin-bottom: 12px; }
+.rsc-score-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 10px; }
+.rsc-score { font-size: 32px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.rsc-score-amber { color: var(--amber); }
+.rsc-score-red { color: var(--red); }
+.rsc-score-label { font-size: 10px; color: var(--text4); font-weight: 500; margin-bottom: 4px; }
+.rsc-delta { font-size: 10px; font-weight: 700; }
+.rsc-delta-down { color: var(--red); }
+.rsc-delta-up { color: var(--green); }
+.rsc-meta { display: flex; gap: 10px; }
+.rsc-meta-item { display: flex; flex-direction: column; gap: 2px; }
+.rsc-meta-val { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text2); }
+.rsc-meta-lbl { font-size: 9px; color: var(--text4); text-transform: uppercase; letter-spacing: 0.06em; }
+.rsc-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-top: 10px; }
+.rsc-pill-red { background: var(--red-light); color: var(--red); }
+.rsc-pill-amber { background: var(--amber-light); color: var(--amber); }
+.rri-main-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 14px; margin-bottom: 20px; }
+.rri-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.rri-card-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.rri-card-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.rri-card-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.rri-card-body { padding: 14px 16px; }
+.rri-heatmap { width: 100%; border-collapse: separate; border-spacing: 4px; }
+.rri-heatmap th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); font-weight: 600; padding: 4px 6px; text-align: center; }
+.rri-heatmap th.row-h { text-align: left; width: 90px; }
+.rri-heatmap td.row-lbl { font-size: 10px; color: var(--text2); font-weight: 600; padding: 4px 8px 4px 0; white-space: nowrap; }
+.rri-hm-cell { height: 30px; border-radius: 6px; font-family: var(--mono); font-size: 11px; font-weight: 700; text-align: center; cursor: pointer; transition: transform 0.13s, box-shadow 0.13s; border: 2px solid transparent; }
+.rri-hm-cell:hover { transform: scale(1.06); }
+.rri-hm-cell.rri-active { border-color: var(--blue) !important; box-shadow: 0 0 0 2px rgba(37,99,235,0.2); transform: scale(1.04); }
+.domain-bars { display: flex; flex-direction: column; gap: 9px; padding: 12px 16px; }
+.dbar-item { cursor: pointer; border-radius: 6px; padding: 6px 8px; transition: background 0.15s; border: 2px solid transparent; }
+.dbar-item:hover { background: var(--surface2); }
+.dbar-item.rri-active { border-color: var(--blue); background: #eff6ff; }
+.dbar-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.dbar-label { font-size: 11px; font-weight: 600; color: var(--text2); }
+.dbar-val { font-family: var(--mono); font-size: 11px; font-weight: 700; }
+.dbar-val-red { color: var(--red); }
+.dbar-val-amber { color: var(--amber); }
+.dbar-val-green { color: var(--green); }
+.dbar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.dbar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.dbar-red { background: linear-gradient(90deg, #dc2626, #f87171); }
+.dbar-amber { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.dbar-green { background: linear-gradient(90deg, #059669, #34d399); }
+.signals-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; }
+.signals-header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, #0a1628, #0f2547); display: flex; align-items: center; justify-content: space-between; }
+.signals-title { font-size: 13px; font-weight: 700; color: #fff; }
+.signals-sub { font-size: 11px; color: rgba(147,197,253,0.75); margin-top: 1px; }
+.signals-filter-bar { display: none; align-items: center; gap: 8px; padding: 6px 12px; background: #eff6ff; border-bottom: 1px solid #bfdbfe; font-size: 11px; color: var(--blue); flex-wrap: wrap; }
+.signals-filter-bar.show { display: flex; }
+.signals-filter-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--blue); color: #fff; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.signals-clear { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--blue); cursor: pointer; text-decoration: underline; }
+.signals-body { flex: 1; overflow-y: auto; }
+.sig-group { border-bottom: 1px solid var(--border); }
+.sig-group:last-child { border-bottom: none; }
+.sig-group-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: var(--surface2); cursor: pointer; border-bottom: 1px solid var(--border); user-select: none; }
+.sig-group-header:hover { background: #f1f5f9; }
+.sig-group-name { font-size: 11px; font-weight: 700; color: var(--text2); display: flex; align-items: center; gap: 8px; }
+.sig-group-reports { display: flex; gap: 4px; }
+.sig-group-tag { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 3px; background: var(--blue-light); color: var(--blue); border: 1px solid #bfdbfe; }
+.sig-group-counts { display: flex; align-items: center; gap: 8px; }
+.sig-group-count { font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; }
+.sgc-crit { background: var(--red-light); color: var(--red); }
+.sgc-high { background: #ffedd5; color: #ea580c; }
+.sgc-med { background: var(--amber-light); color: var(--amber); }
+.sgc-info { background: var(--blue-light); color: var(--blue); }
+.sig-group-chevron { font-size: 10px; color: var(--text4); transition: transform 0.2s; }
+.sig-group-chevron.open { transform: rotate(180deg); }
+.sig-items-wrap { display: none; }
+.sig-items-wrap.open { display: block; }
+.sig-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.12s; position: relative; }
+.sig-item:last-child { border-bottom: none; }
+.sig-item:hover { background: var(--surface2); }
+.sig-item.dimmed { opacity: 0.22; pointer-events: none; }
+.sig-item-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+.sev-critical .sig-item-accent { background: var(--red); }
+.sev-high .sig-item-accent { background: #ea580c; }
+.sev-medium .sig-item-accent { background: var(--amber); }
+.sev-info .sig-item-accent { background: var(--blue); }
+.sig-indicator { width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; margin-top: 1px; }
+.si-red { background: var(--red-light); }
+.si-orange { background: #ffedd5; }
+.si-amber { background: var(--amber-light); }
+.si-blue { background: var(--blue-light); }
+.sig-content { flex: 1; min-width: 0; }
+.sig-top { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap; }
+.sig-type-badge { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+.stb-disc { background: var(--red-light); color: var(--red); }
+.stb-warn { background: var(--amber-light); color: var(--amber); }
+.stb-info { background: var(--blue-light); color: var(--blue); }
+.sig-sev-badge { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+.ssb-critical { background: var(--red-light); color: var(--red); }
+.ssb-high { background: #ffedd5; color: #ea580c; }
+.ssb-medium { background: var(--amber-light); color: var(--amber); }
+.ssb-info { background: var(--blue-light); color: var(--blue); }
+.sig-domain-tag { font-size: 9px; font-weight: 600; padding: 1px 6px; border-radius: 3px; background: var(--purple-light); color: #5b21b6; }
+.sig-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.sig-desc { font-size: 11px; color: var(--text3); line-height: 1.45; }
+.sig-delta { display: inline-flex; align-items: center; gap: 5px; background: var(--red-light); border-radius: 4px; padding: 3px 8px; margin-top: 5px; }
+.sig-delta-val { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--red); }
+.sig-delta-lbl { font-size: 10px; color: #991b1b; }
+.sig-time { font-size: 10px; font-family: var(--mono); color: var(--text4); margin-top: 4px; }
+.sig-action { font-size: 10px; font-weight: 700; color: var(--blue); cursor: pointer; margin-left: auto; flex-shrink: 0; align-self: center; }
+.rri-narrative { background: linear-gradient(135deg, #0a1628, #0f2547); border: 1px solid rgba(37,99,235,0.3); border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; position: relative; overflow: hidden; }
+.rri-narrative::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 90% 50%, rgba(37,99,235,0.15) 0%, transparent 60%); pointer-events: none; }
+.rri-narrative-inner { position: relative; z-index: 1; }
+.rri-narrative-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.rri-narrative-title { font-size: 13px; font-weight: 700; color: #fff; }
+.rri-narrative-period { font-size: 10px; color: rgba(147,197,253,0.7); margin-left: auto; font-family: var(--mono); }
+.rri-narrative-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.rri-narr-item { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 12px; }
+.rri-narr-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(147,197,253,0.6); margin-bottom: 5px; }
+.rri-narr-text { font-size: 11px; color: rgba(255,255,255,0.85); line-height: 1.55; }
+.rri-narr-emphasis { color: #93c5fd; font-weight: 600; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- MODULE NAV -->
+<nav class="module-nav">
+  <div class="module-nav-logo">
+    <div class="nav-logo-mark">▶</div>
+    <div>
+      <div class="nav-logo-text">DQ Risk Intelligence</div>
+      <div class="nav-logo-sub">AI-Powered Platform</div>
+    </div>
+  </div>
+  <div class="module-tab active" onclick="switchModule('control',this)">
+    <span class="module-tab-icon">⚙</span>
+    DQ Rule Intelligence
+    <span class="module-tab-badge">Steward</span>
+  </div>
+  <div class="module-tab" onclick="switchModule('reporting',this)">
+    <span class="module-tab-icon">📊</span>
+    Reporting Risk Intelligence
+    <span class="module-tab-badge">Executive</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-sync-dot"></div>
+    <span class="nav-sync-text">Live · Platform synced 2m ago</span>
+  </div>
+</nav>
+
+<!-- ══ MODULE 1: DQ RULE INTELLIGENCE ══ -->
+<div class="module-view active" id="view-control">
+
 <div class="header">
   <div class="header-grid"></div>
   <div class="header-inner">
     <div class="header-left">
       <div class="logo-mark">▶</div>
-      <div class="header-title-block">
-        <div class="header-eyebrow">AI-Powered · Collibra Integration Layer</div>
-        <div class="header-title">Data Quality Risk Intelligence</div>
-        <div class="header-subtitle">AI-driven DQ rule health, risk exposure, and optimization insights</div>
+      <div>
+        <div class="header-eyebrow">AI-Powered · Data Quality Risk Intelligence</div>
+        <div class="header-title">DQ Rule Intelligence</div>
+        <div class="header-subtitle">Inherent &amp; residual risk scoring, rule health, and optimization insights</div>
       </div>
     </div>
     <button class="connect-btn" onclick="document.getElementById('ks-modal').classList.add('show')">
@@ -694,136 +544,160 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
 <div class="filter-bar fadeup">
   <div class="filter-group">
     <span class="filter-label">Data Domain:</span>
-    <select class="filter-select">
-      <option>All Domains</option>
-      <option>Customer Data</option>
-      <option>Transaction Data</option>
-      <option>Risk Data</option>
-      <option>Reference Data</option>
-      <option>Financial Data</option>
+    <select class="filter-select" id="domain-filter" onchange="applyFilters()">
+      <option value="">All Domains</option>
+      <option value="Customer Data">Customer Data</option>
+      <option value="Transaction Data">Transaction Data</option>
+      <option value="Risk Data">Risk Data</option>
+      <option value="Reference Data">Reference Data</option>
+      <option value="Financial Data">Financial Data</option>
     </select>
-    <span class="tooltip-icon tt-trigger" data-tip="Filter data assets by their primary business domain classification within the organization's data taxonomy.">?</span>
+    <span class="tooltip-icon tt-trigger" data-tip="Filter data assets by their primary business domain classification.">?</span>
   </div>
-
+  <div class="filter-divider"></div>
   <div class="filter-group">
     <span class="filter-label">Regulatory Report:</span>
-    <select class="filter-select">
-      <option>All Reports</option>
-      <option>FR Y-9C</option>
-      <option>FR Y-14Q</option>
-      <option>CECL (ASC 326)</option>
-      <option>Basel III/IV</option>
+    <select class="filter-select" id="report-filter" onchange="applyFilters()">
+      <option value="">All Reports</option>
+      <option value="FR Y-9C">FR Y-9C</option>
+      <option value="FR Y-14Q">FR Y-14Q</option>
+      <option value="CECL (ASC 326)">CECL (ASC 326)</option>
+      <option value="Basel III/IV">Basel III/IV</option>
     </select>
-    <span class="tooltip-icon tt-trigger" data-tip="Filter to show only data assets and DQ rules relevant to a specific regulatory reporting requirement.">?</span>
+    <span class="tooltip-icon tt-trigger" data-tip="Filter to show only assets and rules relevant to a specific regulatory report.">?</span>
   </div>
-
+  <div class="filter-divider"></div>
   <div class="filter-group">
-    <span class="filter-label">Criticality:</span>
-    <select class="filter-select" id="crit-filter">
-      <option value="all">All Levels</option>
-      <option value="low">Low</option>
-      <option value="medium">Medium</option>
-      <option value="high">High</option>
-      <option value="critical">Critical</option>
+    <span class="filter-label">Source System:</span>
+    <select class="filter-select" id="system-filter" onchange="applyFilters()">
+      <option value="">All Systems</option>
+      <option value="SQL Server">SQL Server</option>
+      <option value="Oracle">Oracle</option>
+      <option value="Snowflake">Snowflake</option>
+      <option value="Databricks">Databricks</option>
     </select>
-    <span class="tooltip-icon tt-trigger" data-tip="Low — minimal regulatory impact | Medium — moderate downstream risk | High — significant regulatory exposure | Critical — direct impact on regulatory submission accuracy">?</span>
+    <span class="tooltip-icon tt-trigger" data-tip="Filter DQ rules and suggestions by the source system they apply to.">?</span>
   </div>
-
+  <div class="filter-divider"></div>
+  <div class="filter-group">
+    <span class="filter-label">Residual Risk:</span>
+    <select class="filter-select" id="crit-filter" onchange="applyFilters()">
+      <option value="">All Levels</option>
+      <option value="low">Effective (Low)</option>
+      <option value="medium">Ineffective (Medium)</option>
+      <option value="high">Ineffective (High)</option>
+    </select>
+    <span class="tooltip-icon tt-trigger" data-tip="Filter by residual risk category. Low (0–30): Effective. Medium (31–60): Ineffective. High (61–100): Ineffective — High Priority.">?</span>
+  </div>
   <div class="filter-search">
     <span class="search-icon">🔍</span>
-    <input type="text" placeholder="Search DQ rules, assets, or domains…"/>
+    <input type="text" placeholder="Search data assets, rules, or domains…" oninput="applyFilters()"/>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main-wrap">
+  <!-- 6 METRICS ROW -->
+  <div class="top-section fadeup" id="kpi-row">
+    <!-- rendered by JS -->
+  </div>
 
-  <!-- TOP SECTION: metrics | donut | heatmap -->
-  <div class="top-section fadeup-1">
+  <!-- CHARTS ROW: 2 donuts + heatmap -->
+  <div class="charts-section fadeup-1">
 
-    <!-- Left: KPI vertical column -->
-    <div class="kpi-col">
-      <div class="kpi-card k-green">
-        <div class="kpi-label">
-          DQ Rule Effectiveness Score
-          <span class="tooltip-icon tt-trigger" data-tip="Calculated as: (# Effective DQ Rules / Total Active DQ Rules) × 100. A rule is Effective if it passed all executions in the current period with no gaps or false positives.">?</span>
-        </div>
-        <div class="kpi-value">87.3%</div>
-        <div class="kpi-delta delta-up">↑ +3.2% vs prior period</div>
-      </div>
-      <div class="kpi-card k-red">
-        <div class="kpi-label">
-          High-Risk DQ Rule Gaps
-          <span class="tooltip-icon tt-trigger" data-tip="Count of CDEs with no active DQ rule or with Ineffective rules that have a Risk Score ≥ 70. Sourced from the Data Asset Risk Inventory.">?</span>
-        </div>
-        <div class="kpi-value">23</div>
-        <div class="kpi-delta delta-down">↓ -5 since last cycle</div>
-      </div>
-      <div class="kpi-card k-purple">
-        <div class="kpi-label">
-          Total Active DQ Rules
-          <span class="tooltip-icon tt-trigger" data-tip="Total count of DQ rules in Active status across all domains and reports, synced from Collibra. Excludes Draft, Deprecated, and Pending Approval rules.">?</span>
-        </div>
-        <div class="kpi-value">1,247</div>
-        <div class="kpi-delta delta-up">↑ +12 since last sync</div>
-      </div>
-    </div>
-
-    <!-- Centre: DQ Rule Health donut -->
+    <!-- Donut 1: DQ Rule Health by residual risk -->
     <div class="chart-card">
       <div class="chart-title-row">
         <div class="chart-title">DQ Rule Health</div>
-        <span class="tooltip-icon tt-trigger" data-tip="Overall distribution of data assets (e.g., CDEs / Tables) and their assessed level of DQ rule coverage. Click a segment to filter the inventory below." style="margin-left:auto;">?</span>
+        <span class="tooltip-icon tt-trigger" data-tip="Distribution of data assets by residual risk category: Effective (Low), Ineffective (Medium Priority), Ineffective (High Priority). Click a segment to filter the asset table below." style="margin-left:auto;">?</span>
       </div>
       <div class="donut-chart-wrap">
         <div class="donut-wrap">
           <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
-            <circle cx="75" cy="75" r="58" fill="none" stroke="#f3f4f6" stroke-width="26"/>
-            <!-- Gaps 17% -->
-            <circle cx="75" cy="75" r="58" fill="none" stroke="#dc2626" stroke-width="26"
-              stroke-dasharray="61.9 302.5" stroke-dashoffset="0"/>
-            <!-- Optimize 15% -->
-            <circle cx="75" cy="75" r="58" fill="none" stroke="#d97706" stroke-width="26"
-              stroke-dasharray="54.6 309.8" stroke-dashoffset="-61.9"/>
-            <!-- Effective 68% -->
-            <circle cx="75" cy="75" r="58" fill="none" stroke="#059669" stroke-width="26"
-              stroke-dasharray="247.8 116.6" stroke-dashoffset="-116.5"/>
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#f3f4f6" stroke-width="22"/>
+            <!-- Ineffective High: 17% = 58.7 -->
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#fca5a5" stroke-width="22" stroke-dasharray="58.7 287.1" stroke-dashoffset="0"/>
+            <!-- Ineffective Med: 18% = 62.2 -->
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#fcd34d" stroke-width="22" stroke-dasharray="62.2 283.6" stroke-dashoffset="-58.7"/>
+            <!-- Effective: 65% = 225.0 -->
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#6ee7b7" stroke-width="22" stroke-dasharray="225.0 120.8" stroke-dashoffset="-120.9"/>
           </svg>
           <div class="donut-center">
-            <div class="donut-center-val" id="donut-center-val">248</div>
-            <div class="donut-center-lbl" id="donut-center-lbl">Assets</div>
+            <div class="donut-center-val" id="donut-health-val">248</div>
+            <div class="donut-center-lbl" id="donut-health-lbl">Assets</div>
           </div>
         </div>
         <div class="donut-legend">
-          <div class="legend-item tt-trigger" data-tip="Click to filter inventory to Effective assets only" data-health="Effective" onclick="toggleHealthFilter('Effective',this)">
-            <div class="legend-dot" style="background:#059669"></div>
-            <span class="legend-label">Effective</span>
-            <span class="legend-pct">68% · 169</span>
+          <div class="legend-item tt-trigger" data-tip="Effective — Residual Risk Score 0–30. DQ rule coverage adequately addresses inherent risk." data-health="low" onclick="toggleHealthFilter('low',this)">
+            <div class="legend-dot" style="background:#6ee7b7"></div>
+            <span class="legend-label">Effective (Low)</span>
+            <span class="legend-pct">65% · 161</span>
           </div>
-          <div class="legend-item tt-trigger" data-tip="Click to filter inventory to Optimize assets only" data-health="Optimize" onclick="toggleHealthFilter('Optimize',this)">
-            <div class="legend-dot" style="background:#d97706"></div>
-            <span class="legend-label">Optimize</span>
-            <span class="legend-pct">15% · 37</span>
+          <div class="legend-item tt-trigger" data-tip="Ineffective — Medium Priority. Residual Risk Score 31–60. Rule coverage partially addresses inherent risk." data-health="medium" onclick="toggleHealthFilter('medium',this)">
+            <div class="legend-dot" style="background:#fcd34d"></div>
+            <span class="legend-label">Ineffective (Med)</span>
+            <span class="legend-pct">18% · 45</span>
           </div>
-          <div class="legend-item tt-trigger" data-tip="Click to filter inventory to Gap assets only" data-health="Gaps" onclick="toggleHealthFilter('Gaps',this)">
-            <div class="legend-dot" style="background:#dc2626"></div>
-            <span class="legend-label">Gaps</span>
+          <div class="legend-item tt-trigger" data-tip="Ineffective — High Priority. Residual Risk Score 61–100. Significant gap between inherent risk and rule coverage." data-health="high" onclick="toggleHealthFilter('high',this)">
+            <div class="legend-dot" style="background:#fca5a5"></div>
+            <span class="legend-label">Ineffective (High)</span>
             <span class="legend-pct">17% · 42</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Right: Rule Coverage Heatmap -->
+    <!-- Donut 2: Rules requiring optimization -->
+    <div class="chart-card">
+      <div class="chart-title-row">
+        <div class="chart-title">Optimization Opportunities</div>
+        <span class="tooltip-icon tt-trigger" data-tip="Active DQ rules identified by AI as candidates for optimization, distributed across three sub-categories. Click a segment to filter." style="margin-left:auto;">?</span>
+      </div>
+      <div class="donut-chart-wrap">
+        <div class="donut-wrap">
+          <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-90deg)">
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#f3f4f6" stroke-width="22"/>
+            <!-- Redundant: 35% = 121.0 -->
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#7c3aed" stroke-width="22" stroke-dasharray="121.0 224.8" stroke-dashoffset="0"/>
+            <!-- Threshold: 40% = 138.2 -->
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#c4b5fd" stroke-width="22" stroke-dasharray="138.2 207.6" stroke-dashoffset="-121.0"/>
+            <!-- Misplaced: 25% = 86.4 -->
+            <circle cx="75" cy="75" r="55" fill="none" stroke="#9ca3af" stroke-width="22" stroke-dasharray="86.4 259.4" stroke-dashoffset="-259.2"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-center-val" id="donut-opt-val">127</div>
+            <div class="donut-center-lbl" id="donut-opt-lbl">Rules</div>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <div class="legend-item tt-trigger" data-tip="Move Upstream: Rules currently applied in an aggregation or reporting layer that should be enforced further upstream at the SOR or SOO. Click to filter." data-opt="misplaced" onclick="toggleOptFilter('misplaced',this)">
+            <div class="legend-dot" style="background:#9ca3af"></div>
+            <span class="legend-label">Move Upstream</span>
+            <span class="legend-pct">25% · 32</span>
+          </div>
+          <div class="legend-item tt-trigger" data-tip="Change Threshold: Rules with exception tolerance thresholds that are too strict based on profiling results, actual data behaviour, and metadata — likely generating false positives. Click to filter." data-opt="threshold" onclick="toggleOptFilter('threshold',this)">
+            <div class="legend-dot" style="background:#c4b5fd"></div>
+            <span class="legend-label">Change Threshold</span>
+            <span class="legend-pct">40% · 51</span>
+          </div>
+          <div class="legend-item tt-trigger" data-tip="Redundant — Decommission: Rules meeting the same DQ objective for the same or tightly coupled data assets, where at least one rule can be safely decommissioned. Click to filter." data-opt="redundant" onclick="toggleOptFilter('redundant',this)">
+            <div class="legend-dot" style="background:#7c3aed"></div>
+            <span class="legend-label">Redundant — Decommission</span>
+            <span class="legend-pct">35% · 44</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
     <div class="chart-card">
       <div class="chart-title-row">
         <div class="chart-title">Rule Coverage Heatmap</div>
-        <span class="tooltip-icon tt-trigger" data-tip="DQ Risk Coverage score by Data Domain and Regulatory Reporting Requirement. Score = (# Active Rules / # Required Controls) × 100. Green ≥ 85%, Amber 70–84%, Red < 70%." style="margin-left:auto;">?</span>
+        <span class="tooltip-icon tt-trigger" data-tip="Average Rule Effectiveness Score at the intersection of Data Domain and Regulatory Report. Effectiveness is assessed by the AI agent by evaluating all active rules for data assets in that domain against their inferred inherent risk. Green ≥ 85%, Amber 70–84%, Red &lt; 70%. Click a cell to filter the asset table." style="margin-left:auto;">?</span>
       </div>
-      <table class="heatmap-table">
+      <table class="heatmap-table" style="flex:1">
         <thead>
           <tr>
-            <th class="row-header">Data Domain</th>
+            <th class="row-header">Domain</th>
             <th>FR Y-9C</th>
             <th>FR Y-14Q</th>
             <th>CECL</th>
@@ -833,17 +707,16 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
         <tbody id="heatmap-body"></tbody>
       </table>
     </div>
+
   </div>
 
   <!-- BOTTOM GRID -->
   <div class="bottom-grid fadeup-3">
-
-    <!-- Data Asset Risk Inventory -->
     <div class="inventory-card">
       <div class="inv-header">
         <div>
-          <div class="inv-title">Data Asset Risk Inventory</div>
-          <div class="inv-sub">Click a data asset to view DQ Risk Insights →</div>
+          <div class="inv-title">DQ Rule Health</div>
+          <div class="inv-sub">Click a data asset to view AI-generated DQ Rule Insights →</div>
         </div>
         <span style="font-size:11px;color:var(--text4);font-family:var(--mono)" id="inv-count">8 assets shown</span>
       </div>
@@ -852,144 +725,192 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
         <span id="filter-pills"></span>
         <span class="clear-all-filters" onclick="clearAllFilters()">Clear all</span>
       </div>
-      <div style="overflow-x:auto;">
+      <div style="overflow-x:auto">
         <table class="inv-table">
           <thead>
             <tr>
-              <th>Asset / CDE</th>
-              <th>Asset Type</th>
-              <th>Domain</th>
-              <th>DQ Rules</th>
-              <th>Health</th>
-              <th>Risk Score <span class="tooltip-icon tt-trigger" data-tip="Composite score (0–100) based on rule failure rate, regulatory impact weighting, and lineage exposure. Score = (Failure Rate × 0.5) + (Reg. Exposure × 0.3) + (Lineage Depth × 0.2)." style="font-weight:400;">?</span></th>
+              <th>Data Asset Name <span class="tooltip-icon tt-trigger" data-tip="Name of the data asset (CDE or Table/Dataset) as registered in the data governance platform or inferred by AI from available metadata." style="font-weight:400">?</span></th>
+              <th>Data Asset Type <span class="tooltip-icon tt-trigger" data-tip="Type of data asset: CDE (Critical Data Element) or Table/Dataset." style="font-weight:400">?</span></th>
+              <th>Domain <span class="tooltip-icon tt-trigger" data-tip="Business domain of the data asset. Sourced directly from the Data Governance platform (if integrated), or inferred by AI from metadata, lineage, and contextual inputs." style="font-weight:400">?</span></th>
+              <th>DQ Rules <span class="tooltip-icon tt-trigger" data-tip="Total number of active DQ rules applied to this data asset across all systems." style="font-weight:400">?</span></th>
+              <th>Optimize <span class="tooltip-icon tt-trigger" data-tip="Number of active rules on this asset identified by AI as candidates for optimization (misplacement, threshold change, or redundancy)." style="font-weight:400">?</span></th>
+              <th>Residual Risk <span class="tooltip-icon tt-trigger" data-tip="Residual Risk Category: Effective (Low, score 0–30), Ineffective – Medium (31–60), Ineffective – High (61–100). Calculated as: Inherent Risk Score × (1 – Rule Effectiveness %). A low residual risk means rules adequately mitigate the asset's inherent regulatory risk." style="font-weight:400">?</span></th>
+              <th>Residual Risk Score <span class="tooltip-icon tt-trigger" data-tip="Numerical residual risk score (0–100). Formula: Inherent Risk Score × (1 – Rule Effectiveness Score / 100). Example: Inherent Risk = 50, Effectiveness = 60% → Residual = 50 × 0.40 = 20." style="font-weight:400">?</span></th>
             </tr>
           </thead>
           <tbody id="inv-tbody"></tbody>
         </table>
       </div>
     </div>
-
-    <!-- DQ Risk Insights -->
     <div class="insights-card">
       <div class="ins-header">
         <span class="ai-spark">✦</span>
         <div>
-          <div class="ins-title">DQ Risk Insights</div>
+          <div class="ins-title">DQ Rule Insights</div>
           <div class="ins-sub">AI-generated analysis by data asset</div>
         </div>
       </div>
       <div class="ins-body" id="ins-body">
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--text4);font-size:12px;gap:8px;text-align:center;">
           <span style="font-size:28px;opacity:0.3">✦</span>
-          Select a data asset from the inventory to view AI-generated DQ Risk Insights
+          Select a data asset to view AI-generated DQ Rule Insights
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer-bar">
   <div class="footer-left">
     <span class="footer-badge">3 insights pending review</span>
-    <span class="footer-sync">· Last sync: 2 minutes ago · Collibra connected</span>
+    <span class="footer-sync">· Last sync: 2 minutes ago · Platform connected</span>
   </div>
   <div class="footer-actions">
     <button class="foot-btn">📄 Export Report</button>
     <button class="foot-btn">☁ Push to DQ Platform</button>
-    <button class="foot-btn foot-btn-primary" onclick="showToast('✓ Selected changes approved and pushed to Collibra')">✓ Approve Selected Changes</button>
+    <button class="foot-btn foot-btn-primary" onclick="showToast('✓ Selected changes approved and queued for publishing')">✓ Approve Selected Changes</button>
   </div>
 </div>
+</div><!-- /view-control -->
 
-<!-- KNOWLEDGE SOURCES MODAL -->
+
+<!-- ══ MODULE 2: REPORTING RISK INTELLIGENCE ══ -->
+<div class="module-view" id="view-reporting">
+<div class="rri-header">
+  <div class="rri-header-grid"></div>
+  <div class="rri-header-inner">
+    <div class="rri-header-left">
+      <div class="rri-logo-mark">📊</div>
+      <div>
+        <div class="rri-header-eyebrow">Executive View · AI-Powered · Data Quality Risk Intelligence</div>
+        <div class="rri-header-title">Reporting Risk Intelligence</div>
+        <div class="rri-header-subtitle">Report-level risk scores, regulatory exposure, and predictive signals</div>
+      </div>
+    </div>
+    <button class="rri-period-btn"><span class="rri-period-label">PERIOD</span>Q1 2025 · Jan–Mar<span style="opacity:0.5">▾</span></button>
+  </div>
+</div>
+<div class="rri-alert-strip">
+  <span style="font-size:14px">⚠</span>
+  <span style="font-weight:600">2 critical cross-report discrepancies require immediate attention</span>
+  <span style="color:#92400e;margin-left:4px">— Y-9C / Y-14Q PPNR misalignment detected across mortgage and investment income lines</span>
+  <span class="rri-alert-action" onclick="showToast('Scrolling to discrepancies…')">View now →</span>
+</div>
+<div class="rri-main">
+  <div class="rri-section-label">AI Executive Summary</div>
+  <div class="rri-narrative">
+    <div class="rri-narrative-inner">
+      <div class="rri-narrative-header"><span style="font-size:16px">✦</span><span class="rri-narrative-title">Regulatory Reporting Risk Narrative — Q1 2025</span><span class="rri-narrative-period">Generated: Apr 15 2025 · 09:14 EST</span></div>
+      <div class="rri-narrative-body">
+        <div class="rri-narr-item"><div class="rri-narr-label">Overall Posture</div><div class="rri-narr-text">Regulatory data quality posture is <span class="rri-narr-emphasis">moderately controlled</span> with elevated risk in Financial Data. Basel III and FR Y-9C remain the highest-exposure reports this cycle.</div></div>
+        <div class="rri-narr-item"><div class="rri-narr-label">Critical Finding</div><div class="rri-narr-text"><span class="rri-narr-emphasis">$2.4M variance</span> detected between Y-9C Schedule HI interest income and Y-14Q PPNR mortgage actuals. Root cause points to transformation logic in the Financial Data staging layer.</div></div>
+        <div class="rri-narr-item"><div class="rri-narr-label">Recommended Actions</div><div class="rri-narr-text">Prioritise <span class="rri-narr-emphasis">Investment Mgmt Revenue</span> (zero DQ coverage) and <span class="rri-narr-emphasis">Basel III capital adequacy</span> reconciliation rules before Q1 submission deadline of Apr 30.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="rri-section-label">Report-Level Risk Scores</div>
+  <div class="rri-scorecards">
+    <div class="rsc-card rsc-amber selected" onclick="selectReport(this,'FR Y-9C')"><div class="rsc-report-name">FR Y-9C</div><div class="rsc-report-sub">Consolidated Financial Statements</div><div class="rsc-score-row"><div class="rsc-score rsc-score-amber">68</div><div><div class="rsc-score-label">Risk Score</div><div class="rsc-delta rsc-delta-down">↑ +4 vs Q4 2024</div></div></div><div class="rsc-meta"><div class="rsc-meta-item"><span class="rsc-meta-val">342</span><span class="rsc-meta-lbl">Active Rules</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--red)">8</span><span class="rsc-meta-lbl">Gaps</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--amber)">5</span><span class="rsc-meta-lbl">Optimize</span></div></div><span class="rsc-pill rsc-pill-amber">⚠ Moderate Risk</span></div>
+    <div class="rsc-card rsc-red" onclick="selectReport(this,'FR Y-14Q')"><div class="rsc-report-name">FR Y-14Q</div><div class="rsc-report-sub">Capital Assessments & Stress Testing</div><div class="rsc-score-row"><div class="rsc-score rsc-score-red">82</div><div><div class="rsc-score-label">Risk Score</div><div class="rsc-delta rsc-delta-down">↑ +11 vs Q4 2024</div></div></div><div class="rsc-meta"><div class="rsc-meta-item"><span class="rsc-meta-val">218</span><span class="rsc-meta-lbl">Active Rules</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--red)">14</span><span class="rsc-meta-lbl">Gaps</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--amber)">7</span><span class="rsc-meta-lbl">Optimize</span></div></div><span class="rsc-pill rsc-pill-red">🔴 High Risk</span></div>
+    <div class="rsc-card rsc-amber" onclick="selectReport(this,'CECL (ASC 326)')"><div class="rsc-report-name">CECL (ASC 326)</div><div class="rsc-report-sub">Credit Loss Estimation</div><div class="rsc-score-row"><div class="rsc-score rsc-score-amber">54</div><div><div class="rsc-score-label">Risk Score</div><div class="rsc-delta rsc-delta-up">↓ -6 vs Q4 2024</div></div></div><div class="rsc-meta"><div class="rsc-meta-item"><span class="rsc-meta-val">407</span><span class="rsc-meta-lbl">Active Rules</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--red)">4</span><span class="rsc-meta-lbl">Gaps</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--amber)">3</span><span class="rsc-meta-lbl">Optimize</span></div></div><span class="rsc-pill rsc-pill-amber">⚠ Moderate Risk</span></div>
+    <div class="rsc-card rsc-red" onclick="selectReport(this,'Basel III/IV')"><div class="rsc-report-name">Basel III / IV</div><div class="rsc-report-sub">Capital Adequacy Framework</div><div class="rsc-score-row"><div class="rsc-score rsc-score-red">91</div><div><div class="rsc-score-label">Risk Score</div><div class="rsc-delta rsc-delta-down">↑ +18 vs Q4 2024</div></div></div><div class="rsc-meta"><div class="rsc-meta-item"><span class="rsc-meta-val">280</span><span class="rsc-meta-lbl">Active Rules</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--red)">21</span><span class="rsc-meta-lbl">Gaps</span></div><div class="rsc-meta-item"><span class="rsc-meta-val" style="color:var(--amber)">9</span><span class="rsc-meta-lbl">Optimize</span></div></div><span class="rsc-pill rsc-pill-red">🔴 Critical Risk</span></div>
+  </div>
+  <div class="rri-section-label">Coverage, Exposure & Predictive Signals</div>
+  <div class="rri-main-grid">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="rri-card">
+        <div class="rri-card-header"><div><div class="rri-card-title">Regulatory Risk Heatmap</div><div class="rri-card-sub">Avg. Rule Effectiveness Score: Report × Domain · click to filter →</div></div><span class="tooltip-icon tt-trigger" data-tip="Average Rule Effectiveness Score at each Report × Domain intersection. Reflects how well active DQ rules address the inferred inherent risk for assets in that domain relevant to that report. Click to filter signals.">?</span></div>
+        <div class="rri-card-body" style="padding:10px 14px"><table class="rri-heatmap"><thead><tr><th class="row-h">Report</th><th>Customer</th><th>Transaction</th><th>Risk</th><th>Reference</th><th>Financial</th></tr></thead><tbody id="rri-heatmap-body"></tbody></table></div>
+      </div>
+      <div class="rri-card">
+        <div class="rri-card-header"><div><div class="rri-card-title">Regulatory Exposure by Domain</div><div class="rri-card-sub">Composite risk across all reports · click to filter signals →</div></div><span class="tooltip-icon tt-trigger" data-tip="Composite regulatory exposure score per data domain across all active regulatory reports. Derived from average residual risk scores of assets in that domain weighted by regulatory report materiality.">?</span></div>
+        <div class="domain-bars" id="domain-bars"></div>
+      </div>
+    </div>
+    <div class="signals-card">
+      <div class="signals-header"><div><div class="signals-title">✦ Predictive Signals</div><div class="signals-sub">Cross-report discrepancies & early warning indicators</div></div><span style="font-size:10px;background:rgba(220,38,38,0.25);color:#fca5a5;font-weight:700;padding:2px 8px;border-radius:10px;">2 Critical</span></div>
+      <div class="signals-filter-bar" id="signals-filter-bar"><span>Filtered:</span><span id="signals-filter-pills"></span><span class="signals-clear" onclick="clearRriFilters()">Clear</span></div>
+      <div class="signals-body" id="signals-body"></div>
+    </div>
+  </div>
+</div>
+<div class="footer-bar">
+  <div class="footer-left"><span style="background:var(--red-light);color:var(--red);font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;">2 critical discrepancies</span><span class="footer-sync">· Q1 2025 submission deadline: Apr 30 · 15 days remaining</span></div>
+  <div class="footer-actions"><button class="foot-btn" onclick="showToast('Generating executive PDF report…')">📄 Export Executive Report</button><button class="foot-btn" onclick="showToast('Scheduling board review…')">📅 Schedule Board Review</button><button class="foot-btn foot-btn-primary" onclick="showToast('Escalation raised to Chief Data Officer')">🔔 Escalate to CDO</button></div>
+</div>
+</div><!-- /view-reporting -->
+
+
+<!-- SHARED MODALS -->
 <div class="ks-modal-overlay" id="ks-modal">
   <div class="ks-modal">
     <div class="ks-modal-header">
       <button class="ks-modal-close" onclick="document.getElementById('ks-modal').classList.remove('show')">✕</button>
       <h3>Connect to Knowledge Sources</h3>
-      <p>Ingest data directly or connect to an external source to enrich DQ rule analysis</p>
+      <p>Ingest data directly or connect to an external source to enrich rule coverage and risk assessment</p>
     </div>
     <div class="ks-modal-body">
-      <div class="ks-section-label" style="margin-bottom:8px;">Upload Directly</div>
+      <div class="ks-section-label" style="margin-bottom:8px">Upload Directly</div>
       <div class="drop-zone" onclick="showToast('📁 File browser opened')">
         <div class="drop-icon">📂</div>
         <div class="drop-title">Drag & drop files here, or click to browse</div>
-        <div class="drop-sub">Supports BRDs, regulatory instructions, data dictionaries, rule exports</div>
-        <div class="drop-formats">
-          <span class="fmt-tag">.xlsx</span>
-          <span class="fmt-tag">.csv</span>
-          <span class="fmt-tag">.pdf</span>
-          <span class="fmt-tag">.docx</span>
-          <span class="fmt-tag">.json</span>
-          <span class="fmt-tag">.xml</span>
-        </div>
+        <div class="drop-sub">BRDs, regulatory instructions, data dictionaries, data contracts, policies, rule exports</div>
+        <div class="drop-formats"><span class="fmt-tag">.xlsx</span><span class="fmt-tag">.csv</span><span class="fmt-tag">.pdf</span><span class="fmt-tag">.docx</span><span class="fmt-tag">.json</span><span class="fmt-tag">.xml</span></div>
       </div>
+      <!-- Context field (Item 6) -->
+      <div class="ks-context-label">
+        Describe this document &amp; how it should inform the analysis
+        <span class="tooltip-icon tt-trigger" data-tip="Optional but recommended. Tell the AI what this file is and which data asset, CDE, or subject area it relates to. This helps the agent correctly scope the rule coverage assessment and risk profile update.">?</span>
+      </div>
+      <textarea class="ks-context-box" placeholder="e.g. 'This is the Business Requirements Document for the CECL Allowance Calculation process. It should inform DQ rule coverage for the Transaction Amount Reconciliation CDE and any related loan segment attributes.'"></textarea>
+      <div class="ks-context-hint">The AI will use this context to update rule suggestions and residual risk scores for the relevant data assets.</div>
       <div class="ks-section-label">Connect to a Source</div>
       <div class="conn-options">
-        <div class="conn-option" onclick="showToast('🔌 Database connector launched')">
-          <span class="conn-icon">🗄️</span>
-          <div>
-            <div class="conn-label">Database</div>
-            <div class="conn-sub">SQL Server, Oracle, Snowflake, Databricks</div>
-          </div>
-        </div>
-        <div class="conn-option" onclick="showToast('🔗 REST endpoint configurator launched')">
-          <span class="conn-icon">⚡</span>
-          <div>
-            <div class="conn-label">Application (REST API)</div>
-            <div class="conn-sub">Collibra, ServiceNow, Informatica</div>
-          </div>
-        </div>
-        <div class="conn-option" onclick="showToast('📡 Network share configurator launched')">
-          <span class="conn-icon">📡</span>
-          <div>
-            <div class="conn-label">NAS / Network File Share</div>
-            <div class="conn-sub">SMB, NFS, SharePoint, OneDrive</div>
-          </div>
-        </div>
-        <div class="conn-option" onclick="showToast('☁ Cloud storage configurator launched')">
-          <span class="conn-icon">☁️</span>
-          <div>
-            <div class="conn-label">Cloud Storage</div>
-            <div class="conn-sub">S3, Azure Blob, Google Cloud Storage</div>
-          </div>
-        </div>
+        <div class="conn-option" onclick="showToast('🔌 Database connector launched')"><span class="conn-icon">🗄️</span><div><div class="conn-label">Database</div><div class="conn-sub">SQL Server, Oracle, Snowflake, Databricks</div></div></div>
+        <div class="conn-option" onclick="showToast('🔗 REST endpoint configurator launched')"><span class="conn-icon">⚡</span><div><div class="conn-label">Application (REST API)</div><div class="conn-sub">ServiceNow, Informatica, Atlan</div></div></div>
+        <div class="conn-option" onclick="showToast('📡 Network share configurator launched')"><span class="conn-icon">📡</span><div><div class="conn-label">NAS / Network File Share</div><div class="conn-sub">SMB, NFS, SharePoint, OneDrive</div></div></div>
+        <div class="conn-option" onclick="showToast('☁ Cloud storage configurator launched')"><span class="conn-icon">☁️</span><div><div class="conn-label">Cloud Storage</div><div class="conn-sub">S3, Azure Blob, Google Cloud Storage</div></div></div>
       </div>
       <div class="ks-actions">
-        <button class="btn-ks-confirm" onclick="document.getElementById('ks-modal').classList.remove('show');showToast('✓ Knowledge source connected successfully')">Connect</button>
+        <button class="btn-ks-confirm" onclick="document.getElementById('ks-modal').classList.remove('show');showToast('✓ Knowledge source connected — risk scores updating')">Connect &amp; Ingest</button>
         <button class="btn-ks-cancel" onclick="document.getElementById('ks-modal').classList.remove('show')">Cancel</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODIFY RULE MODAL -->
 <div class="modify-modal-overlay" id="modify-modal">
   <div class="modify-modal">
     <div class="mm-header">
-      <div>
-        <h3 id="mm-title">Modify DQ Rule</h3>
-        <p id="mm-sub">Review proposed rule logic and update as needed</p>
-      </div>
+      <div><h3 id="mm-title">Modify DQ Rule</h3><p id="mm-sub">Update rule logic via natural language or SQL, and configure source systems</p></div>
       <button class="mm-close" onclick="closeModifyModal()">✕</button>
     </div>
     <div class="mm-body">
       <div class="mm-section">
-        <div class="mm-label">Where This Rule Will Be Applied</div>
-        <div class="mm-system-info" id="mm-systems"></div>
+        <div class="mm-label">Source System(s) <span class="tooltip-icon tt-trigger" data-tip="Systems where this rule is currently applied. Upstream = closer to source of record. Downstream = closer to aggregation or reporting layer. Add or change systems as needed.">?</span></div>
+        <div class="mm-systems-row" id="mm-systems">
+          <button class="mm-sys-add" onclick="showToast('System picker opened')">+ Add / change system</button>
+        </div>
       </div>
       <div class="mm-section">
-        <div class="mm-label">Proposed Rule Logic — Natural Language</div>
-        <div id="mm-nl-display" style="font-size:12px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;line-height:1.7;margin-bottom:6px;"></div>
+        <div class="mm-label">Rule Logic — Current</div>
+        <div id="mm-nl-display" style="font-size:12px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 13px;line-height:1.7;margin-bottom:8px;"></div>
+        <div class="mm-code-block" id="mm-sql-current"></div>
       </div>
       <div class="mm-section">
-        <div class="mm-label">Proposed Rule Logic — SQL <span class="mm-label-badge">Auto-generated</span></div>
-        <div class="mm-code-block" id="mm-sql"></div>
-      </div>
-      <div class="mm-section">
-        <div class="mm-label">✏ Update Rule Logic in Natural Language</div>
-        <textarea class="mm-nl-box" id="mm-nl-input" placeholder="Describe changes to the rule in plain English — e.g. 'Change the variance threshold from 2% to 5%' or 'Add a check for NULL values before the range comparison'…"></textarea>
-        <div class="mm-nl-hint">The AI will translate your instruction into updated rule logic for steward review before publishing to Collibra.</div>
+        <div class="mm-label">Update Rule Logic</div>
+        <div class="mm-tab-row">
+          <button class="mm-tab active" onclick="switchMmTab('nl',this)">Natural Language</button>
+          <button class="mm-tab" onclick="switchMmTab('sql',this)">Edit SQL Directly</button>
+        </div>
+        <div class="mm-tab-panel active" id="mm-panel-nl">
+          <textarea class="mm-nl-box" id="mm-nl-input" placeholder="Describe changes in plain English — e.g. 'Change the variance threshold from 10% to 15%' or 'Add a NULL check before the range comparison'…"></textarea>
+          <div class="mm-nl-hint">The AI will translate your instruction into updated SQL for steward review before publishing.</div>
+        </div>
+        <div class="mm-tab-panel" id="mm-panel-sql">
+          <textarea class="mm-sql-edit" id="mm-sql-edit" placeholder="-- Write or paste updated SQL here…"></textarea>
+          <div class="mm-nl-hint">Write SQL directly. The AI will validate syntax and flag conflicts with existing rules before submission.</div>
+        </div>
       </div>
       <div class="mm-actions">
         <button class="mm-btn-save" onclick="saveModify()">Submit for Steward Review</button>
@@ -999,445 +920,666 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
   </div>
 </div>
 
+<div id="tt-float"></div>
 <div class="toast" id="toast"></div>
 
 <script>
+// ── MODULE SWITCH ─────────────────────────────────────────────
+function switchModule(mod, tabEl) {
+  document.querySelectorAll('.module-tab').forEach(t=>t.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.querySelectorAll('.module-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+mod).classList.add('active');
+  if (mod==='reporting') setTimeout(animateBars, 200);
+}
+
 // ── DATA ─────────────────────────────────────────────────────
-const HEATMAP = [
-  { domain:'Customer Data',     scores:[95,88,92,78] },
-  { domain:'Transaction Data',  scores:[88,74,65,82] },
-  { domain:'Risk Data',         scores:[72,91,88,95] },
-  { domain:'Reference Data',    scores:[91,67,55,70] },
-  { domain:'Financial Data',    scores:[63,85,88,60] },
-];
-
+// ASSET DATA — now with inherentRisk, effectivenessScore, residualRisk, residualScore, optCount
 const ASSETS = [
-  { id:'CDE-001', name:'Customer ID', assetType:'CDE', domain:'Customer Data', rules:14, health:'Effective', riskScore:15, criticality:'medium',
-    insights: [
-      { type:'effective', conf:97, title:'Customer ID validation fully controlled', desc:'14 active DQ rules with 100% pass rate over 90 days. No gaps identified.', reg:['FR Y-9C','BCBS 239'], impact:'Reduces reporting risk by 18%', signals:['null_check','format_validation','referential_integrity','uniqueness_check'] },
+  { id:'CDE-001', name:'Customer ID', assetType:'CDE', domain:'Customer Data', system:'SQL Server', rules:14, optCount:0,
+    inherentRisk:30, inherentLabel:'Low', effectivenessScore:95, residualScore:1, residualRisk:'low', criticality:'medium',
+    deltaInherent:'→ No change',  deltaResidual:'↓ -2 vs prior month-end', deltaResidualGood:true,
+    aiConfidence:97,
+    insights:[{type:'effective', title:'Customer ID validation fully controlled',
+      desc:'14 active DQ rules with 100% pass rate over 90 days. No gaps identified.',
+      ruleNL:'For each customer record, validate that Customer ID is non-null, matches the format [A-Z]{2}[0-9]{8}, and is unique across the staging table.',
+      ruleSQL:'-- Customer ID Validation\nSELECT customer_id, COUNT(*) AS occurrences\nFROM dbo.customer_staging\nWHERE customer_id IS NULL\n   OR customer_id NOT REGEXP \'^[A-Z]{2}[0-9]{8}$\'\nGROUP BY customer_id\nHAVING COUNT(*) > 1;',
+      systems:[{name:'Customer Master DB (SQL Server)', dir:'upstream'},{name:'FR Y-9C Submission Layer', dir:'downstream'}],
+      reg:['FR Y-9C','BCBS 239'], impact:'Reduces reporting risk by 18%',
+      signals:['null_check','format_validation','referential_integrity','uniqueness_check']}]},
+
+  { id:'CDE-002', name:'Transaction Amount Reconciliation', assetType:'CDE', domain:'Transaction Data', system:'SQL Server', rules:8, optCount:3,
+    inherentRisk:70, inherentLabel:'High', effectivenessScore:42, residualScore:41, residualRisk:'medium', criticality:'critical',
+    deltaInherent:'↑ +5 vs prior month-end', deltaResidualGood:false,
+    deltaResidual:'↑ +8 vs prior month-end', aiConfidence:94,
+    insights:[
+      {type:'gap', title:'Missing CECL Model Validation Rule',
+        desc:'No automated rule validates CECL allowance calculations before regulatory submission. High risk of inaccurate credit loss estimates.',
+        ruleNL:'For every transaction record, validate that the CECL allowance amount is not NULL and falls within ±10% of the model-projected allowance for that loan segment.',
+        ruleSQL:'-- CECL Allowance Validation Rule\nSELECT t.transaction_id, t.loan_segment,\n  t.reported_allowance, m.model_projected_allowance,\n  ABS(t.reported_allowance - m.model_projected_allowance)\n    / NULLIF(m.model_projected_allowance, 0) AS variance_pct\nFROM dbo.transaction_staging t\nJOIN dbo.cecl_model_projections m ON t.loan_segment = m.loan_segment\nWHERE t.reported_allowance IS NULL\n   OR ABS(t.reported_allowance - m.model_projected_allowance)\n      / NULLIF(m.model_projected_allowance, 0) > 0.10;',
+        systems:[{name:'Transaction Staging DB (SQL Server)', dir:'current'},{name:'CECL Model Output Store', dir:'upstream'},{name:'FR Y-14Q Submission Layer', dir:'downstream'}],
+        reg:['CECL (ASC 326)','FR Y-14Q'], impact:'Reduces regulatory reporting risk by 27%',
+        signals:['lineage_gap','rule_failure_rate','downstream_report_impact']},
+      {type:'optimize', subtype:'redundant', title:'Duplicate threshold rules detected',
+        desc:'3 threshold rules on transaction amount serve the same DQ objective. Recommend consolidating to a single parameterised rule.',
+        ruleNL:'Consolidate existing rules CHK-T-041, CHK-T-044, and CHK-T-047 into a single parameterised threshold check on transaction_amount with configurable upper and lower bounds.',
+        ruleSQL:'-- Consolidated Transaction Amount Threshold\nSELECT transaction_id, transaction_amount\nFROM dbo.transaction_staging\nWHERE transaction_amount IS NULL\n   OR transaction_amount < :min_threshold\n   OR transaction_amount > :max_threshold;',
+        systems:[{name:'Transaction Staging DB (SQL Server)', dir:'current'}],
+        reg:['FR Y-9C'], impact:'Reduces rule maintenance effort by 22%',
+        signals:['rule_overlap_analysis','execution_frequency']}
     ]},
-  { id:'CDE-002', name:'Transaction Amount Reconciliation', assetType:'CDE', domain:'Transaction Data', rules:8, health:'Gaps', riskScore:78, criticality:'critical',
-    insights: [
-      { type:'gap', conf:94, title:'Missing CECL Model Validation Rule', desc:'No automated rule exists to validate CECL allowance calculations before regulatory submission. High risk of inaccurate credit loss estimates.',
-        reg:['CECL (ASC 326)','FR Y-14Q'], impact:'Reduces regulatory reporting risk by 27%', signals:['lineage_gap','rule_failure_rate','downstream_report_impact','historical_anomaly'],
-        ruleNL:'For every transaction record, validate that the CECL allowance amount is not NULL and falls within ±10% of the model-projected allowance for that loan segment. Flag any record where the reported value deviates beyond this threshold before the regulatory submission window closes.',
-        ruleSQL:`-- CECL Allowance Validation Rule\n-- Source: dbo.transaction_staging | Target: FR Y-14Q\nSELECT\n  t.transaction_id,\n  t.loan_segment,\n  t.reported_allowance,\n  m.model_projected_allowance,\n  ABS(t.reported_allowance - m.model_projected_allowance)\n    / NULLIF(m.model_projected_allowance, 0) AS variance_pct\nFROM dbo.transaction_staging t\nJOIN dbo.cecl_model_projections m\n  ON t.loan_segment = m.loan_segment\n  AND t.reporting_date = m.reporting_date\nWHERE\n  t.reported_allowance IS NULL\n  OR ABS(t.reported_allowance - m.model_projected_allowance)\n     / NULLIF(m.model_projected_allowance, 0) > 0.10;`,
-        systems:['Transaction Staging DB (SQL Server)','CECL Model Output Store','FR Y-14Q Submission Layer'] },
-      { type:'optimize', conf:81, title:'Duplicate threshold rules detected', desc:'3 threshold rules on transaction amount are redundant. Recommend consolidating to a single parameterized rule.', reg:['FR Y-9C'], impact:'Reduces rule maintenance effort by 22%', signals:['rule_overlap_analysis','execution_frequency','false_positive_rate'] },
+
+  { id:'TBL-003', name:'Reference Data Completeness', assetType:'Table', domain:'Reference Data', system:'Snowflake', rules:11, optCount:1,
+    inherentRisk:25, inherentLabel:'Low', effectivenessScore:90, residualScore:2, residualRisk:'low', criticality:'low',
+    deltaInherent:'→ No change', deltaResidual:'↓ -1 vs prior month-end', deltaResidualGood:true, aiConfidence:92,
+    insights:[{type:'effective', title:'Product code completeness well controlled',
+      desc:'Completeness rule covering all 11 product code dimensions. Consistent pass rate over 6 months.',
+      ruleNL:'For each reference record, validate that all 11 product code dimensions are populated and non-null. Flag any record where one or more dimensions are missing.',
+      ruleSQL:'-- Reference Data Completeness\nSELECT ref_id,\n  CASE WHEN dim1 IS NULL THEN 1 ELSE 0 END AS missing_dim1,\n  CASE WHEN dim2 IS NULL THEN 1 ELSE 0 END AS missing_dim2\nFROM dbo.ref_product_codes\nWHERE dim1 IS NULL OR dim2 IS NULL;',
+      systems:[{name:'Reference Data Store (Snowflake)', dir:'current'}],
+      reg:['FR Y-9C'], impact:'No action required',
+      signals:['completeness_score','historical_pass_rate']}]},
+
+  { id:'CDE-004', name:'Duplicate Customer Detection', assetType:'CDE', domain:'Customer Data', system:'SQL Server', rules:5, optCount:1,
+    inherentRisk:40, inherentLabel:'Medium', effectivenessScore:65, residualScore:14, residualRisk:'low', criticality:'medium',
+    deltaInherent:'→ No change', deltaResidual:'↓ -3 vs prior month-end', deltaResidualGood:true, aiConfidence:88,
+    insights:[{type:'optimize', subtype:'misplaced', title:'Rule can be moved upstream',
+      desc:'Duplicate detection logic executes post-aggregation. Moving to source ingestion layer would reduce remediation cost by ~40% and catch duplicates earlier in the data supply chain.',
+      ruleNL:'Move duplicate detection to the Customer Ingestion Layer (SQL Server source), executing the check before records are aggregated into the staging table.',
+      ruleSQL:'-- Upstream Duplicate Check\nSELECT customer_id, COUNT(*) AS dupe_count\nFROM dbo.customer_ingest_raw\nGROUP BY customer_id\nHAVING COUNT(*) > 1;',
+      systems:[{name:'Customer Ingest Layer (SQL Server)', dir:'upstream'},{name:'Customer Staging DB (SQL Server)', dir:'current'}],
+      reg:['BCBS 239'], impact:'Reduces downstream remediation cost by 40%',
+      signals:['lineage_position','execution_timing']}]},
+
+  { id:'CDE-005', name:'Credit Risk Rating', assetType:'CDE', domain:'Risk Data', system:'Oracle', rules:18, optCount:0,
+    inherentRisk:75, inherentLabel:'High', effectivenessScore:94, residualScore:5, residualRisk:'low', criticality:'high',
+    deltaInherent:'→ No change', deltaResidual:'↓ -1 vs prior month-end', deltaResidualGood:true, aiConfidence:99,
+    insights:[{type:'effective', title:'Credit risk rating controls comprehensive',
+      desc:'18 active rules with multi-layer validation. Strong lineage traceability to FR Y-14Q Schedule G. All residual risk thresholds met.',
+      ruleNL:'Validate that each credit risk rating record has a non-null rating value within the approved scale, is linked to a valid obligor, and reconciles with the prior-period rating within an approved variance band.',
+      ruleSQL:'-- Credit Risk Rating Validation\nSELECT r.rating_id, r.obligor_id, r.risk_rating\nFROM dbo.credit_risk_ratings r\nLEFT JOIN dbo.valid_obligors o ON r.obligor_id = o.obligor_id\nWHERE r.risk_rating IS NULL\n   OR o.obligor_id IS NULL\n   OR r.risk_rating NOT IN (\'AAA\',\'AA\',\'A\',\'BBB\',\'BB\',\'B\',\'CCC\',\'D\');',
+      systems:[{name:'Credit Risk DB (Oracle)', dir:'current'},{name:'FR Y-14Q Submission Layer', dir:'downstream'}],
+      reg:['FR Y-14Q','Basel III'], impact:'Fully aligned to BCBS 239 requirements',
+      signals:['rule_depth','lineage_coverage','regulatory_mapping']}]},
+
+  { id:'CDE-006', name:'Basel III Capital Adequacy', assetType:'CDE', domain:'Financial Data', system:'Oracle', rules:3, optCount:0,
+    inherentRisk:90, inherentLabel:'High', effectivenessScore:18, residualScore:74, residualRisk:'high', criticality:'critical',
+    deltaInherent:'↑ +3 vs prior month-end', deltaResidualGood:false,
+    deltaResidual:'↑ +12 vs prior month-end', aiConfidence:96,
+    insights:[
+      {type:'gap', title:'Capital adequacy calculation lacks validation',
+        desc:'Only 3 rules cover capital adequacy fields. No cross-schedule reconciliation between Y-9C RWA and Basel III capital ratios.',
+        ruleNL:'Validate that the reported Risk-Weighted Assets in FR Y-9C Schedule HC-R reconciles with the Basel III capital ratio denominator within a 0.5% tolerance.',
+        ruleSQL:'-- Capital Adequacy Cross-Schedule Reconciliation\nSELECT r.reporting_period, r.y9c_rwa, b.basel_rwa,\n  ABS(r.y9c_rwa - b.basel_rwa) / NULLIF(r.y9c_rwa, 0) AS variance_pct\nFROM dbo.y9c_capital_schedule r\nJOIN dbo.basel_capital_inputs b ON r.reporting_period = b.reporting_period\nWHERE ABS(r.y9c_rwa - b.basel_rwa) / NULLIF(r.y9c_rwa, 0) > 0.005;',
+        systems:[{name:'Capital Reporting DB (Oracle)', dir:'current'},{name:'FR Y-9C Submission Layer', dir:'downstream'},{name:'Basel III Capital Calculator', dir:'downstream'}],
+        reg:['Basel III/IV','FR Y-9C'], impact:'Critical — regulatory submission risk',
+        signals:['rule_count_vs_cde_complexity','cross_report_gap']},
+      {type:'gap', title:'No timeliness control on capital ratio inputs',
+        desc:'Capital ratio source data has no rule enforcing submission timeliness. Late data could propagate undetected.',
+        ruleNL:'Check that all capital ratio input records are loaded no later than T-2 business days before the regulatory submission deadline.',
+        ruleSQL:'-- Capital Input Timeliness Check\nSELECT source_system, reporting_period,\n  MAX(load_timestamp) AS last_load_time, submission_deadline,\n  DATEDIFF(day, MAX(load_timestamp), submission_deadline) AS days_remaining\nFROM dbo.capital_staging cs\nJOIN dbo.submission_calendar sc ON cs.reporting_period = sc.reporting_period\nGROUP BY source_system, reporting_period, submission_deadline\nHAVING DATEDIFF(day, MAX(load_timestamp), submission_deadline) < 2;',
+        systems:[{name:'Capital Staging DB (SQL Server)', dir:'upstream'},{name:'Submission Calendar Service', dir:'upstream'},{name:'Alerting Engine', dir:'downstream'}],
+        reg:['Basel III/IV'], impact:'Reduces late submission risk by 35%',
+        signals:['timeliness_gap','source_system_latency']}
     ]},
-  { id:'TBL-003', name:'Reference Data Completeness', assetType:'Table', domain:'Reference Data', rules:11, health:'Effective', riskScore:25, criticality:'low',
-    insights: [
-      { type:'effective', conf:92, title:'Product code completeness well controlled', desc:'Completeness rule covering all 11 product code dimensions. Consistent pass rate over 6 months.', reg:['FR Y-9C'], impact:'No action required', signals:['completeness_score','historical_pass_rate'] },
+
+  { id:'CDE-007', name:'PPNR Mortgage Actual', assetType:'CDE', domain:'Financial Data', system:'Databricks', rules:6, optCount:2,
+    inherentRisk:65, inherentLabel:'High', effectivenessScore:55, residualScore:29, residualRisk:'low', criticality:'high',
+    deltaInherent:'→ No change', deltaResidual:'↓ -4 vs prior month-end', deltaResidualGood:true, aiConfidence:84,
+    insights:[{type:'optimize', subtype:'threshold', title:'Y-9C / Y-14Q cross-report rule missing',
+      desc:'No reconciliation rule validates alignment between Y-9C HI interest income and Y-14Q PPNR mortgage actuals. Variance threshold of current rules is also too strict — profiling shows natural variance of ±3%.',
+      ruleNL:'Add a cross-report reconciliation rule comparing Y-9C HI interest income to Y-14Q PPNR mortgage actuals. Update existing variance threshold from 1% to 3% based on profiling results.',
+      ruleSQL:'-- Y-9C / Y-14Q Mortgage Income Reconciliation\nSELECT y9.reporting_period,\n  y9.mbs_interest_income AS y9c_mbs_income,\n  y14.ppnr_mortgage_actuals AS y14q_ppnr,\n  ABS(y9.mbs_interest_income - y14.ppnr_mortgage_actuals)\n    / NULLIF(y9.mbs_interest_income, 0) AS variance_pct\nFROM dbo.y9c_schedule_hi y9\nJOIN dbo.y14q_schedule_g y14 ON y9.reporting_period = y14.reporting_period\nWHERE ABS(y9.mbs_interest_income - y14.ppnr_mortgage_actuals)\n      / NULLIF(y9.mbs_interest_income, 0) > 0.03;',
+      systems:[{name:'Financial Staging (Databricks)', dir:'current'},{name:'FR Y-9C Submission Layer', dir:'downstream'},{name:'FR Y-14Q Submission Layer', dir:'downstream'}],
+      reg:['FR Y-9C','FR Y-14Q'], impact:'Closes cross-report reconciliation gap',
+      signals:['cross_report_delta','variance_threshold']}]},
+
+  { id:'TBL-008', name:'Investment Mgmt Revenue', assetType:'Table', domain:'Financial Data', system:'Snowflake', rules:0, optCount:0,
+    inherentRisk:80, inherentLabel:'High', effectivenessScore:0, residualScore:80, residualRisk:'high', criticality:'critical',
+    deltaInherent:'↑ +8 vs prior month-end', deltaResidualGood:false,
+    deltaResidual:'↑ +8 vs prior month-end', aiConfidence:98,
+    insights:[{type:'gap', title:'No DQ rules defined — critical exposure',
+      desc:'Investment Management revenue table has zero active DQ rules. High inherent risk is fully unmitigated.',
+      ruleNL:'Validate that all Investment Management revenue line items are populated with non-NULL, non-zero values, and that sub-segment revenue reconciles to total Investment Management revenue within 0.1% tolerance.',
+      ruleSQL:'-- Investment Management Revenue Reconciliation\nSELECT r.reporting_period,\n  SUM(r.subsegment_revenue) AS sum_subsegments,\n  g.total_inv_mgmt_revenue,\n  ABS(SUM(r.subsegment_revenue) - g.total_inv_mgmt_revenue)\n    / NULLIF(g.total_inv_mgmt_revenue, 0) AS recon_variance\nFROM dbo.inv_mgmt_revenue r\nJOIN dbo.y14q_schedule_g g ON r.reporting_period = g.reporting_period\nGROUP BY r.reporting_period, g.total_inv_mgmt_revenue\nHAVING ABS(SUM(r.subsegment_revenue) - g.total_inv_mgmt_revenue)\n       / NULLIF(g.total_inv_mgmt_revenue, 0) > 0.001;',
+      systems:[{name:'Investment Management DB (Snowflake)', dir:'current'},{name:'FR Y-14Q Staging Layer', dir:'downstream'},{name:'DQ Rule Engine', dir:'downstream'}],
+      reg:['FR Y-14Q','BCBS 239'], impact:'Highest priority — zero rule coverage',
+      signals:['zero_rule_count','bcbs239_mapping']}]},
+];
+
+// KPI definitions — computed from ASSETS
+function computeKPIs(assets) {
+  const n = assets.length || 1;
+  const avgInherent = Math.round(assets.reduce((s,a)=>s+a.inherentRisk,0)/n);
+  const avgEff      = Math.round(assets.reduce((s,a)=>s+a.effectivenessScore,0)/n);
+  const avgResidual = Math.round(assets.reduce((s,a)=>s+a.residualScore,0)/n);
+  const totalRules  = assets.reduce((s,a)=>s+a.rules,0);
+  const highRisk    = assets.filter(a=>a.residualRisk==='high').length;
+  const totalOpt    = assets.reduce((s,a)=>s+a.optCount,0);
+  return { avgInherent, avgEff, avgResidual, totalRules, highRisk, totalOpt };
+}
+
+const KPI_META = [
+  { key:'avgInherent', label:'Avg. Inherent Risk Score', colorClass:'k-blue',
+    tip:'AI-assessed inherent risk score (0–100) per data asset, averaged across all visible assets. Based on regulatory criticality inferred from profiling results, catalogued lineage, business metadata, and unstructured inputs. 0–30: Low · 31–60: Medium · 61–100: High.',
+    fmt: v => v,
+    delta: ()=>'↑ +2 vs prior month-end', deltaGood: false },
+  { key:'totalRules', label:'Total Active DQ Rules', colorClass:'k-purple',
+    tip:'Total count of active DQ rules across all visible data assets and systems. Excludes Draft, Deprecated, and Pending Approval rules.',
+    fmt: v => v.toLocaleString(),
+    delta: ()=>'↑ +12 since last sync', deltaGood: true },
+  { key:'avgEff', label:'Avg. Rule Effectiveness Score', colorClass:'k-green',
+    tip:'Average Rule Effectiveness Score (0–100%) across all visible data assets. Calculated by the AI agent by evaluating all active rules against the asset\'s inherent risk score, profiling results, and rule execution outcomes.',
+    fmt: v => v+'%',
+    delta: ()=>'↑ +3.2% vs prior month-end', deltaGood: true },
+  { key:'avgResidual', label:'Avg. Residual Risk Score', colorClass:'k-orange',
+    tip:'Average Residual Risk Score across all visible data assets. Formula: Inherent Risk Score × (1 – Rule Effectiveness / 100). Reflects the risk that remains after accounting for DQ rule coverage. Lower is better.',
+    fmt: v => v,
+    delta: ()=>'↓ -1.8 vs prior month-end', deltaGood: true },
+  { key:'highRisk', label:'High-Risk Data Assets', colorClass:'k-red',
+    tip:'Total number of data assets with Residual Risk Score > 60 (Ineffective – High Priority). These assets have significant unmitigated regulatory risk and require immediate steward action.',
+    fmt: v => v,
+    delta: ()=>'↓ -1 vs prior month-end', deltaGood: true },
+  { key:'totalOpt', label:'Rules Requiring Optimization', colorClass:'k-amber',
+    tip:'Total number of active DQ rules identified by AI as candidates for optimization across three categories: Rule Misplacement, Threshold Changes, and Redundant Rules. See the Optimization donut chart for breakdown.',
+    fmt: v => v,
+    delta: ()=>'↑ +3 vs prior month-end', deltaGood: false },
+];
+
+function renderKPIs(assets) {
+  const vals = computeKPIs(assets);
+  const row = document.getElementById('kpi-row');
+  row.innerHTML = KPI_META.map(m => {
+    const val = vals[m.key];
+    const deltaClass = m.deltaGood ? 'delta-up' : 'delta-down';
+    return `<div class="kpi-card ${m.colorClass}">
+      <div class="kpi-label">${m.label} <span class="tooltip-icon tt-trigger" data-tip="${m.tip}">?</span></div>
+      <div class="kpi-value">${m.fmt(val)}</div>
+      <div class="kpi-delta ${deltaClass}">${m.delta()}</div>
+    </div>`;
+  }).join('');
+}
+renderKPIs(ASSETS);
+
+// RRI DATA
+const HEATMAP = [
+  { domain:'Customer Data',    scores:[95,88,92,78] },
+  { domain:'Transaction Data', scores:[88,74,65,82] },
+  { domain:'Risk Data',        scores:[72,91,88,95] },
+  { domain:'Reference Data',   scores:[91,67,55,70] },
+  { domain:'Financial Data',   scores:[63,85,88,60] },
+];
+const REPORT_COLS = ['FR Y-9C','FR Y-14Q','CECL (ASC 326)','Basel III/IV'];
+
+const RRI_HEATMAP = [
+  { report:'FR Y-9C',      scores:[95,88,63,91,63] },
+  { report:'FR Y-14Q',     scores:[88,74,91,67,85] },
+  { report:'CECL (326)',   scores:[92,65,88,55,88] },
+  { report:'Basel III/IV', scores:[78,82,95,70,60] },
+];
+const RRI_DOMAIN_LABELS = ['Customer','Transaction','Risk','Reference','Financial'];
+
+const DOMAIN_EXPOSURE = [
+  { label:'Financial Data',   domain:'Financial',   val:79, barClass:'dbar-red',   valClass:'dbar-val-red' },
+  { label:'Transaction Data', domain:'Transaction', val:62, barClass:'dbar-amber',  valClass:'dbar-val-amber' },
+  { label:'Risk Data',        domain:'Risk',        val:41, barClass:'dbar-amber',  valClass:'dbar-val-amber' },
+  { label:'Reference Data',   domain:'Reference',   val:35, barClass:'dbar-amber',  valClass:'dbar-val-amber' },
+  { label:'Customer Data',    domain:'Customer',    val:22, barClass:'dbar-green',  valClass:'dbar-val-green' },
+];
+
+const SIGNAL_GROUPS = [
+  { id:'grp-y9c-y14q', reports:['FR Y-9C','FR Y-14Q'], domains:['Financial','Transaction'], label:'FR Y-9C × FR Y-14Q',
+    signals:[
+      { type:'disc', sev:'critical', sevClass:'sev-critical', indClass:'si-red', icon:'🔴', typeBadge:'Discrepancy', typeBadgeClass:'stb-disc', sevBadgeClass:'ssb-critical', domain:'Financial', reports:['FR Y-9C','FR Y-14Q'], title:'Interest Income vs PPNR Mortgage Mismatch', desc:'Y-9C Schedule HI total interest income on MBS does not reconcile with Y-14Q Schedule G PPNR mortgage actuals for Q1 2025.', delta:'$2.4M variance · 3.1% of total MBS income line', time:'Detected 2 days ago', action:'Investigate' },
+      { type:'disc', sev:'medium', sevClass:'sev-medium', indClass:'si-amber', icon:'⚠', typeBadge:'Discrepancy', typeBadgeClass:'stb-disc', sevBadgeClass:'ssb-medium', domain:'Financial', reports:['FR Y-9C','FR Y-14Q'], title:'Investment Services Revenue Classification Gap', desc:'Investment services revenue is classified differently across Y-9C and Y-14Q schedules, creating cross-report inconsistency.', delta:'$0.8M reclassification exposure', time:'Detected 5 days ago', action:'Review' },
+      { type:'warn', sev:'high', sevClass:'sev-high', indClass:'si-amber', icon:'⚠', typeBadge:'Warning', typeBadgeClass:'stb-warn', sevBadgeClass:'ssb-high', domain:'Financial', reports:['FR Y-14Q'], title:'Y-14Q PPNR staging volume anomaly', desc:'Row count in PPNR staging table is 18% below prior quarter average. Possible upstream extraction failure.', delta:null, time:'Detected 8h ago', action:'Investigate' },
+      { type:'warn', sev:'high', sevClass:'sev-high', indClass:'si-amber', icon:'⚠', typeBadge:'Warning', typeBadgeClass:'stb-warn', sevBadgeClass:'ssb-high', domain:'Financial', reports:['FR Y-14Q'], title:'Investment Mgmt Revenue — zero rule coverage', desc:'Investment Management revenue table has no active DQ rules. BCBS 239 aggregation accuracy requirement remains unmet.', delta:null, time:'Flagged 2 days ago', action:'Add rules →' },
     ]},
-  { id:'CDE-004', name:'Duplicate Customer Detection', assetType:'CDE', domain:'Customer Data', rules:5, health:'Optimize', riskScore:22, criticality:'medium',
-    insights: [
-      { type:'optimize', conf:88, title:'Rule can be moved upstream', desc:'Duplicate detection logic executes post-aggregation. Moving to source ingestion layer would reduce remediation cost by ~40%.', reg:['BCBS 239'], impact:'Reduces downstream remediation cost by 40%', signals:['lineage_position','execution_timing','upstream_availability'] },
+  { id:'grp-y9c-basel', reports:['FR Y-9C','Basel III/IV'], domains:['Financial','Risk'], label:'FR Y-9C × Basel III/IV',
+    signals:[
+      { type:'disc', sev:'critical', sevClass:'sev-critical', indClass:'si-red', icon:'🔴', typeBadge:'Discrepancy', typeBadgeClass:'stb-disc', sevBadgeClass:'ssb-critical', domain:'Financial', reports:['FR Y-9C','Basel III/IV'], title:'RWA Cross-Schedule Reconciliation Failure', desc:'Risk-Weighted Assets in Y-9C HC-R differ from Basel III capital ratio denominator beyond the 0.5% tolerance threshold.', delta:'0.72% variance · Exceeds tolerance', time:'Detected 4h ago', action:'Escalate' },
+      { type:'warn', sev:'critical', sevClass:'sev-critical', indClass:'si-red', icon:'🔴', typeBadge:'Warning', typeBadgeClass:'stb-warn', sevBadgeClass:'ssb-critical', domain:'Financial', reports:['Basel III/IV'], title:'Basel III capital input data overdue', desc:'Capital ratio source data has not been loaded. T-2 deadline was missed. Regulatory submission at risk.', delta:null, time:'Detected 4h ago', action:'View details' },
     ]},
-  { id:'CDE-005', name:'Credit Risk Rating', assetType:'CDE', domain:'Risk Data', rules:18, health:'Effective', riskScore:8, criticality:'high',
-    insights: [
-      { type:'effective', conf:99, title:'Credit risk rating controls comprehensive', desc:'18 active rules with multi-layer validation. Strong lineage traceability to FR Y-14Q Schedule G.', reg:['FR Y-14Q','Basel III'], impact:'Fully aligned to BCBS 239 requirements', signals:['rule_depth','lineage_coverage','regulatory_mapping'] },
-    ]},
-  { id:'CDE-006', name:'Basel III Capital Adequacy', assetType:'CDE', domain:'Financial Data', rules:3, health:'Gaps', riskScore:91, criticality:'critical',
-    insights: [
-      { type:'gap', conf:96, title:'Capital adequacy calculation lacks validation', desc:'Only 3 rules cover capital adequacy fields. No cross-schedule reconciliation between Y-9C RWA and Basel III capital ratios.',
-        reg:['Basel III/IV','FR Y-9C'], impact:'Critical — regulatory submission risk', signals:['rule_count_vs_cde_complexity','cross_report_gap','regulatory_materiality'],
-        ruleNL:'Validate that the reported Risk-Weighted Assets (RWA) in the FR Y-9C Schedule HC-R reconciles with the Basel III capital ratio denominator. Flag any period where the absolute difference between these two values exceeds 0.5% of total RWA.',
-        ruleSQL:`-- Capital Adequacy Cross-Schedule Reconciliation\n-- Source: dbo.regulatory_capital | Target: FR Y-9C + Basel III\nSELECT\n  r.reporting_period,\n  r.y9c_rwa AS y9c_risk_weighted_assets,\n  b.basel_rwa AS basel_risk_weighted_assets,\n  ABS(r.y9c_rwa - b.basel_rwa) / NULLIF(r.y9c_rwa, 0) AS variance_pct\nFROM dbo.y9c_capital_schedule r\nJOIN dbo.basel_capital_inputs b\n  ON r.reporting_period = b.reporting_period\nWHERE\n  ABS(r.y9c_rwa - b.basel_rwa) / NULLIF(r.y9c_rwa, 0) > 0.005;`,
-        systems:['Capital Reporting DB (Oracle)','FR Y-9C Submission Layer','Basel III Capital Calculator'] },
-      { type:'gap', conf:89, title:'No timeliness control on capital ratio inputs', desc:'Capital ratio source data has no rule enforcing submission timeliness. Late data could propagate to regulatory reports undetected.',
-        reg:['Basel III/IV'], impact:'Reduces late submission risk by 35%', signals:['timeliness_gap','source_system_latency'],
-        ruleNL:'Check that all capital ratio input records for a given reporting period are loaded into the staging layer no later than T-2 business days before the regulatory submission deadline. Raise an alert for any source system that misses this cutoff.',
-        ruleSQL:`-- Capital Input Timeliness Check\n-- Source: dbo.capital_staging | Threshold: T-2 business days\nSELECT\n  source_system,\n  reporting_period,\n  MAX(load_timestamp) AS last_load_time,\n  submission_deadline,\n  DATEDIFF(day, MAX(load_timestamp), submission_deadline) AS days_remaining\nFROM dbo.capital_staging cs\nJOIN dbo.submission_calendar sc\n  ON cs.reporting_period = sc.reporting_period\nGROUP BY source_system, reporting_period, submission_deadline\nHAVING DATEDIFF(day, MAX(load_timestamp), submission_deadline) < 2;`,
-        systems:['Capital Staging DB (SQL Server)','Submission Calendar Service','Alerting & Workflow Engine'] },
-    ]},
-  { id:'CDE-007', name:'PPNR Mortgage Actual', assetType:'CDE', domain:'Financial Data', rules:6, health:'Optimize', riskScore:44, criticality:'high',
-    insights: [
-      { type:'optimize', conf:84, title:'Y-9C / Y-14Q cross-report rule missing', desc:'No reconciliation rule validates alignment between Y-9C HI interest income and Y-14Q PPNR mortgage actuals. AI-generated rule available for review.', reg:['FR Y-9C','FR Y-14Q'], impact:'Closes cross-report reconciliation gap', signals:['cross_report_delta','variance_threshold','historical_misalignment'] },
-    ]},
-  { id:'TBL-008', name:'Investment Mgmt Revenue', assetType:'Table', domain:'Financial Data', rules:0, health:'Gaps', riskScore:85, criticality:'critical',
-    insights: [
-      { type:'gap', conf:98, title:'No DQ rules defined — critical exposure', desc:'Investment Management revenue table has zero active DQ rules. BCBS 239 aggregation accuracy requirement is unmet. Immediate Data Steward action required.',
-        reg:['FR Y-14Q','BCBS 239'], impact:'Highest priority — zero rule coverage', signals:['zero_rule_count','bcbs239_mapping','regulatory_materiality_score'],
-        ruleNL:'Validate that all Investment Management revenue line items in the PPNR schedule are populated with non-NULL, non-zero values for the reporting period, and that the sum of sub-segment revenue reconciles to the total Investment Management revenue reported in FR Y-14Q Schedule G within a 0.1% tolerance.',
-        ruleSQL:`-- Investment Management Revenue Completeness & Reconciliation\n-- Source: dbo.inv_mgmt_revenue | Target: FR Y-14Q Schedule G\nSELECT\n  r.reporting_period,\n  SUM(r.subsegment_revenue) AS sum_subsegments,\n  g.total_inv_mgmt_revenue,\n  ABS(SUM(r.subsegment_revenue) - g.total_inv_mgmt_revenue)\n    / NULLIF(g.total_inv_mgmt_revenue, 0) AS recon_variance\nFROM dbo.inv_mgmt_revenue r\nJOIN dbo.y14q_schedule_g g\n  ON r.reporting_period = g.reporting_period\nWHERE r.subsegment_revenue IS NULL OR r.subsegment_revenue = 0\nGROUP BY r.reporting_period, g.total_inv_mgmt_revenue\nHAVING ABS(SUM(r.subsegment_revenue) - g.total_inv_mgmt_revenue)\n       / NULLIF(g.total_inv_mgmt_revenue, 0) > 0.001;`,
-        systems:['Investment Management DB (Snowflake)','FR Y-14Q Staging Layer','Collibra DQ Rule Engine'] },
+  { id:'grp-y14q-cecl', reports:['FR Y-14Q','CECL (ASC 326)'], domains:['Transaction','Risk'], label:'FR Y-14Q × CECL (ASC 326)',
+    signals:[
+      { type:'disc', sev:'high', sevClass:'sev-high', indClass:'si-orange', icon:'⚠', typeBadge:'Discrepancy', typeBadgeClass:'stb-disc', sevBadgeClass:'ssb-high', domain:'Transaction', reports:['FR Y-14Q','CECL (ASC 326)'], title:'PPNR Retail Lending vs CECL Loan Segment Delta', desc:'Retail lending income in Y-14Q Schedule G does not align with CECL loan segment classifications.', delta:'12 misclassified loan segment records', time:'Detected 3 days ago', action:'Review' },
+      { type:'warn', sev:'info', sevClass:'sev-info', indClass:'si-blue', icon:'🔵', typeBadge:'Info', typeBadgeClass:'stb-info', sevBadgeClass:'ssb-info', domain:'Risk', reports:['CECL (ASC 326)'], title:'CECL allowance model rerun scheduled', desc:'CECL model is being re-run due to updated loan loss assumptions. DQ rules should be re-executed post-rerun.', delta:null, time:'Scheduled: Apr 20', action:'Track' },
     ]},
 ];
 
-// ── TOOLTIP ENGINE — single body-level node, never clipped ────
-(function() {
-  const tt = document.createElement('div');
-  tt.id = 'tt-float';
-  document.body.appendChild(tt);
-
-  function show(el) {
-    const tip = el.getAttribute('data-tip');
-    if (!tip) return;
-    tt.innerHTML = tip;
-    tt.style.display = 'block';
-    position(el);
-  }
-  function position(el) {
-    const r = el.getBoundingClientRect();
-    const margin = 10;
-    let top  = r.bottom + margin;
-    let left = r.left;
-    // keep inside viewport
-    if (left + 230 > window.innerWidth - margin) left = window.innerWidth - 230 - margin;
-    if (left < margin) left = margin;
-    // flip above if too close to bottom
-    if (top + 80 > window.innerHeight) top = r.top - 80;
-    tt.style.top  = top  + 'px';
-    tt.style.left = left + 'px';
-  }
-  function hide() { tt.style.display = 'none'; }
-
-  // Delegate — works on dynamically-added elements too
-  document.addEventListener('mouseover', e => {
-    const trigger = e.target.closest('.tt-trigger');
-    if (trigger) show(trigger);
-  });
-  document.addEventListener('mouseout', e => {
-    const trigger = e.target.closest('.tt-trigger');
-    if (trigger) hide();
-  });
-  document.addEventListener('scroll', hide, true);
+// ── TOOLTIP ENGINE ────────────────────────────────────────────
+(function(){
+  const tt=document.getElementById('tt-float');
+  document.addEventListener('mouseover',e=>{const t=e.target.closest('.tt-trigger');if(t&&t.dataset.tip){tt.innerHTML=t.dataset.tip;tt.style.display='block';const r=t.getBoundingClientRect();let top=r.bottom+10,left=r.left;if(left+240>window.innerWidth-10)left=window.innerWidth-250;if(left<10)left=10;if(top+90>window.innerHeight)top=r.top-90;tt.style.top=top+'px';tt.style.left=left+'px';}});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('.tt-trigger'))tt.style.display='none';});
+  document.addEventListener('scroll',()=>{tt.style.display='none';},true);
 })();
 
-// ── HEATMAP ───────────────────────────────────────────────────
-const REPORT_COLS = ['FR Y-9C','FR Y-14Q','CECL (ASC 326)','Basel III/IV'];
-function scoreClass(s) {
-  if (s >= 90) return 'hm-90';
-  if (s >= 80) return 'hm-80';
-  if (s >= 70) return 'hm-70';
-  if (s >= 60) return 'hm-60';
-  return 'hm-40';
-}
-(function renderHeatmap() {
-  const tbody = document.getElementById('heatmap-body');
-  HEATMAP.forEach((row, ri) => {
-    const tr = document.createElement('tr');
-    const cells = row.scores.map((s, ci) =>
-      `<td class="hm-cell ${scoreClass(s)} tt-trigger"
-        data-domain="${row.domain}"
-        data-report="${REPORT_COLS[ci]}"
-        data-tip="Click to filter: ${row.domain} × ${REPORT_COLS[ci]} — Coverage: ${s}%"
-        onclick="toggleHeatmapFilter('${row.domain}','${REPORT_COLS[ci]}',this)">${s}</td>`
-    ).join('');
-    tr.innerHTML = `<td class="row-label">${row.domain}</td>${cells}`;
+// ── CI: Heatmap ───────────────────────────────────────────────
+function scoreClass(s){return s>=90?'hm-90':s>=80?'hm-80':s>=70?'hm-70':s>=60?'hm-60':'hm-40';}
+(function(){
+  const tbody=document.getElementById('heatmap-body');
+  HEATMAP.forEach(row=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="row-label">${row.domain}</td>`+
+      row.scores.map((s,ci)=>`<td class="hm-cell ${scoreClass(s)} tt-trigger"
+        data-tip="Avg. Rule Effectiveness: ${row.domain} × ${REPORT_COLS[ci]} — ${s}%. Click to filter assets."
+        onclick="toggleHeatmapFilter('${row.domain}','${REPORT_COLS[ci]}',this)">${s}</td>`).join('');
     tbody.appendChild(tr);
   });
 })();
 
 // ── FILTER STATE ──────────────────────────────────────────────
-let activeFilters = { health: null, domain: null, report: null };
+let activeFilters = {health:null, optType:null, domain:null, report:null};
 
-function toggleHealthFilter(health, legendEl) {
-  // Toggle off if same filter clicked again
-  if (activeFilters.health === health) {
-    activeFilters.health = null;
-    document.querySelectorAll('.legend-item').forEach(el => el.classList.remove('filter-active'));
-  } else {
-    activeFilters.health = health;
-    document.querySelectorAll('.legend-item').forEach(el => el.classList.remove('filter-active'));
-    legendEl.classList.add('filter-active');
-  }
+function toggleHealthFilter(health, el) {
+  activeFilters.health = activeFilters.health===health ? null : health;
+  document.querySelectorAll('.legend-item[data-health]').forEach(e=>e.classList.remove('filter-active'));
+  if (activeFilters.health) el.classList.add('filter-active');
   applyFilters();
 }
-
+function toggleOptFilter(optType, el) {
+  activeFilters.optType = activeFilters.optType===optType ? null : optType;
+  document.querySelectorAll('.legend-item[data-opt]').forEach(e=>e.classList.remove('filter-active'));
+  if (activeFilters.optType) el.classList.add('filter-active');
+  applyFilters();
+}
 function toggleHeatmapFilter(domain, report, cell) {
-  const same = activeFilters.domain === domain && activeFilters.report === report;
-  // Clear previous heatmap selections
-  document.querySelectorAll('.hm-cell').forEach(c => c.classList.remove('filter-active'));
-  if (same) {
-    activeFilters.domain = null;
-    activeFilters.report = null;
-  } else {
-    activeFilters.domain = domain;
-    activeFilters.report = report;
-    cell.classList.add('filter-active');
-  }
+  const same = activeFilters.domain===domain && activeFilters.report===report;
+  document.querySelectorAll('.hm-cell').forEach(c=>c.classList.remove('filter-active'));
+  if (same) { activeFilters.domain=null; activeFilters.report=null; }
+  else { activeFilters.domain=domain; activeFilters.report=report; cell.classList.add('filter-active'); }
   applyFilters();
 }
-
 function clearAllFilters() {
-  activeFilters = { health: null, domain: null, report: null };
-  document.querySelectorAll('.legend-item').forEach(el => el.classList.remove('filter-active'));
-  document.querySelectorAll('.hm-cell').forEach(el => el.classList.remove('filter-active'));
+  activeFilters={health:null,optType:null,domain:null,report:null};
+  document.querySelectorAll('.legend-item,.hm-cell').forEach(e=>e.classList.remove('filter-active'));
+  ['domain-filter','report-filter','system-filter','crit-filter'].forEach(id=>document.getElementById(id).value='');
+  document.querySelector('.filter-search input').value='';
   applyFilters();
 }
+function clearHealthFilter(){activeFilters.health=null;document.querySelectorAll('.legend-item[data-health]').forEach(e=>e.classList.remove('filter-active'));applyFilters();}
+function clearHeatmapFilter(){activeFilters.domain=null;activeFilters.report=null;document.querySelectorAll('.hm-cell').forEach(e=>e.classList.remove('filter-active'));applyFilters();}
 
 function applyFilters() {
-  const { health, domain, report } = activeFilters;
-  const hasFilter = health || domain || report;
+  const health   = activeFilters.health;
+  const optType  = activeFilters.optType;
+  const hmDomain = activeFilters.domain;
+  const hmReport = activeFilters.report;
+  const domainSel = document.getElementById('domain-filter').value;
+  const reportSel = document.getElementById('report-filter').value;
+  const systemSel = document.getElementById('system-filter').value;
+  const critSel   = document.getElementById('crit-filter').value;
+  const searchVal = document.querySelector('.filter-search input').value.toLowerCase();
 
-  // Update filter bar
-  const bar = document.getElementById('active-filter-bar');
-  const pillsEl = document.getElementById('filter-pills');
-  bar.classList.toggle('show', hasFilter);
+  const has = health || optType || hmDomain || hmReport || domainSel || reportSel || systemSel || critSel || searchVal;
+  document.getElementById('active-filter-bar').classList.toggle('show', !!has);
 
   let pills = [];
-  if (health) pills.push(`<span class="filter-pill">${health} <span class="filter-pill-x" onclick="clearHealthFilter()">×</span></span>`);
-  if (domain) pills.push(`<span class="filter-pill">${domain} <span class="filter-pill-x" onclick="clearHeatmapFilter()">×</span></span>`);
-  if (report) pills.push(`<span class="filter-pill">${report} <span class="filter-pill-x" onclick="clearHeatmapFilter()">×</span></span>`);
-  pillsEl.innerHTML = pills.join('');
+  if (health) pills.push(`<span class="filter-pill">${health==='low'?'Effective (Low)':health==='medium'?'Ineffective (Med)':'Ineffective (High)'} <span class="filter-pill-x" onclick="clearHealthFilter()">×</span></span>`);
+  if (optType) pills.push(`<span class="filter-pill">Opt: ${optType} <span class="filter-pill-x" onclick="activeFilters.optType=null;document.querySelectorAll('[data-opt]').forEach(e=>e.classList.remove('filter-active'));applyFilters()">×</span></span>`);
+  if (hmDomain) pills.push(`<span class="filter-pill">${hmDomain} <span class="filter-pill-x" onclick="clearHeatmapFilter()">×</span></span>`);
+  if (hmReport) pills.push(`<span class="filter-pill">${hmReport} <span class="filter-pill-x" onclick="clearHeatmapFilter()">×</span></span>`);
+  if (domainSel) pills.push(`<span class="filter-pill">${domainSel} <span class="filter-pill-x" onclick="document.getElementById('domain-filter').value='';applyFilters()">×</span></span>`);
+  if (reportSel) pills.push(`<span class="filter-pill">${reportSel} <span class="filter-pill-x" onclick="document.getElementById('report-filter').value='';applyFilters()">×</span></span>`);
+  if (systemSel) pills.push(`<span class="filter-pill">${systemSel} <span class="filter-pill-x" onclick="document.getElementById('system-filter').value='';applyFilters()">×</span></span>`);
+  if (critSel)   pills.push(`<span class="filter-pill">${critSel} <span class="filter-pill-x" onclick="document.getElementById('crit-filter').value='';applyFilters()">×</span></span>`);
+  document.getElementById('filter-pills').innerHTML = pills.join('');
 
-  // Filter rows
-  let visibleCount = 0;
-  document.querySelectorAll('#inv-tbody tr').forEach(tr => {
-    const id = tr.dataset.id;
-    const asset = ASSETS.find(a => a.id === id);
-    if (!asset) return;
-
+  const visibleAssets = [];
+  document.querySelectorAll('#inv-tbody tr').forEach(tr=>{
+    const a = ASSETS.find(a=>a.id===tr.dataset.id);
+    if (!a) return;
     let show = true;
-    if (health && asset.health !== health) show = false;
-    if (domain && asset.domain !== domain) show = false;
-    // report filter — check if asset has any insight linked to that report
-    if (report) {
-      const hasReport = asset.insights.some(i => i.reg && i.reg.includes(report));
-      if (!hasReport) show = false;
-    }
-
+    if (health && a.residualRisk!==health) show=false;
+    if (optType && !a.insights.some(i=>i.type==='optimize'&&i.subtype===optType)) show=false;
+    if (hmDomain && a.domain!==hmDomain) show=false;
+    if (hmReport && !a.insights.some(i=>i.reg&&i.reg.includes(hmReport))) show=false;
+    if (domainSel && a.domain!==domainSel) show=false;
+    if (reportSel && !a.insights.some(i=>i.reg&&i.reg.includes(reportSel))) show=false;
+    if (systemSel && a.system!==systemSel) show=false;
+    if (critSel && a.residualRisk!==critSel) show=false;
+    if (searchVal && !a.name.toLowerCase().includes(searchVal) && !a.id.toLowerCase().includes(searchVal) && !a.domain.toLowerCase().includes(searchVal)) show=false;
     tr.classList.toggle('dimmed', !show);
-    if (show) visibleCount++;
+    if (show) visibleAssets.push(a);
   });
 
   const total = ASSETS.length;
-  document.getElementById('inv-count').textContent =
-    hasFilter ? `${visibleCount} of ${total} assets` : `${total} assets shown`;
+  document.getElementById('inv-count').textContent = has ? `${visibleAssets.length} of ${total} assets` : `${total} assets shown`;
 
-  // Update donut center to reflect filtered count
-  if (health) {
-    const counts = { Effective:169, Optimize:37, Gaps:42 };
-    document.getElementById('donut-center-val').textContent = counts[health] || '—';
-    document.getElementById('donut-center-lbl').textContent = health;
-  } else {
-    document.getElementById('donut-center-val').textContent = '248';
-    document.getElementById('donut-center-lbl').textContent = 'Assets';
-  }
-}
+  // Update KPIs dynamically
+  renderKPIs(has ? visibleAssets : ASSETS);
 
-function clearHealthFilter() {
-  activeFilters.health = null;
-  document.querySelectorAll('.legend-item').forEach(el => el.classList.remove('filter-active'));
-  applyFilters();
-}
-function clearHeatmapFilter() {
-  activeFilters.domain = null;
-  activeFilters.report = null;
-  document.querySelectorAll('.hm-cell').forEach(el => el.classList.remove('filter-active'));
-  applyFilters();
+  // Update donut centers
+  const healthCounts = {low:161, medium:45, high:42};
+  document.getElementById('donut-health-val').textContent = health ? healthCounts[health] : '248';
+  document.getElementById('donut-health-lbl').textContent = health ? (health==='low'?'Effective':health==='medium'?'Ineff. (Med)':'Ineff. (High)') : 'Assets';
 }
 
 // ── INVENTORY ─────────────────────────────────────────────────
-let selectedAsset = null;
-function renderInventory() {
+const _insData = {};
+(function(){
   const tbody = document.getElementById('inv-tbody');
-  ASSETS.forEach(a => {
+  ASSETS.forEach(a=>{
     const tr = document.createElement('tr');
     tr.dataset.id = a.id;
-    const hClass = {Effective:'hp-effective',Optimize:'hp-optimize',Gaps:'hp-gaps'}[a.health];
-    const rClass = a.riskScore>=70?'rs-high':a.riskScore>=40?'rs-med':'rs-low';
-    tr.innerHTML = `
+    const rrClass = {low:'rr-low', medium:'rr-medium', high:'rr-high'}[a.residualRisk];
+    const rrLabel = {low:'Effective (Low)', medium:'Ineffective (Med)', high:'Ineffective (High)'}[a.residualRisk];
+    const rrsClass = {low:'rrs-low', medium:'rrs-med', high:'rrs-high'}[a.residualRisk];
+    tr.innerHTML=`
       <td><div class="asset-name">${a.name}</div><div class="asset-id">${a.id}</div></td>
       <td><span class="asset-type-badge">${a.assetType}</span></td>
       <td><span class="domain-badge">${a.domain}</span></td>
-      <td><span class="rule-count">${a.rules} rules</span></td>
-      <td><span class="health-pill ${hClass}">${a.health}</span></td>
-      <td><span class="risk-score ${rClass}">${a.riskScore}</span></td>
-    `;
-    tr.onclick = () => {
+      <td><span class="rule-count">${a.rules}</span></td>
+      <td><span class="opt-count">${a.optCount > 0 ? a.optCount : '—'}</span></td>
+      <td><span class="rr-pill ${rrClass}">${rrLabel}</span></td>
+      <td><span class="rr-score ${rrsClass}">${a.residualScore}</span></td>`;
+    tr.onclick = ()=>{
       if (tr.classList.contains('dimmed')) return;
-      selectAsset(a, tr);
+      document.querySelectorAll('#inv-tbody tr').forEach(r=>r.classList.remove('selected'));
+      tr.classList.add('selected');
+      renderInsights(a);
     };
     tbody.appendChild(tr);
   });
-}
-
-function selectAsset(asset, tr) {
-  document.querySelectorAll('#inv-tbody tr').forEach(r => r.classList.remove('selected'));
-  tr.classList.add('selected');
-  selectedAsset = asset;
-  renderInsights(asset);
-}
+})();
 
 // ── INSIGHTS ──────────────────────────────────────────────────
 function renderInsights(asset) {
-  const gaps = asset.insights.filter(i => i.type === 'gap');
-  const opts = asset.insights.filter(i => i.type === 'optimize');
-  const effs = asset.insights.filter(i => i.type === 'effective');
-  const body = document.getElementById('ins-body');
-  body.innerHTML = `
+  // Sort: for non-low residual, show gaps first, then optimize, then effective
+  const order = {gap:0, optimize:1, effective:2};
+  const sorted = [...asset.insights].sort((a,b)=>order[a.type]-order[b.type]);
+
+  const gaps = sorted.filter(i=>i.type==='gap');
+  const opts = sorted.filter(i=>i.type==='optimize');
+  const effs = sorted.filter(i=>i.type==='effective');
+
+  // Confidence prompt for low confidence
+  const confPrompt = asset.aiConfidence < 85 ? `<div class="conf-low-prompt">
+    ⚠ Confidence score is ${asset.aiConfidence}% — below recommended threshold. To improve accuracy, consider uploading additional context for this asset (e.g., Policy / Procedures, Business Requirements Document, Data Contract) via <strong>Connect to Knowledge Sources</strong>.
+  </div>` : '';
+
+  // Asset-level score bar
+  const rrColour = {low:asset.residualRisk==='low'?'var(--green)':'', medium:'var(--amber)', high:'var(--red)'}[asset.residualRisk] || 'var(--green)';
+  const rrLabel  = {low:'Effective (Low)', medium:'Ineffective (Med)', high:'Ineffective (High)'}[asset.residualRisk];
+
+  document.getElementById('ins-body').innerHTML=`
     <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;">
-      ${asset.name} <span style="font-family:var(--mono);font-size:10px;color:var(--text4);font-weight:400;">${asset.id}</span>
+      ${asset.name} <span style="font-family:var(--mono);font-size:10px;color:var(--text4);font-weight:400">${asset.id}</span>
     </div>
-    ${renderSection('Ineffective / Gap Rules', gaps, 'gaps', 'ish-gaps')}
-    ${renderSection('Optimization Opportunities', opts, 'optimize', 'ish-optimize')}
-    ${renderSection('Effective Controls', effs, 'effective', 'ish-effective')}
-  `;
-}
-
-function renderSection(label, items, type, headerClass) {
-  if (!items.length) return '';
-  const id = 'sec-' + type + '-' + Math.random().toString(36).slice(2);
-  const itemsHtml = items.map((ins,i) => renderInsightItem(ins, type, id+i)).join('');
-  return `
-    <div class="ins-section">
-      <div class="ins-section-header ${headerClass}" onclick="toggleSection('${id}',this)">
-        <span>${label}</span>
-        <span>
-          <span class="ins-count">${items.length} finding${items.length>1?'s':''}</span>
-          <span class="ins-chevron open" id="chev-${id}">▾</span>
-        </span>
+    <div class="asset-score-bar">
+      <div class="asb-item">
+        <div class="asb-label">Inherent Risk</div>
+        <div class="asb-val" style="color:${asset.inherentRisk>60?'var(--red)':asset.inherentRisk>30?'var(--amber)':'var(--green)'}">${asset.inherentRisk}</div>
+        <div class="asb-sub">${asset.inherentLabel}</div>
       </div>
-      <div class="ins-items open" id="${id}">${itemsHtml}</div>
+      <div class="asb-item">
+        <div class="asb-label">Rule Effectiveness</div>
+        <div class="asb-val" style="color:${asset.effectivenessScore>=70?'var(--green)':asset.effectivenessScore>=40?'var(--amber)':'var(--red)'}">${asset.effectivenessScore}%</div>
+        <div class="asb-sub">Asset-level avg.</div>
+      </div>
+      <div class="asb-item">
+        <div class="asb-label">Residual Risk Score <span class="tooltip-icon tt-trigger" data-tip="AI-generated confidence score for this asset's risk assessment (0–100%). Calculated based on completeness of contextual inputs: data profiling results, lineage coverage, metadata richness, and unstructured inputs. Low confidence scores indicate the agent has limited information to assess this asset — add context via Connect to Knowledge Sources.">?</span></div>
+        <div class="asb-val" style="color:${rrColour}">${asset.residualScore}</div>
+        <div class="asb-sub" style="font-size:9px;color:var(--text4)">Conf: ${asset.aiConfidence}%</div>
+      </div>
     </div>
-  `;
+    ${confPrompt}
+    ${renderSection('Gaps — Address First', gaps, 'gap', 'ish-gap')}
+    ${renderSection('Optimization Opportunities', opts, 'optimize', 'ish-optimize')}
+    ${renderSection(asset.residualRisk==='low' ? 'Rules in Place' : 'Effective Controls', effs, 'effective', 'ish-effective')}`;
 }
 
-// Store gap insight data for modify modal
-const _gapData = {};
+function renderSection(label, items, type, hc) {
+  if (!items.length) return '';
+  const id = 'sec-'+type+'-'+Math.random().toString(36).slice(2);
+  return `<div class="ins-section">
+    <div class="ins-section-header ${hc}" onclick="toggleSection('${id}')">
+      <span>${label}</span>
+      <span><span class="ins-count">${items.length} finding${items.length>1?'s':''}</span> <span class="ins-chevron open" id="chev-${id}">▾</span></span>
+    </div>
+    <div class="ins-items open" id="${id}">${items.map((ins,i)=>renderInsightItem(ins,type,id+i)).join('')}</div>
+  </div>`;
+}
 
 function renderInsightItem(ins, type, id) {
-  const badgeClass = {gap:'iib-gap',optimize:'iib-optimize',effective:'iib-effective'}[ins.type];
-  const itemClass  = {gap:'ii-gap',optimize:'ii-optimize',effective:'ii-effective'}[ins.type];
-  const badgeLabel = {gap:'Rule Gap',optimize:'Optimize',effective:'Effective'}[ins.type];
-  const detailId = 'det-' + id;
-  const reasonId = 'rsn-' + id;
+  const bc = {gap:'iib-gap', optimize:'iib-optimize', effective:'iib-effective'}[ins.type];
+  const ic = {gap:'ii-gap', optimize:'ii-optimize', effective:'ii-effective'}[ins.type];
+  const bl = {gap:'Gap', optimize:'Optimize', effective:'Effective'}[ins.type];
+  const did='det-'+id, rid='rsn-'+id;
 
-  // Store gap data for modify modal lookup
-  if (ins.type === 'gap' && ins.ruleNL) {
-    _gapData[id] = ins;
-  }
+  _insData[id] = ins;
 
-  // Rule logic section — only for gaps with proposed logic
-  const ruleLogicSection = (ins.type === 'gap' && ins.ruleNL) ? `
-    <div style="margin-bottom:12px;">
-      <div class="ii-detail-label" style="margin-bottom:6px;">Proposed Rule Logic — Natural Language</div>
-      <div style="font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:10px 12px;line-height:1.7;">${ins.ruleNL}</div>
-    </div>
-    <div style="margin-bottom:12px;">
-      <div class="ii-detail-label" style="margin-bottom:6px;">Proposed Rule Logic — SQL</div>
-      <div style="background:#0f172a;border-radius:7px;padding:10px 12px;font-family:var(--mono);font-size:10px;color:#e2e8f0;line-height:1.7;white-space:pre;overflow-x:auto;border:1px solid #1e293b;">${escHtml(ins.ruleSQL)}</div>
-    </div>
-    <div style="margin-bottom:12px;">
-      <div class="ii-detail-label" style="margin-bottom:6px;">Applied To (Systems)</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">${ins.systems.map(s=>`<span style="font-size:10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:4px 10px;color:var(--text2);">⚙ ${s}</span>`).join('')}</div>
-    </div>
-  ` : '';
-
-  const actionButtons = ins.type !== 'effective' ? `
-    <div class="action-row">
-      <button class="act-btn act-accept" onclick="event.stopPropagation();showToast('✓ Recommendation accepted & queued for Collibra')">Accept</button>
-      <button class="act-btn act-modify" onclick="event.stopPropagation();openModifyModal('${id}')">Modify</button>
-      <button class="act-btn act-reject" onclick="event.stopPropagation();showToast('✗ Recommendation rejected')">Reject</button>
+  const systemsHtml = ins.systems ? `
+    <div style="margin-bottom:10px">
+      <div class="ii-detail-label">Source System(s)</div>
+      <div class="system-selector-row">
+        ${ins.systems.map(s=>`<span class="system-tag">⚙ ${s.name} <span class="system-tag-dir">(${s.dir})</span></span>`).join('')}
+        <button class="system-add-btn" onclick="event.stopPropagation();showToast('System picker opened')">+ Add / change system</button>
+      </div>
     </div>` : '';
 
-  return `
-    <div class="insight-item ${itemClass}" onclick="toggleDetail('${detailId}',this)">
-      <div class="ii-top">
-        <span class="ii-badge ${badgeClass}">${badgeLabel}</span>
-        <span class="ii-conf">Confidence: ${ins.conf}%</span>
+  const ruleBlock = ins.ruleNL ? `
+    <div class="rule-block">
+      <div class="rule-block-label">${ins.type==='gap' ? 'Proposed Rule — Natural Language' : 'Current / Proposed Rule — Natural Language'}</div>
+      <div class="rule-block-text">${ins.ruleNL}</div>
+    </div>
+    <div class="rule-block-label" style="margin-bottom:5px">${ins.type==='gap' ? 'Proposed Rule — SQL' : 'Rule SQL'}</div>
+    <div class="code-block">${escHtml(ins.ruleSQL)}</div>` : '';
+
+  // Modify button for ALL rules (not just gaps)
+  const actions = `<div class="action-row">
+    ${ins.type!=='effective' ? `<button class="act-btn act-accept" onclick="event.stopPropagation();showToast('✓ Accepted & queued for publishing')">Accept</button>` : ''}
+    <button class="act-btn act-modify" onclick="event.stopPropagation();openModifyModal('${id}')">Modify</button>
+    ${ins.type!=='effective' ? `<button class="act-btn act-reject" onclick="event.stopPropagation();showToast('✗ Rejected')">Reject</button>` : ''}
+  </div>`;
+
+  return `<div class="insight-item ${ic}" onclick="toggleDetail('${did}',this)">
+    <div class="ii-top">
+      <span class="ii-badge ${bc}">${bl}</span>
+      ${ins.subtype ? `<span style="font-size:9px;color:var(--text4);font-weight:600;text-transform:uppercase;letter-spacing:0.06em">${ins.subtype}</span>` : ''}
+      <div class="ii-scores" style="margin-left:auto">
+        ${ins.reg ? `<span class="ii-score-item">Reports: <span class="ii-score-val">${ins.reg.join(', ')}</span></span>` : ''}
       </div>
-      <div class="ii-title">${ins.title}</div>
-      <div class="ii-desc">${ins.desc}</div>
-      <div class="ii-detail" id="${detailId}">
-        <div class="ii-detail-label">Regulatory Impact</div>
-        <div class="reg-tags">${ins.reg.map(r=>`<span class="reg-tag">${r}</span>`).join('')}</div>
-        <div class="impact-row">
-          <span class="impact-icon">✓</span>
-          <span class="impact-text">${ins.impact}</span>
-        </div>
-        ${ruleLogicSection}
-        ${actionButtons}
-        <div class="ai-reasoning">
-          <div class="ai-reasoning-header" onclick="event.stopPropagation();toggleReasoning('${reasonId}',this)">
-            <span>✦ View AI Reasoning</span>
-            <span>▾</span>
-          </div>
-          <div class="ai-reasoning-body" id="${reasonId}">
-            <div class="exp-section">
-              <div class="exp-label">Explainability Details — Metadata Signals</div>
-              <div class="exp-signals">
-                ${ins.signals.map(s=>`<span class="exp-signal">${s}</span>`).join('')}
-              </div>
-            </div>
-            <div class="exp-section" style="margin-top:8px;">
-              <div class="exp-label">Model Reasoning</div>
-              <div style="font-size:11px;color:var(--text3);line-height:1.6;">
-                Analysis based on lineage graph traversal, historical rule execution patterns, and regulatory requirement mappings from the Collibra knowledge graph. Confidence weighted by signal strength and data completeness.
-              </div>
-            </div>
-          </div>
+    </div>
+    <div class="ii-title">${ins.title}</div>
+    <div class="ii-desc">${ins.desc}</div>
+    <div class="ii-detail" id="${did}">
+      <div class="reg-tags">${ins.reg.map(r=>`<span class="reg-tag">${r}</span>`).join('')}</div>
+      <div class="impact-row"><span>✓</span><span class="impact-text">${ins.impact}</span></div>
+      ${systemsHtml}
+      ${ruleBlock}
+      ${actions}
+      <div class="ai-reasoning">
+        <div class="ai-reasoning-header" onclick="event.stopPropagation();toggleReasoning('${rid}')"><span>✦ View AI Reasoning</span><span>▾</span></div>
+        <div class="ai-reasoning-body" id="${rid}">
+          <div class="exp-label">Metadata Signals</div>
+          <div class="exp-signals">${ins.signals.map(s=>`<span class="exp-signal">${s}</span>`).join('')}</div>
+          <div class="exp-label" style="margin-top:6px">Model Reasoning</div>
+          <div style="font-size:10px;color:var(--text3);line-height:1.6">Analysis based on lineage graph traversal, historical rule execution patterns, data profiling results, and regulatory requirement mappings from the connected knowledge graph.</div>
         </div>
       </div>
     </div>
-  `;
+  </div>`;
 }
 
-function escHtml(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function toggleSection(id, btn) {
-  const el = document.getElementById(id);
-  const chev = document.getElementById('chev-' + id);
-  el.classList.toggle('open');
-  if (chev) chev.classList.toggle('open');
-}
-
-function toggleDetail(id, item) {
-  const el = document.getElementById(id);
-  el.classList.toggle('open');
-  item.classList.toggle('active');
-}
-
-function toggleReasoning(id, btn) {
-  document.getElementById(id).classList.toggle('open');
-}
+function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toggleSection(id){const el=document.getElementById(id);const ch=document.getElementById('chev-'+id);el.classList.toggle('open');if(ch)ch.classList.toggle('open');}
+function toggleDetail(id,item){document.getElementById(id).classList.toggle('open');item.classList.toggle('active');}
+function toggleReasoning(id){document.getElementById(id).classList.toggle('open');}
 
 // ── MODIFY MODAL ──────────────────────────────────────────────
+let _mmActiveTab = 'nl';
+function switchMmTab(tab, btn) {
+  _mmActiveTab = tab;
+  document.querySelectorAll('.mm-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('mm-panel-nl').classList.toggle('active', tab==='nl');
+  document.getElementById('mm-panel-sql').classList.toggle('active', tab==='sql');
+}
+
 function openModifyModal(insId) {
-  const ins = _gapData[insId];
-  if (!ins) {
-    // Non-gap optimize rule — open generic editor
-    document.getElementById('mm-title').textContent = 'Modify DQ Rule';
-    document.getElementById('mm-sub').textContent = 'Update rule logic and submit for steward review';
-    document.getElementById('mm-systems').innerHTML = '<span style="font-size:12px;color:var(--text3);">System details not available for optimization rules.</span>';
-    document.getElementById('mm-nl-display').textContent = 'No proposed rule logic available for optimization rules. Describe your changes below.';
-    document.getElementById('mm-sql').textContent = '-- No SQL template available';
-    document.getElementById('mm-nl-input').value = '';
-  } else {
+  const ins = _insData[insId];
+  if (ins) {
     document.getElementById('mm-title').textContent = ins.title;
-    document.getElementById('mm-sub').textContent = 'Review proposed logic and submit modifications for steward review';
-    document.getElementById('mm-systems').innerHTML = ins.systems.map(s =>
-      `<div class="mm-sys-tag">⚙ <strong>${s}</strong></div>`).join('');
-    document.getElementById('mm-nl-display').textContent = ins.ruleNL;
-    document.getElementById('mm-sql').textContent = ins.ruleSQL;
-    document.getElementById('mm-nl-input').value = '';
+    document.getElementById('mm-sub').textContent = `${ins.type==='gap'?'Proposed':'Current'} rule — modify via natural language or SQL and configure source systems`;
+    document.getElementById('mm-nl-display').textContent = ins.ruleNL || 'No natural language description available.';
+    document.getElementById('mm-sql-current').textContent = ins.ruleSQL || '-- No SQL available';
+    document.getElementById('mm-sql-edit').value = ins.ruleSQL || '';
+    // Systems
+    const sysRow = document.getElementById('mm-systems');
+    sysRow.innerHTML = (ins.systems||[]).map(s=>`<div class="mm-sys-tag">⚙ ${s.name} <span class="mm-sys-dir">(${s.dir})</span></div>`).join('')
+      + `<button class="mm-sys-add" onclick="showToast('System picker — shows upstream / downstream options')">+ Add / change system</button>`;
+  } else {
+    document.getElementById('mm-title').textContent = 'Modify DQ Rule';
+    document.getElementById('mm-sub').textContent = 'Update rule logic and configure source systems';
+    document.getElementById('mm-nl-display').textContent = 'No rule details available.';
+    document.getElementById('mm-sql-current').textContent = '-- No SQL available';
+    document.getElementById('mm-sql-edit').value = '';
+    document.getElementById('mm-systems').innerHTML = '<button class="mm-sys-add" onclick="showToast(\'System picker opened\')">+ Add / change system</button>';
   }
+  document.getElementById('mm-nl-input').value = '';
   document.getElementById('modify-modal').classList.add('show');
 }
-
-function closeModifyModal() {
-  document.getElementById('modify-modal').classList.remove('show');
+function closeModifyModal(){document.getElementById('modify-modal').classList.remove('show');}
+function saveModify(){
+  const v = _mmActiveTab==='nl' ? document.getElementById('mm-nl-input').value.trim() : document.getElementById('mm-sql-edit').value.trim();
+  closeModifyModal();
+  showToast(v ? '✏ Modified rule submitted for steward review' : '✓ Rule submitted unchanged');
 }
 
-function saveModify() {
-  const input = document.getElementById('mm-nl-input').value.trim();
-  closeModifyModal();
-  showToast(input ? '✏ Modified rule submitted for steward review' : '✓ Rule submitted for steward review unchanged');
+// ── RRI RENDERS ───────────────────────────────────────────────
+(function(){
+  const tbody=document.getElementById('rri-heatmap-body');
+  RRI_HEATMAP.forEach(row=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="row-lbl">${row.report}</td>`+
+      row.scores.map((s,ci)=>{
+        const cls=s>=85?'hm-90':s>=70?'hm-70':s>=60?'hm-60':'hm-40';
+        const domain=RRI_DOMAIN_LABELS[ci];
+        return `<td class="rri-hm-cell ${cls} tt-trigger"
+          data-tip="Avg. Rule Effectiveness: ${row.report} × ${domain} — ${s}%. Click to filter signals."
+          data-rpt="${row.report}" data-dom="${domain}"
+          onclick="toggleRriFilter('report','${row.report}','domain','${domain}',this)">${s}</td>`;
+      }).join('');
+    tbody.appendChild(tr);
+  });
+})();
+
+(function(){
+  const container=document.getElementById('domain-bars');
+  DOMAIN_EXPOSURE.forEach(d=>{
+    const el=document.createElement('div');
+    el.className='dbar-item tt-trigger';
+    el.dataset.tip=`${d.label}: Composite regulatory exposure ${d.val} — click to filter signals`;
+    el.dataset.dom=d.domain;
+    el.innerHTML=`<div class="dbar-top"><span class="dbar-label">${d.label}</span><span class="dbar-val ${d.valClass}">${d.val}</span></div><div class="dbar-track"><div class="dbar-fill ${d.barClass}" style="width:0%" data-w="${d.val}%"></div></div>`;
+    el.onclick=()=>toggleRriFilter('domain',d.domain,null,null,el);
+    container.appendChild(el);
+  });
+})();
+
+function animateBars(){
+  document.querySelectorAll('.dbar-fill').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.w;},100);});
+}
+
+function renderSignals(){
+  const body=document.getElementById('signals-body');
+  body.innerHTML='';
+  SIGNAL_GROUPS.forEach(grp=>{
+    const grpEl=document.createElement('div');
+    grpEl.className='sig-group';
+    grpEl.dataset.groupId=grp.id;
+    const crits=grp.signals.filter(s=>s.sev==='critical').length;
+    const highs=grp.signals.filter(s=>s.sev==='high').length;
+    const meds=grp.signals.filter(s=>s.sev==='medium').length;
+    const infos=grp.signals.filter(s=>s.sev==='info').length;
+    const countBadges=(crits?`<span class="sig-group-count sgc-crit">${crits} Critical</span>`:'')+
+      (highs?`<span class="sig-group-count sgc-high">${highs} High</span>`:'')+
+      (meds?`<span class="sig-group-count sgc-med">${meds} Med</span>`:'')+
+      (infos?`<span class="sig-group-count sgc-info">${infos} Info</span>`:'');
+    const chevId='chev-'+grp.id, itemsId='items-'+grp.id;
+    grpEl.innerHTML=`
+      <div class="sig-group-header" onclick="toggleSigGroup('${itemsId}','${chevId}')">
+        <div class="sig-group-name"><div class="sig-group-reports">${grp.reports.map(r=>`<span class="sig-group-tag">${r}</span>`).join('')}</div>${grp.label}</div>
+        <div class="sig-group-counts">${countBadges}<span class="sig-group-chevron open" id="${chevId}">▾</span></div>
+      </div>
+      <div class="sig-items-wrap open" id="${itemsId}">
+        ${grp.signals.map((sig,si)=>`
+          <div class="sig-item ${sig.sevClass}" data-reports='${JSON.stringify(sig.reports)}' data-domain="${sig.domain}">
+            <div class="sig-item-accent"></div>
+            <div class="sig-indicator ${sig.indClass}">${sig.icon}</div>
+            <div class="sig-content">
+              <div class="sig-top"><span class="sig-type-badge ${sig.typeBadgeClass}">${sig.typeBadge}</span><span class="sig-sev-badge ${sig.sevBadgeClass}">${sig.sev.toUpperCase()}</span><span class="sig-domain-tag">${sig.domain}</span></div>
+              <div class="sig-title">${sig.title}</div>
+              <div class="sig-desc">${sig.desc}</div>
+              ${sig.delta?`<div class="sig-delta"><span class="sig-delta-val">Δ</span><span class="sig-delta-lbl">${sig.delta}</span></div>`:''}
+              <div class="sig-time">${sig.time}</div>
+            </div>
+            <span class="sig-action" onclick="event.stopPropagation();showToast('Opening: ${sig.title}')">${sig.action}</span>
+          </div>`).join('')}
+      </div>`;
+    body.appendChild(grpEl);
+  });
+  applyRriFilters();
+}
+renderSignals();
+
+function toggleSigGroup(itemsId,chevId){const el=document.getElementById(itemsId);const ch=document.getElementById(chevId);el.classList.toggle('open');if(ch)ch.classList.toggle('open');}
+
+let rriFilter = {report:null, domain:null};
+function toggleRriFilter(key1,val1,key2,val2,el){
+  const sameReport = key1==='report'&&rriFilter.report===val1;
+  const sameDomain = key1==='domain'&&rriFilter.domain===val1;
+  document.querySelectorAll('.rri-hm-cell').forEach(c=>c.classList.remove('rri-active'));
+  document.querySelectorAll('.dbar-item').forEach(b=>b.classList.remove('rri-active'));
+  if (key1==='report'&&!sameReport){
+    rriFilter.report=val1; rriFilter.domain=key2==='domain'?val2:null; el.classList.add('rri-active');
+    if(rriFilter.domain) document.querySelectorAll('.dbar-item').forEach(b=>{if(b.dataset.dom===rriFilter.domain)b.classList.add('rri-active');});
+  } else if(key1==='domain'&&!sameDomain){
+    rriFilter.domain=val1; rriFilter.report=null; el.classList.add('rri-active');
+  } else { rriFilter={report:null,domain:null}; }
+  applyRriFilters();
+}
+function clearRriFilters(){rriFilter={report:null,domain:null};document.querySelectorAll('.rri-hm-cell,.dbar-item').forEach(e=>e.classList.remove('rri-active'));applyRriFilters();}
+function applyRriFilters(){
+  const {report,domain}=rriFilter; const has=report||domain;
+  const bar=document.getElementById('signals-filter-bar');
+  const pillsEl=document.getElementById('signals-filter-pills');
+  bar.classList.toggle('show',!!has);
+  if(has){let pills=[];if(report)pills.push(`<span class="signals-filter-pill">${report}</span>`);if(domain)pills.push(`<span class="signals-filter-pill">${domain} Data</span>`);pillsEl.innerHTML=pills.join('');}
+  document.querySelectorAll('.sig-item').forEach(item=>{
+    const itemReports=JSON.parse(item.dataset.reports||'[]');
+    let show=true;
+    if(report&&!itemReports.includes(report))show=false;
+    if(domain&&item.dataset.domain!==domain)show=false;
+    item.classList.toggle('dimmed',!show&&has);
+  });
+  SIGNAL_GROUPS.forEach(grp=>{
+    const itemsEl=document.getElementById('items-'+grp.id);
+    const chevEl=document.getElementById('chev-'+grp.id);
+    if(!itemsEl)return;
+    const hasVisible=grp.signals.some(sig=>{let s=true;if(report&&!sig.reports.includes(report))s=false;if(domain&&sig.domain!==domain)s=false;return s;});
+    if(has){if(hasVisible){itemsEl.classList.add('open');if(chevEl)chevEl.classList.add('open');}else{itemsEl.classList.remove('open');if(chevEl)chevEl.classList.remove('open');}}
+    else{itemsEl.classList.add('open');if(chevEl)chevEl.classList.add('open');}
+  });
+}
+function selectReport(card,reportName){
+  document.querySelectorAll('.rsc-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  rriFilter={report:reportName,domain:null};
+  document.querySelectorAll('.rri-hm-cell,.dbar-item').forEach(e=>e.classList.remove('rri-active'));
+  applyRriFilters();
+  showToast('Signals filtered to: '+reportName);
 }
 
 // ── TOAST ─────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>t.classList.remove('show'),3200);
 }
-
-renderInventory();
 </script>
 </body>
 </html>
