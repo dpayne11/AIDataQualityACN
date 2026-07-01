@@ -1,9 +1,8 @@
-# AIDataQualityACN
 # Data Quality Risk Intelligence
 
-An AI-powered Data Quality Risk Intelligence accelerator, built as a non-invasive intelligence layer on top of existing DQ platforms (primarily Collibra). Designed for regulated financial institutions to predict and prevent regulatory reporting failures, automate rule generation and optimization, and provide executive-level transparency into data quality risk.
+An AI-powered Data Quality Risk Intelligence accelerator, built as a non-invasive intelligence layer on top of existing DQ and governance platforms (primary integration partner: **Collibra**). Designed for regulated financial institutions to predict and prevent regulatory reporting failures, automate rule generation and optimization, and provide executive-level transparency into data quality risk.
 
-> **Current state:** Interactive POC (single-file HTML). The immediate next phase is converting this into a structured React application and wiring up live AI and platform integrations.
+> **Current state:** Interactive POC (single-file HTML, `index.html`). Scaled build in progress — converting to a React application with a LangGraph multi-agent backend on Azure. See `ARCHITECTURE.md` for the full system architecture.
 
 ---
 
@@ -34,9 +33,9 @@ Regulated financial institutions invest heavily in third-party DQ platforms (Col
 
 ## Solution Architecture
 
-The accelerator is structured around three capability pillars:
+The accelerator is structured around the following capability pillars. (Full technical architecture — Azure services, agent workflow, dual-ontology graph, data flow — is documented in `ARCHITECTURE.md`.)
 
-### Pillar 1 — Control Intelligence *(current POC focus)*
+### Pillar 1 — DQ Rule Intelligence *(current POC focus)*
 - Ingest structured and unstructured inputs: BRDs, regulatory instructions, data dictionaries
 - Analyse existing DQ rule libraries: identify duplicates, gaps, and ineffective thresholds
 - Map rules to CDEs and regulatory reports (FR Y-9C, FR Y-14Q, CECL, Basel III/IV)
@@ -49,192 +48,149 @@ The accelerator is structured around three capability pillars:
 - Detect cross-report discrepancies (e.g. Y-9C HI income vs Y-14Q PPNR mortgage actuals)
 - Early indicators of capital stress and revenue inconsistencies
 
-### Pillar 3 — Remediation Intelligence *(planned)*
-- Graph-based root cause analysis using lineage and metadata
-- Detect upstream system failures, repeated issue clusters, control breakdown patterns
-- Generate explainable root cause narratives and AI-driven remediation recommendations
-- Severity-based prioritisation and workflow tool integration (ServiceNow, Collibra)
+---
+
+## Agentic Workflow
+
+Five specialized AI agents analyse and propose enhancements to the DQ rule inventory, in two streams that converge on a recommendation agent:
+
+**Risk Coverage stream**
+- **Risk Analyzer** — quantify criticality, assess applicable DQ dimensions
+- **Effectiveness Analyzer** — identify fields/tables without rules, identify ineffective rules, quantify asset-level effectiveness
+- **Health Calculator** — `Health Score = 100 − [Criticality Score × (1 − Rule Effectiveness Score)]`
+
+**Optimization Play stream**
+- **Redundancy Inspector** — exact duplicates, range superset/subset containment, superset predicate duplicates
+- **Efficiency Inspector** — high failure rate (>50%), SQL vs profiling mismatch, SQL vs declared data type mismatch
+
+**Convergence**
+- **Rule Advisor** — new/enhanced rule recommendation (NL + SQL) with rationale and confidence score
+
+These are supported by Tier 1 input-processing skill agents (unstructured, structured, semi-structured) and a FIBO mapping agent that grounds data assets in industry-standard financial concepts.
+
+---
+
+## Adjacent Business Use Cases
+
+The same architecture — dual-ontology knowledge graph, vector store, multi-agent inference, Collibra integration, lineage traversal — generalises well beyond DQ rule intelligence. The following data management and operational risk & resiliency use cases are enabled by the same platform with incremental extension rather than rebuild.
+
+### Data Management
+
+**1. Cross-Report Reconciliation & Consistency**
+Detect and explain discrepancies between regulatory reports that draw on shared data (e.g. FR Y-9C Schedule HI vs FR Y-14Q Schedule G). The graph already models which CDEs feed which report line items, so the same traversal that infers DQ impact can flag where the same underlying concept produces inconsistent values across reports — a known supervisory focus area.
+
+**2. CDE Discovery & Criticality Classification**
+Use the FIBO mapping agent and lineage graph to automatically identify which data elements are *critical* (feed regulatory reports, have deep downstream dependencies) versus peripheral. This automates a traditionally manual, expert-dependent CDE designation exercise and keeps it current as lineage changes.
+
+**3. Metadata Completeness & Stewardship Gap Detection**
+Surface assets with missing business definitions, absent ownership, unmapped lineage, or no FIBO concept — the metadata equivalent of DQ gaps. Prioritised by criticality so stewards address the highest-impact gaps first.
+
+**4. Data Lineage Validation & Impact Analysis**
+Traverse the lineage graph to answer "if this source system or field changes, what is affected downstream?" Supports change-impact assessment, migration planning, and decommissioning decisions — all grounded in the same graph used for DQ impact.
+
+**5. Policy & Regulatory Change Management**
+When a regulatory instruction changes, the vector store identifies which document sections changed and the graph identifies which CDEs, rules, and reports are governed by the affected requirement — turning a regulatory update into a targeted, prioritised work list.
+
+**6. Reference & Master Data Consistency**
+Apply the redundancy and efficiency inspection patterns to reference/master data domains to detect conflicting definitions, duplicate golden records, and taxonomy drift across systems.
+
+### Operational Risk & Resiliency
+
+**7. Control Inventory & Coverage Assessment**
+Generalise "DQ rule coverage" to "control coverage." Map operational controls to the risks and processes they mitigate, and surface coverage gaps, redundant controls, and ineffective controls — the operational-risk analogue of the DQ rule health model.
+
+**8. Root Cause Analysis & Issue Clustering**
+Use graph-based root cause analysis (lineage + metadata traversal) to trace operational incidents and DQ failures to their upstream origin, cluster recurring issues, and identify systemic control breakdown patterns rather than treating each incident in isolation.
+
+**9. Third-Party / Vendor Data Risk**
+Model external data providers and feeds as source-system nodes in the graph. Assess the downstream regulatory and operational exposure created by a vendor feed failure or quality degradation — supporting third-party risk management and concentration-risk analysis.
+
+**10. Operational Resilience & Critical Process Mapping**
+Map critical business services to the data assets, systems, and controls they depend on. Traverse the graph to identify single points of failure and assess resilience posture — supporting operational resilience requirements (e.g. impact tolerance mapping).
+
+**11. Audit & Regulatory Exam Readiness**
+Because risk scores are deterministic (materiality weights stored on graph edges) and every insight is confidence-scored with an explainability trace, the platform produces an auditable record of how each risk conclusion was reached — directly supporting internal audit and regulatory examination evidence requests.
+
+**12. Predictive Early-Warning Signals**
+Combine historical execution patterns (PostgreSQL) with graph structure and regulatory context to surface early-warning indicators — emerging control degradation, rising failure rates on critical paths, or aggregation gaps that precede a reporting failure.
+
+> These use cases are **adjacent opportunities**, not committed scope. They are documented to show the platform's extensibility and to inform roadmap prioritisation once the core DQ Rule Intelligence and Reporting Risk Intelligence pillars are delivered.
 
 ---
 
 ## Current POC — Feature Summary
 
-The current POC is a single self-contained HTML file (`dq_risk_intelligence_v5.html`) built with vanilla HTML, CSS, and JavaScript using synthetic data.
+The current POC is a single self-contained HTML file (`index.html`) built with vanilla HTML, CSS, and JavaScript using synthetic data.
 
 ### What is built
 
+**Landing Page**
+- Module entry point with two intelligence tiles (DQ Rule Intelligence — live; Reporting Risk Intelligence — preview) and a distinct Configure & Connect setup card
+- Opens by default; each module accessible via tile, with a Home button to return
+
 **Header & Navigation**
-- Branded header with purple gradient design aligned to the Knowledge Suite visual identity
-- "Connect to Knowledge Sources" modal — supports drag & drop file upload and four connector types: Database (SQL Server, Oracle, Snowflake, Databricks), REST API (Collibra, ServiceNow, Informatica), NAS/Network File Share, Cloud Storage
+- Branded purple gradient header aligned to the Knowledge Suite visual identity
+- "Connect to Knowledge Sources" modal — drag & drop file upload plus four connector types: Database, REST API, NAS/Network File Share, Cloud Storage
 
 **Filter Bar**
-- Data Domain filter (Customer, Transaction, Risk, Reference, Financial)
-- Regulatory Report filter (FR Y-9C, FR Y-14Q, CECL ASC 326, Basel III/IV)
-- Criticality filter (Low, Medium, High, Critical)
-- Free-text search
-- All filters include tooltip descriptions
+- Data Domain, Regulatory Report, System, and Health Score filters
+- Free-text search; all filters include tooltip descriptions
 
-**Top Section — three-column layout**
-- *Left:* Three vertical KPI cards — DQ Rule Effectiveness Score (87.3%), High-Risk DQ Rule Gaps (23), Total Active DQ Rules (1,247) — each with tooltip explaining calculation methodology
-- *Centre:* DQ Rule Health donut chart — three segments (Effective 68%, Optimize 15%, Gaps 17%). Clicking a legend item filters the inventory below. Donut centre updates to reflect filtered count.
-- *Right:* Rule Coverage Heatmap — DQ risk coverage score by Data Domain × Regulatory Report. Clicking any cell filters the inventory to matching assets. Active filters shown as dismissible pills.
+**KPI Row (6 metrics)**
+- Avg. Criticality Score, Total Active DQ Rules, Avg. Rule Effectiveness Score, Avg. Health Score, High-Risk Data Assets, Rules w/ Optimization Opportunities — each with a calculation-methodology tooltip
 
-**Data Asset Risk Inventory (60% width)**
-- Table of 8 synthetic data assets with columns: Asset/CDE, Asset Type (CDE/Table), Domain, DQ Rules, Health, Risk Score
+**Charts Row (3 charts)**
+- *DQ Rule Health* donut — Good / Medium / Poor health distribution; click a segment to filter the inventory
+- *Optimization Opportunities* donut — Modify rule logic (high false positives) / Decommission rules (redundant) / Shift rules upstream (lineage-based, shown as coming soon); click to filter
+- *Rule Coverage Heatmap* — currently a pending placeholder (regulatory report mapping, planned for a later sprint)
+
+**Data Asset Risk Inventory**
+- Table of synthetic data assets with columns: Data Asset Name, Data Asset Type (Column/Table), Domain, DQ Rules, Optimize, Health Category, Health Score
 - Rows dim when filtered out (not removed), preserving table structure
 - Click any row to load DQ Risk Insights for that asset
-- Active filter bar shows current filter pills with individual clear and "Clear all"
+- Active filter bar with dismissible pills and "Clear all"
 
-**DQ Risk Insights Panel (40% width)**
-- AI-generated analysis panel loaded per selected data asset
-- Three collapsible sections: Ineffective/Gap Rules, Optimization Opportunities, Effective Controls
-- Each insight card shows: confidence score, title, description
-- Expandable detail view per insight showing:
-  - Regulatory impact tags (e.g. FR Y-14Q, BCBS 239)
-  - Business impact summary
-  - For gap rules: proposed rule logic in natural language, proposed SQL, and target systems
-  - Accept / Modify / Reject action buttons
-  - AI Reasoning section with metadata signals and model reasoning narrative
-- **Modify flow:** Opens a modal showing the full proposed rule (NL + SQL + systems), with a natural language input field to describe changes. Submits for steward review.
+**DQ Risk Insights Panel**
+- AI-generated analysis per selected data asset, in three collapsible sections: Ineffective/Gap Rules, Optimization Opportunities, Effective Controls
+- Each insight: confidence score, title, description, expandable detail
+- Detail view shows regulatory impact tags, business impact, and for gap rules: proposed rule logic in natural language, proposed SQL, and target systems
+- Accept / Modify / Reject actions; AI Reasoning section with metadata signals and model reasoning narrative
+- **Modify flow:** modal showing the full proposed rule (NL + SQL + systems) with a natural language input to describe changes, submitted for steward review
 
 **Footer**
-- Pending review count badge
-- Last sync indicator
-- Export Report, Push to DQ Platform, Approve Selected Changes buttons
+- Pending review count, last sync indicator, and Export / Push to DQ Platform / Approve Selected Changes actions
 
 **Tooltip System**
-- Single body-appended floating tooltip node (`#tt-float`) using event delegation
-- Works on all static and dynamically rendered elements
-- Never clipped by parent overflow or stacking contexts
+- Single body-appended floating tooltip node (`#tt-float`) using event delegation; never clipped by parent overflow
 
 ---
 
 ## Synthetic Data Scope
 
-The POC uses synthetic data aligned to the MVP regulatory scope:
+**Reports covered:** FR Y-9C (Schedule HI), FR Y-14Q (Schedule G — PPNR), CECL (ASC 326), Basel III/IV
 
-**Reports covered:**
-- FR Y-9C (Schedule HI — Income Statement)
-- FR Y-14Q (Schedule G — PPNR)
-- CECL (ASC 326)
-- Basel III/IV
+The POC ships with a set of synthetic data assets (columns and tables) across domains (Enterprise, Loan, Treasury, Actuals, Risk, Reference, Customer), each carrying a health category, numeric health score, rule count, optimization count, and AI-generated insights. Assets with gap insights include proposed rule logic (NL + SQL) and target systems to drive the Modify flow.
 
-**Data assets (8 synthetic CDEs/Tables):**
-
-| ID | Name | Type | Domain | Rules | Health | Risk Score |
-|----|------|------|--------|-------|--------|------------|
-| CDE-001 | Customer ID | CDE | Customer Data | 14 | Effective | 15 |
-| CDE-002 | Transaction Amount Reconciliation | CDE | Transaction Data | 8 | Gaps | 78 |
-| TBL-003 | Reference Data Completeness | Table | Reference Data | 11 | Effective | 25 |
-| CDE-004 | Duplicate Customer Detection | CDE | Customer Data | 5 | Optimize | 22 |
-| CDE-005 | Credit Risk Rating | CDE | Risk Data | 18 | Effective | 8 |
-| CDE-006 | Basel III Capital Adequacy | CDE | Financial Data | 3 | Gaps | 91 |
-| CDE-007 | PPNR Mortgage Actual | CDE | Financial Data | 6 | Optimize | 44 |
-| TBL-008 | Investment Mgmt Revenue | Table | Financial Data | 0 | Gaps | 85 |
-
-**Risk Score formula (synthetic):**
-`(Failure Rate × 0.5) + (Regulatory Exposure × 0.3) + (Lineage Depth × 0.2)`
+**Health Score formula:** `100 − [Criticality Score × (1 − Rule Effectiveness Score)]`
 
 ---
 
 ## Tech Stack
 
 ### Current POC
-- Vanilla HTML5, CSS3, JavaScript (ES6+)
-- No build tools or dependencies — single file, opens directly in browser
-- Google Fonts: Plus Jakarta Sans, JetBrains Mono
-- SVG donut chart rendered inline
+- Vanilla HTML5, CSS3, JavaScript (ES6+) — single file, no build tools
+- Google Fonts: Plus Jakarta Sans, JetBrains Mono; inline SVG donut charts
 
-### Planned stack for full application
-- **Frontend:** React (component-based, state management via hooks or Zustand)
-- **AI layer:** Anthropic Claude API (`claude-sonnet-4-6`) for rule generation, gap analysis, NL→SQL translation, and insight narrative generation
-- **Platform integration:** Collibra REST API (bidirectional — ingest metadata/lineage, push AI-generated rules)
-- **Data layer:** To be defined based on deployment environment
-
----
-
-## Repository Structure (target — post-conversion)
-
-```
-dq-risk-intelligence/
-├── README.md
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── Header/
-│   │   ├── FilterBar/
-│   │   ├── KPIColumn/
-│   │   ├── DQRuleHealthChart/
-│   │   ├── RuleCoverageHeatmap/
-│   │   ├── DataAssetInventory/
-│   │   ├── DQRiskInsights/
-│   │   ├── ModifyRuleModal/
-│   │   └── ConnectSourcesModal/
-│   ├── data/
-│   │   └── syntheticAssets.js        # Current synthetic dataset
-│   ├── hooks/
-│   │   └── useFilters.js             # Filter state management
-│   ├── services/
-│   │   ├── claudeApi.js              # Anthropic Claude API client
-│   │   └── collibraApi.js            # Collibra REST API client
-│   ├── App.jsx
-│   └── index.js
-├── dq_risk_intelligence_v5.html      # Current POC (reference)
-└── package.json
-```
-
----
-
-## Immediate Next Steps
-
-These are the priority items for the next development phase in Claude Code:
-
-1. **Convert to React** — decompose the single HTML file into the component structure above, preserving all existing functionality and styling exactly
-2. **Add live Claude API calls** — replace hardcoded `aiNote` and insight text with real Claude API responses using the existing synthetic data as context
-3. **NL→SQL rule generation** — wire the Modify modal to call Claude API with the natural language instruction and return updated SQL for steward review
-4. **Reporting Risk Intelligence pillar** — build the second pillar: cross-report discrepancy detection between Y-9C and Y-14Q using synthetic data
-5. **Collibra mock integration** — simulate the Collibra API push/pull with a local mock server to demonstrate the bidirectional integration flow
-6. **Expand synthetic dataset** — add more CDEs, more regulatory reports, and more complex lineage scenarios to stress-test the UI
-
----
-
-## Design System
-
-The UI follows a consistent design language. Key variables:
-
-```css
---purple: #7c3aed          /* Primary brand / action colour */
---purple-light: #ede9fe    /* Backgrounds, active states */
---purple-dark: #5b21b6     /* Hover states */
---green: #059669           /* Effective / pass */
---amber: #d97706           /* Optimize / warning */
---red: #dc2626             /* Gaps / critical */
---blue: #2563eb            /* Regulatory tags */
---text: #111827            /* Primary text */
---text3: #6b7280           /* Secondary / labels */
---sans: 'Plus Jakarta Sans', sans-serif
---mono: 'JetBrains Mono', monospace
-```
-
-Header uses a `linear-gradient(135deg, #1e0a3c → #7c3aed)` with a radial dot grid overlay. All tooltips use a single body-appended `#tt-float` node positioned via JavaScript to avoid clipping.
-
----
-
-## Collibra Integration Approach
-
-The accelerator is designed as a non-invasive layer — it enhances Collibra, not replaces it.
-
-**Inbound (Collibra → Accelerator):**
-- Metadata, lineage graphs, DQ rule libraries via Collibra REST API
-- Rule execution results and issue logs
-- Asset classifications and CDE mappings
-
-**Outbound (Accelerator → Collibra):**
-- AI-generated rule recommendations (after steward approval)
-- Risk score annotations on lineage
-- Enriched remediation workflow tickets
-- Prioritisation flags on existing issues
+### Scaled application (see `ARCHITECTURE.md`)
+- **Frontend:** React (TypeScript, Vite, Tailwind, Zustand) on Azure Static Web Apps
+- **Orchestration:** LangGraph multi-agent workflow on Azure ML / Azure Databricks
+- **AI layer:** Anthropic Claude (`claude-sonnet-4-6`) via an LLM Garden routing layer
+- **Vector store:** Azure AI Search (semantic retrieval / RAG)
+- **Graph:** Azure Cosmos DB (Gremlin) — dual-ontology (DQ + FIBO) knowledge graph
+- **Structured store:** Azure PostgreSQL
+- **Raw landing zone:** Azure Blob Storage (Collibra extracts via Aspire Connectors)
+- **Integration:** Collibra REST API (GET inbound, POST outbound write-back)
+- **Gateway & security:** Azure API Management, Azure AD, Azure Key Vault
 
 ---
 
@@ -252,9 +208,38 @@ Cross-report reconciliation between FR Y-9C Schedule HI and FR Y-14Q Schedule G 
 
 ---
 
-## Contributing / Development Notes
+## Repository Files
 
-- All synthetic data lives in the `ASSETS` and `HEATMAP` arrays in the JS — easy to extend
-- The tooltip system uses event delegation on `document` — add `class="tt-trigger"` and `data-tip="..."` to any element to get a tooltip automatically
-- The filter system (`activeFilters` state object) supports three simultaneous dimensions: health, domain, report — easy to extend with additional filter axes
-- Insight items with `type:'gap'` and a `ruleNL` / `ruleSQL` / `systems` payload automatically render the full proposed rule logic and trigger the Modify modal
+| File | Purpose |
+|------|---------|
+| `index.html` | Interactive POC — source of truth for all UI components, synthetic data, filter logic, and insight rendering |
+| `README.md` | This file — project overview, features, and use cases |
+| `ARCHITECTURE.md` | Full system architecture — Azure services, agent workflow, dual-ontology graph, data flow, build phases |
+| `REQUIREMENTS.md` | Functional requirements (to be provided from Excel) |
+
+---
+
+## Design System
+
+Key CSS variables (defined in `index.html`):
+
+```css
+--purple: #7c3aed          /* Primary brand / action */
+--purple-light: #ede9fe    /* Backgrounds, active states */
+--purple-dark: #5b21b6     /* Hover states */
+--green: #059669           /* Good Health / Effective */
+--amber: #d97706           /* Medium Health / Optimize */
+--red: #dc2626             /* Poor Health / Gaps / critical */
+--blue: #2563eb            /* Regulatory tags */
+--sans: 'Plus Jakarta Sans', sans-serif
+--mono: 'JetBrains Mono', monospace
+```
+
+---
+
+## Development Notes
+
+- Synthetic data lives in the `KPIS`, `HEATMAP`, and `ASSETS` arrays in the JS — easy to extend
+- Tooltip system uses event delegation — add `class="tt-trigger"` and `data-tip="..."` to any element
+- Filter system (`activeFilters` state) supports health and optimization-type dimensions — extensible with additional filter axes
+- Insight items with `type:'gap'` and a `ruleNL` / `ruleSQL` / `systems` payload automatically render full proposed rule logic and trigger the Modify modal
