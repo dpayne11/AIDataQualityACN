@@ -456,6 +456,79 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
 .ai-spark { font-size: 16px; }
 .ins-body { flex: 1; overflow-y: auto; padding: 14px; }
 
+/* ── FIXED ASSET HEADER BLOCK ── */
+.ins-asset-header {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 12px; background: var(--surface2);
+}
+.ins-asset-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.ins-asset-id { font-family: var(--mono); font-size: 11px; color: var(--text4); font-weight: 400; margin-left: 6px; }
+.ins-asset-type { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; margin-left: 8px; }
+.ins-score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+.ins-score { text-align: center; padding: 10px 8px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); }
+.ins-score-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 3px; }
+.ins-score-val { font-size: 24px; font-weight: 700; line-height: 1; }
+.ins-score-sub { font-size: 9px; color: var(--text4); margin-top: 3px; }
+.ins-score.s-crit .ins-score-val { color: var(--red); }
+.ins-score.s-eff  .ins-score-val { color: var(--amber); }
+.ins-score.s-health .ins-score-val { color: var(--amber); }
+.ins-score.s-health.good .ins-score-val { color: var(--green); }
+.ins-score.s-health.poor .ins-score-val { color: var(--red); }
+
+/* Field-level regulatory reports (top of panel) */
+.ins-field-reg { margin-bottom: 14px; }
+.ins-field-reg-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); font-weight: 600; margin-bottom: 7px; display: flex; align-items: center; gap: 5px; }
+.ins-field-reg-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Sub-item (individual finding) collapsible */
+.finding { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; position: relative; }
+.finding::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+.finding.f-gap::before { background: var(--red); }
+.finding.f-optimize::before { background: var(--amber); }
+.finding.f-effective::before { background: var(--green); }
+.finding-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 11px 13px 11px 16px; cursor: pointer; transition: background 0.15s; }
+.finding-header:hover { background: var(--surface2); }
+.finding-htext { flex: 1; }
+.finding-badge-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.finding-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.35; }
+.finding-rule-id { font-family: var(--mono); font-size: 10px; color: var(--text4); margin-top: 2px; }
+.finding-chev { font-size: 10px; color: var(--text4); transition: transform 0.2s; flex-shrink: 0; margin-top: 4px; }
+.finding-chev.open { transform: rotate(180deg); }
+.finding-body { display: none; padding: 0 13px 13px 16px; }
+.finding-body.open { display: block; }
+
+/* Rule comparison — current vs new */
+.rule-block { margin-bottom: 10px; }
+.rule-block-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700;
+  margin-bottom: 5px; display: flex; align-items: center; gap: 6px;
+}
+.rule-block-label.current { color: var(--text3); }
+.rule-block-label.new { color: var(--purple); }
+.rule-tag-badge { font-size: 8px; padding: 1px 6px; border-radius: 3px; font-weight: 700; letter-spacing: 0.03em; }
+.rule-tag-badge.current { background: var(--grey-light); color: var(--text3); border: 1px solid var(--border2); }
+.rule-tag-badge.new { background: var(--purple-light); color: var(--purple-dark); border: 1px solid #ddd6fe; }
+.rule-nl {
+  font-size: 11px; line-height: 1.6; padding: 9px 11px; border-radius: 6px;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text2); margin-bottom: 7px;
+}
+.rule-nl.new { background: #faf5ff; border-color: #ddd6fe; }
+.rule-code {
+  background: #0f172a; border-radius: 6px; padding: 9px 11px;
+  font-family: var(--mono); font-size: 10px; color: #e2e8f0; line-height: 1.65;
+  white-space: pre; overflow-x: auto; border: 1px solid #1e293b; margin-bottom: 4px;
+}
+.rule-divider { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.rule-divider::before, .rule-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.rule-divider span { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text4); font-weight: 700; }
+
+/* Applied-to systems */
+.applied-systems { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.applied-sys-tag { font-size: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 4px 10px; color: var(--text2); }
+
+/* Sub-section grouping labels */
+.subsection-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text4); font-weight: 600; margin: 12px 0 6px; }
+
 /* Insight sections */
 .ins-section { margin-bottom: 10px; }
 .ins-section-header {
@@ -1379,6 +1452,8 @@ const ASSETS = [
     insights: [
       { type:'gap', conf:94, title:'Missing CECL Model Validation Rule', desc:'No automated rule exists to validate CECL allowance calculations before regulatory submission. High risk of inaccurate credit loss estimates.',
         reg:['CECL (ASC 326)','FR Y-14Q'], impact:'Reduces regulatory reporting risk by 27%', signals:['lineage_gap','rule_failure_rate','downstream_report_impact','historical_anomaly'],
+        currentRuleNL:'A basic non-NULL check exists on the reported allowance field, but there is no validation against the CECL model-projected allowance — so materially incorrect values pass undetected.',
+        currentRuleSQL:`-- Existing rule (dqr00051) — NULL check only\nSELECT transaction_id, reported_allowance\nFROM dbo.transaction_staging\nWHERE reported_allowance IS NULL;`,
         ruleNL:'For every transaction record, validate that the CECL allowance amount is not NULL and falls within ±10% of the model-projected allowance for that loan segment. Flag any record where the reported value deviates beyond this threshold before the regulatory submission window closes.',
         ruleSQL:`-- CECL Allowance Validation Rule\n-- Source: dbo.transaction_staging | Target: FR Y-14Q\nSELECT\n  t.transaction_id,\n  t.loan_segment,\n  t.reported_allowance,\n  m.model_projected_allowance,\n  ABS(t.reported_allowance - m.model_projected_allowance)\n    / NULLIF(m.model_projected_allowance, 0) AS variance_pct\nFROM dbo.transaction_staging t\nJOIN dbo.cecl_model_projections m\n  ON t.loan_segment = m.loan_segment\n  AND t.reporting_date = m.reporting_date\nWHERE\n  t.reported_allowance IS NULL\n  OR ABS(t.reported_allowance - m.model_projected_allowance)\n     / NULLIF(m.model_projected_allowance, 0) > 0.10;`,
         systems:['Transaction Staging DB (SQL Server)','CECL Model Output Store','FR Y-14Q Submission Layer'] },
@@ -1430,9 +1505,14 @@ const ASSETS = [
     insights: [
       { type:'effective', conf:97, title:'Customer ID validation fully controlled', desc:'14 active DQ rules with 100% pass rate over 90 days. No gaps identified.', reg:['FR Y-9C','BCBS 239'], impact:'Reduces reporting risk by 18%', signals:['null_check','format_validation','referential_integrity','uniqueness_check'] },
     ]},
-  { id:'BM0033', name:'PPNR Mortgage Actual', assetType:'Column', domain:'Actuals', rules:6, optCount:1, healthCat:'Medium', healthScore:55.0, optType:'Decommission',
+  { id:'BM0033', name:'PPNR Mortgage Actual', assetType:'Column', domain:'Actuals', rules:6, optCount:1, healthCat:'Medium', healthScore:55.0, criticality:88.4, ruleEff:63, regReports:['FR Y-14Q','FR Y-9C','DFAST-14A','FFIEC 031'], optType:'Decommission',
     insights: [
-      { type:'optimize', optType:'Decommission', conf:84, title:'Redundant reconciliation rules', desc:'Two rules reconcile PPNR mortgage actuals against the same source. One is redundant and can be decommissioned.', reg:['FR Y-9C','FR Y-14Q'], impact:'Reduces rule maintenance effort by 20%', signals:['rule_overlap_analysis','cross_report_delta'] },
+      { type:'optimize', optType:'Decommission', conf:84, title:'Redundant reconciliation rules', desc:'Two rules reconcile PPNR mortgage actuals against the same source. One is redundant and can be decommissioned.', reg:['FR Y-9C','FR Y-14Q'], impact:'Reduces rule maintenance effort by 20%', signals:['rule_overlap_analysis','cross_report_delta'],
+        currentRuleNL:'Two separate rules each reconcile PPNR mortgage actuals against the general ledger source, applying the same 2% variance tolerance on the same target field.',
+        currentRuleSQL:`-- Rule A (dqr00104) and Rule B (dqr00119) — overlapping\nSELECT record_id FROM dbo.ppnr_actuals\nWHERE ABS(mortgage_actual - gl_source_amt)\n  / NULLIF(gl_source_amt,0) > 0.02;`,
+        ruleNL:'Retain a single reconciliation rule (dqr00104) validating PPNR mortgage actuals against the GL source within a 2% variance tolerance. Decommission the duplicate rule dqr00119.',
+        ruleSQL:`-- Consolidated single rule (retain dqr00104)\nSELECT record_id, mortgage_actual, gl_source_amt,\n  ABS(mortgage_actual - gl_source_amt)\n    / NULLIF(gl_source_amt,0) AS variance_pct\nFROM dbo.ppnr_actuals\nWHERE ABS(mortgage_actual - gl_source_amt)\n  / NULLIF(gl_source_amt,0) > 0.02;`,
+        systems:['PPNR Actuals DB (Databricks)','GL Source System','FR Y-14Q Submission Layer'] },
       { type:'effective', conf:82, title:'Core reconciliation rule effective', desc:'Primary Y-9C / Y-14Q reconciliation rule passing consistently over the last 4 cycles.', reg:['FR Y-9C','FR Y-14Q'], impact:'Maintains cross-report alignment', signals:['cross_report_delta','historical_pass_rate'] },
     ]},
   { id:'BM0028', name:'Duplicate Customer Detection', assetType:'Column', domain:'Customer', rules:5, optCount:1, healthCat:'Medium', healthScore:65.0, optType:'Modify',
@@ -1616,29 +1696,91 @@ function selectAsset(asset, tr) {
 }
 
 // ── INSIGHTS ──────────────────────────────────────────────────
+
+// Derive fixed-header scores. Criticality: use asset.criticality if set,
+// else derive from healthCat. RuleEff: use asset.ruleEff if set, else derive.
+function assetScores(asset) {
+  const criticality = asset.criticality != null ? asset.criticality
+    : (asset.healthCat === 'Poor' ? 82.0 : asset.healthCat === 'Medium' ? 68.0 : 45.0);
+  const ruleEff = asset.ruleEff != null ? asset.ruleEff
+    : Math.round(asset.healthScore >= 70 ? 90 : asset.healthScore >= 40 ? 63 : 30);
+  return { criticality, ruleEff, health: asset.healthScore };
+}
+
+// Field-level regulatory reports: explicit regReports, else union of insight reg tags
+function assetRegReports(asset) {
+  if (asset.regReports && asset.regReports.length) return asset.regReports;
+  const set = [];
+  asset.insights.forEach(i => (i.reg||[]).forEach(r => { if (!set.includes(r)) set.push(r); }));
+  return set;
+}
+
 function renderInsights(asset) {
   const gaps = asset.insights.filter(i => i.type === 'gap');
   const opts = asset.insights.filter(i => i.type === 'optimize');
   const effs = asset.insights.filter(i => i.type === 'effective');
   const body = document.getElementById('ins-body');
+
+  const s = assetScores(asset);
+  const healthClass = s.health >= 70 ? 'good' : s.health < 40 ? 'poor' : '';
+  const regReports = assetRegReports(asset);
+
   body.innerHTML = `
-    <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;">
-      ${asset.name} <span style="font-family:var(--mono);font-size:10px;color:var(--text4);font-weight:400;">${asset.id}</span>
+    <!-- FIXED ASSET HEADER -->
+    <div class="ins-asset-header">
+      <div>
+        <span class="ins-asset-name">${asset.name}</span>
+        <span class="ins-asset-id">${asset.id}</span>
+        <span class="ins-asset-type">${asset.assetType}</span>
+      </div>
+      <div class="ins-score-grid">
+        <div class="ins-score s-crit">
+          <div class="ins-score-label">Criticality Score
+            <span class="tooltip-icon tt-trigger" data-tip="Inherent criticality of this data asset (0–100), derived from regulatory materiality, downstream report dependency, and lineage depth. Higher = more critical.">?</span>
+          </div>
+          <div class="ins-score-val">${s.criticality.toFixed(1)}</div>
+          <div class="ins-score-sub">${s.criticality >= 75 ? 'High band' : s.criticality >= 50 ? 'Medium band' : 'Low band'}</div>
+        </div>
+        <div class="ins-score s-eff">
+          <div class="ins-score-label">Rule Effectiveness
+            <span class="tooltip-icon tt-trigger" data-tip="Asset-level average effectiveness of active DQ rules (0–100%) — proportion passing executions with no gaps or false positives.">?</span>
+          </div>
+          <div class="ins-score-val">${s.ruleEff}%</div>
+          <div class="ins-score-sub">Asset-level avg</div>
+        </div>
+        <div class="ins-score s-health ${healthClass}">
+          <div class="ins-score-label">Health Score
+            <span class="tooltip-icon tt-trigger" data-tip="Health Score = 100 − [Criticality Score × (1 − Rule Effectiveness Score)]. Combines inherent risk with how well rules mitigate it.">?</span>
+          </div>
+          <div class="ins-score-val">${s.health.toFixed(1)}</div>
+          <div class="ins-score-sub">100 − [Crit × (1 − Eff)]</div>
+        </div>
+      </div>
     </div>
-    ${renderSection('Ineffective / Gap Rules', gaps, 'gaps', 'ish-gaps')}
-    ${renderSection('Optimization Opportunities', opts, 'optimize', 'ish-optimize')}
-    ${renderSection('Effective Controls', effs, 'effective', 'ish-effective')}
+
+    <!-- FIELD-LEVEL REGULATORY REPORTS -->
+    ${regReports.length ? `
+    <div class="ins-field-reg">
+      <div class="ins-field-reg-label">Regulatory Reports Impacted
+        <span class="tooltip-icon tt-trigger" data-tip="Regulatory reports this field feeds into. Field-specific — applies to every rule and finding on this asset.">?</span>
+      </div>
+      <div class="ins-field-reg-tags">${regReports.map(r=>`<span class="reg-tag">${r}</span>`).join('')}</div>
+    </div>` : ''}
+
+    ${renderSection('1 · Ineffective / Rule Gaps', 'Mitigate Risk', gaps, 'gaps', 'ish-gaps')}
+    ${renderSection('2 · Optimization Opportunities', 'Efficiencies', opts, 'optimize', 'ish-optimize')}
+    ${effs.length ? renderSection('3 · Effective Controls', 'No action needed', effs, 'effective', 'ish-effective') : ''}
   `;
 }
 
-function renderSection(label, items, type, headerClass) {
+function renderSection(label, sublabel, items, type, headerClass) {
   if (!items.length) return '';
   const id = 'sec-' + type + '-' + Math.random().toString(36).slice(2);
-  const itemsHtml = items.map((ins,i) => renderInsightItem(ins, type, id+i)).join('');
+  const itemsHtml = items.map((ins,i) => renderFinding(ins, type, id+i)).join('');
   return `
     <div class="ins-section">
       <div class="ins-section-header ${headerClass}" onclick="toggleSection('${id}',this)">
-        <span>${label}</span>
+        <span>${label} <span style="opacity:0.7;font-weight:500;">· ${sublabel}</span></span>
         <span>
           <span class="ins-count">${items.length} finding${items.length>1?'s':''}</span>
           <span class="ins-chevron open" id="chev-${id}">▾</span>
@@ -1649,72 +1791,91 @@ function renderSection(label, items, type, headerClass) {
   `;
 }
 
-// Store gap insight data for modify modal
+// Store finding data for modify modal
 const _gapData = {};
 
-function renderInsightItem(ins, type, id) {
+function renderFinding(ins, type, id) {
+  const fClass = {gap:'f-gap',optimize:'f-optimize',effective:'f-effective'}[ins.type];
   const badgeClass = {gap:'iib-gap',optimize:'iib-optimize',effective:'iib-effective'}[ins.type];
-  const itemClass  = {gap:'ii-gap',optimize:'ii-optimize',effective:'ii-effective'}[ins.type];
-  const badgeLabel = {gap:'Rule Gap',optimize:'Optimize',effective:'Effective'}[ins.type];
-  const detailId = 'det-' + id;
+  const badgeLabel = {gap:'Ineffective',optimize:ins.optType === 'Decommission' ? 'Decommission' : 'Rewrite',effective:'Effective'}[ins.type];
+  const bodyId = 'fb-' + id;
   const reasonId = 'rsn-' + id;
+  const ruleId = ins.ruleId || ('dqr' + String(Math.abs(hashCode(ins.title)) % 100000).padStart(5,'0'));
 
-  // Store gap data for modify modal lookup
-  if (ins.type === 'gap' && ins.ruleNL) {
+  if ((ins.type === 'gap' || ins.type === 'optimize') && (ins.ruleNL || ins.ruleSQL)) {
     _gapData[id] = ins;
   }
 
-  // Rule logic section — only for gaps with proposed logic
-  const ruleLogicSection = (ins.type === 'gap' && ins.ruleNL) ? `
-    <div style="margin-bottom:12px;">
-      <div class="ii-detail-label" style="margin-bottom:6px;">Proposed Rule Logic — Natural Language</div>
-      <div style="font-size:11px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:10px 12px;line-height:1.7;">${ins.ruleNL}</div>
-    </div>
-    <div style="margin-bottom:12px;">
-      <div class="ii-detail-label" style="margin-bottom:6px;">Proposed Rule Logic — SQL</div>
-      <div style="background:#0f172a;border-radius:7px;padding:10px 12px;font-family:var(--mono);font-size:10px;color:#e2e8f0;line-height:1.7;white-space:pre;overflow-x:auto;border:1px solid #1e293b;">${escHtml(ins.ruleSQL)}</div>
-    </div>
-    <div style="margin-bottom:12px;">
-      <div class="ii-detail-label" style="margin-bottom:6px;">Applied To (Systems)</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">${ins.systems.map(s=>`<span style="font-size:10px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:4px 10px;color:var(--text2);">⚙ ${s}</span>`).join('')}</div>
-    </div>
-  ` : '';
-
-  const actionButtons = ins.type !== 'effective' ? `
-    <div class="action-row">
-      <button class="act-btn act-accept" onclick="event.stopPropagation();showToast('✓ Recommendation accepted & queued for Collibra')">Accept</button>
-      <button class="act-btn act-modify" onclick="event.stopPropagation();openModifyModal('${id}')">Modify</button>
-      <button class="act-btn act-reject" onclick="event.stopPropagation();showToast('✗ Recommendation rejected')">Reject</button>
+  // Current rule logic (only where a rewrite/decommission has a prior rule)
+  const hasCurrent = ins.currentRuleNL || ins.currentRuleSQL;
+  const currentBlock = hasCurrent ? `
+    <div class="rule-block">
+      <div class="rule-block-label current">Current Rule Logic <span class="rule-tag-badge current">EXISTING</span></div>
+      ${ins.currentRuleNL ? `<div class="rule-nl">${ins.currentRuleNL}</div>` : ''}
+      ${ins.currentRuleSQL ? `<div class="rule-code">${escHtml(ins.currentRuleSQL)}</div>` : ''}
     </div>` : '';
 
+  // New / proposed rule logic
+  const hasNew = ins.ruleNL || ins.ruleSQL;
+  const newBlock = hasNew ? `
+    <div class="rule-block">
+      <div class="rule-block-label new">${hasCurrent ? 'New Rule Logic' : 'Proposed Rule Logic'} <span class="rule-tag-badge new">${hasCurrent ? 'RECOMMENDED' : 'NEW'}</span></div>
+      ${ins.ruleNL ? `<div class="rule-nl new">${ins.ruleNL}</div>` : ''}
+      ${ins.ruleSQL ? `<div class="rule-code">${escHtml(ins.ruleSQL)}</div>` : ''}
+    </div>` : '';
+
+  const dividerBetween = (hasCurrent && hasNew) ? `<div class="rule-divider"><span>changes to</span></div>` : '';
+
+  const systemsBlock = (ins.systems && ins.systems.length) ? `
+    <div class="rule-block">
+      <div class="rule-block-label current" style="color:var(--text3);">Applied To (Systems)</div>
+      <div class="applied-systems">${ins.systems.map(sx=>`<span class="applied-sys-tag">⚙ ${sx}</span>`).join('')}</div>
+    </div>` : '';
+
+  const actionButtons = ins.type !== 'effective' ? `
+    <div class="action-row" style="margin-top:12px;">
+      <button class="act-btn act-accept" onclick="event.stopPropagation();showToast('✓ Approved & pushed to Collibra')">✓ Approve &amp; Push to DQ</button>
+      <button class="act-btn act-modify" onclick="event.stopPropagation();openModifyModal('${id}')">✎ Modify</button>
+      <button class="act-btn act-reject" onclick="event.stopPropagation();showToast('✗ Recommendation rejected')">✕ Reject</button>
+    </div>` : '';
+
+  const impactBlock = '';
+
   return `
-    <div class="insight-item ${itemClass}" onclick="toggleDetail('${detailId}',this)">
-      <div class="ii-top">
-        <span class="ii-badge ${badgeClass}">${badgeLabel}</span>
-        <span class="ii-conf">Confidence: ${ins.conf}%</span>
-      </div>
-      <div class="ii-title">${ins.title}</div>
-      <div class="ii-desc">${ins.desc}</div>
-      <div class="ii-detail" id="${detailId}">
-        <div class="ii-detail-label">Regulatory Impact</div>
-        <div class="reg-tags">${ins.reg.map(r=>`<span class="reg-tag">${r}</span>`).join('')}</div>
-        <div class="impact-row">
-          <span class="impact-icon">✓</span>
-          <span class="impact-text">${ins.impact}</span>
+    <div class="finding ${fClass}">
+      <div class="finding-header" onclick="toggleFinding('${bodyId}',this)">
+        <div class="finding-htext">
+          <div class="finding-badge-row">
+            <span class="ii-badge ${badgeClass}">${badgeLabel}</span>
+          </div>
+          <div class="finding-title">${ins.title}</div>
+          <div class="finding-rule-id">${ruleId}</div>
         </div>
-        ${ruleLogicSection}
+        <span class="finding-chev" id="chev-${bodyId}">▾</span>
+      </div>
+      <div class="finding-body" id="${bodyId}">
+        <div class="ii-desc" style="margin-bottom:10px;">${ins.desc}</div>
+        ${impactBlock}
+        ${currentBlock}
+        ${dividerBetween}
+        ${newBlock}
+        ${systemsBlock}
         ${actionButtons}
-        <div class="ai-reasoning">
+        <div class="ai-reasoning" style="margin-top:12px;">
           <div class="ai-reasoning-header" onclick="event.stopPropagation();toggleReasoning('${reasonId}',this)">
-            <span>✦ View AI Reasoning</span>
+            <span>✦ View AI Rationale &amp; Confidence Score</span>
             <span>▾</span>
           </div>
           <div class="ai-reasoning-body" id="${reasonId}">
             <div class="exp-section">
-              <div class="exp-label">Explainability Details — Metadata Signals</div>
-              <div class="exp-signals">
-                ${ins.signals.map(s=>`<span class="exp-signal">${s}</span>`).join('')}
+              <div class="exp-label">Confidence Score</div>
+              <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:8px;">
+                ${ins.conf}% — ${ins.conf >= 90 ? 'High confidence' : ins.conf >= 75 ? 'Moderate confidence' : 'Lower confidence — steward review advised'}
               </div>
+            </div>
+            <div class="exp-section">
+              <div class="exp-label">Explainability Details — Metadata Signals</div>
+              <div class="exp-signals">${ins.signals.map(sg=>`<span class="exp-signal">${sg}</span>`).join('')}</div>
             </div>
             <div class="exp-section" style="margin-top:8px;">
               <div class="exp-label">Model Reasoning</div>
@@ -1727,6 +1888,20 @@ function renderInsightItem(ins, type, id) {
       </div>
     </div>
   `;
+}
+
+// Simple string hash for stable synthetic rule IDs
+function hashCode(str) {
+  let h = 0;
+  for (let i = 0; i < (str||'').length; i++) { h = ((h << 5) - h) + str.charCodeAt(i); h |= 0; }
+  return h;
+}
+
+function toggleFinding(id, header) {
+  const el = document.getElementById(id);
+  const chev = document.getElementById('chev-' + id);
+  el.classList.toggle('open');
+  if (chev) chev.classList.toggle('open');
 }
 
 function escHtml(s) {
@@ -1764,10 +1939,10 @@ function openModifyModal(insId) {
   } else {
     document.getElementById('mm-title').textContent = ins.title;
     document.getElementById('mm-sub').textContent = 'Review proposed logic and submit modifications for steward review';
-    document.getElementById('mm-systems').innerHTML = ins.systems.map(s =>
+    document.getElementById('mm-systems').innerHTML = (ins.systems && ins.systems.length ? ins.systems : ['Not specified']).map(s =>
       `<div class="mm-sys-tag">⚙ <strong>${s}</strong></div>`).join('');
-    document.getElementById('mm-nl-display').textContent = ins.ruleNL;
-    document.getElementById('mm-sql').textContent = ins.ruleSQL;
+    document.getElementById('mm-nl-display').textContent = ins.ruleNL || 'No proposed natural-language logic available.';
+    document.getElementById('mm-sql').textContent = ins.ruleSQL || '-- No SQL template available';
     document.getElementById('mm-nl-input').value = '';
   }
   document.getElementById('modify-modal').classList.add('show');
