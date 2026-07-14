@@ -627,6 +627,123 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
   font-family: var(--mono);
 }
 
+/* ── AGENT ACTIVITY PANEL ── */
+.dqintel-layout { display: flex; align-items: stretch; }
+.dqintel-main { flex: 1; min-width: 0; }
+
+.agent-panel {
+  width: 260px; flex-shrink: 0;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  transition: width 0.28s cubic-bezier(0.4,0,0.2,1);
+  position: sticky; top: 0; align-self: stretch;
+  height: 100vh; overflow: hidden;
+}
+.agent-panel.collapsed { width: 46px; }
+
+.agent-panel-header {
+  display: flex; align-items: center; gap: 9px;
+  padding: 16px 16px; border-bottom: 1px solid var(--border);
+  background: var(--purple-light);
+  flex-shrink: 0; cursor: pointer; min-height: 56px;
+}
+.agent-panel-header:hover { background: #e4defb; }
+.agent-panel-toggle {
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--purple); font-size: 13px; transition: transform 0.28s;
+}
+.agent-panel.collapsed .agent-panel-toggle { transform: rotate(180deg); }
+.agent-panel-title { font-size: 12px; font-weight: 700; color: var(--purple-dark); white-space: nowrap; letter-spacing: 0.02em; }
+.agent-panel-sub { font-size: 9px; color: var(--purple); opacity: 0.75; margin-top: 1px; white-space: nowrap; }
+.agent-panel.collapsed .agent-panel-title,
+.agent-panel.collapsed .agent-panel-sub,
+.agent-panel.collapsed .agent-stream-label,
+.agent-panel.collapsed .agent-node-text,
+.agent-panel.collapsed .agent-panel-hint { display: none; }
+
+/* Vertical "AGENTS" label shown when collapsed */
+.agent-collapsed-label {
+  display: none; writing-mode: vertical-rl; text-orientation: mixed;
+  color: var(--purple); font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; margin: 16px auto 0; white-space: nowrap;
+}
+.agent-panel.collapsed .agent-collapsed-label { display: block; }
+
+.agent-panel-body { flex: 1; overflow-y: auto; padding: 14px 12px 16px; }
+.agent-panel.collapsed .agent-panel-body { padding: 0; overflow: visible; }
+
+.agent-stream { margin-bottom: 18px; }
+.agent-stream-label {
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 9px; display: flex; align-items: center; gap: 6px;
+}
+.agent-stream.risk .agent-stream-label { color: var(--purple); }
+.agent-stream.opt .agent-stream-label { color: var(--green); }
+.agent-stream.converge .agent-stream-label { color: var(--amber); }
+.agent-stream-dot { width: 6px; height: 6px; border-radius: 50%; }
+.agent-stream.risk .agent-stream-dot { background: var(--purple); }
+.agent-stream.opt .agent-stream-dot { background: var(--green); }
+.agent-stream.converge .agent-stream-dot { background: var(--amber); }
+
+.agent-node {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; border-radius: 8px; margin-bottom: 6px;
+  background: var(--surface2); border: 1px solid var(--border);
+  transition: all 0.25s; position: relative;
+}
+.agent-panel.collapsed .agent-node { margin: 6px 7px; padding: 8px 0; justify-content: center; }
+
+.agent-node-icon {
+  width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; background: var(--purple-light);
+  border: 1px solid #ddd6fe; color: var(--purple);
+  transition: all 0.25s;
+}
+.agent-node-text { min-width: 0; }
+.agent-node-name { font-size: 11px; font-weight: 600; color: var(--text2); white-space: nowrap; }
+.agent-node-role { font-size: 9px; color: var(--text4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* GLOW state when a widget calls this agent */
+.agent-node.glow {
+  background: var(--purple-light);
+  border-color: var(--purple);
+  box-shadow: 0 0 0 2px rgba(124,58,237,0.12), 0 4px 12px rgba(124,58,237,0.15);
+}
+.agent-node.glow .agent-node-icon {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-color: #c4b5fd; color: #fff;
+  transform: scale(1.08);
+}
+.agent-node.glow .agent-node-name { color: var(--purple-dark); }
+.agent-stream.opt .agent-node.glow { background: var(--green-light); border-color: var(--green); box-shadow: 0 0 0 2px rgba(5,150,105,0.12), 0 4px 12px rgba(5,150,105,0.15); }
+.agent-stream.opt .agent-node.glow .agent-node-icon { background: linear-gradient(135deg,#059669,#34d399); border-color:#6ee7b7; color:#fff; }
+.agent-stream.converge .agent-node.glow { background: var(--amber-light); border-color: var(--amber); box-shadow: 0 0 0 2px rgba(217,119,6,0.12), 0 4px 12px rgba(217,119,6,0.15); }
+.agent-stream.converge .agent-node.glow .agent-node-icon { background: linear-gradient(135deg,#d97706,#fbbf24); border-color:#fcd34d; color:#fff; }
+
+/* Pulsing "active" ring */
+.agent-node.glow::after {
+  content: ''; position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 8px var(--green); animation: agentPulse 1.2s infinite;
+}
+.agent-panel.collapsed .agent-node.glow::after { right: 4px; top: 4px; transform: none; }
+@keyframes agentPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.agent-panel-hint {
+  font-size: 9.5px; color: var(--text4); line-height: 1.5; padding: 12px;
+  border-top: 1px solid var(--border); text-align: center; flex-shrink: 0;
+}
+
+/* connecting line between nodes in a stream */
+.agent-stream .agent-node:not(:last-child)::before {
+  content: ''; position: absolute; left: 22px; bottom: -6px; height: 6px;
+  width: 1px; background: var(--border2);
+}
+.agent-panel.collapsed .agent-stream .agent-node:not(:last-child)::before { display: none; }
+
 /* ── FOOTER ── */
 .footer-bar {
   position: sticky; bottom: 0;
@@ -1002,6 +1119,10 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
 <!-- ═══════════════ DQ RULE INTELLIGENCE MODULE ═══════════════ -->
 <div class="view" id="view-dqintel">
 
+<!-- LAYOUT: main content + agent activity panel -->
+<div class="dqintel-layout">
+<div class="dqintel-main">
+
 <!-- HEADER -->
 <div class="header">
   <div class="header-grid"></div>
@@ -1088,7 +1209,7 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
   <div class="charts-row fadeup-1">
 
     <!-- DQ Rule Health donut -->
-    <div class="chart-card">
+    <div class="chart-card" data-agents="risk-analyzer,effectiveness-analyzer,health-calculator">
       <div class="chart-title-row">
         <div class="chart-title">DQ Rule Health</div>
         <span class="tooltip-icon tt-trigger" data-tip="Distribution of data assets by overall health category, based on rule effectiveness against inherent risk. Click a segment to filter the inventory below." style="margin-left:auto;">?</span>
@@ -1133,7 +1254,7 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
     </div>
 
     <!-- Optimization Opportunities donut -->
-    <div class="chart-card">
+    <div class="chart-card" data-agents="redundancy-inspector,efficiency-inspector">
       <div class="chart-title-row">
         <div class="chart-title">Optimization Opportunities</div>
         <span class="tooltip-icon tt-trigger" data-tip="Active DQ rules identified by AI as candidates for optimization, grouped by recommended action. Click a segment to filter the inventory below." style="margin-left:auto;">?</span>
@@ -1224,7 +1345,7 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
     </div>
 
     <!-- DQ Risk Insights -->
-    <div class="insights-card">
+    <div class="insights-card" data-agents="risk-analyzer,effectiveness-analyzer,health-calculator,redundancy-inspector,efficiency-inspector,rule-advisor">
       <div class="ins-header">
         <span class="ai-spark">✦</span>
         <div>
@@ -1254,6 +1375,83 @@ body { background: var(--bg); font-family: var(--sans); font-size: 13px; color: 
     <button class="foot-btn foot-btn-primary" onclick="showToast('✓ Selected changes approved and pushed to Collibra')">✓ Approve Selected Changes</button>
   </div>
 </div>
+
+</div><!-- /dqintel-main -->
+
+<!-- AGENT ACTIVITY PANEL -->
+<div class="agent-panel" id="agent-panel">
+  <div class="agent-panel-header" onclick="toggleAgentPanel()">
+    <div class="agent-panel-toggle">◀</div>
+    <div>
+      <div class="agent-panel-title">✦ Agent Activity</div>
+      <div class="agent-panel-sub">Hover a widget to trace agents</div>
+    </div>
+  </div>
+  <div class="agent-collapsed-label">Agent Activity</div>
+  <div class="agent-panel-body">
+
+    <!-- Risk Coverage stream -->
+    <div class="agent-stream risk">
+      <div class="agent-stream-label"><span class="agent-stream-dot"></span> Risk Coverage</div>
+      <div class="agent-node" id="agent-risk-analyzer">
+        <div class="agent-node-icon">◆</div>
+        <div class="agent-node-text">
+          <div class="agent-node-name">Risk Analyzer</div>
+          <div class="agent-node-role">Quantify criticality</div>
+        </div>
+      </div>
+      <div class="agent-node" id="agent-effectiveness-analyzer">
+        <div class="agent-node-icon">◆</div>
+        <div class="agent-node-text">
+          <div class="agent-node-name">Effectiveness Analyzer</div>
+          <div class="agent-node-role">Rule effectiveness &amp; gaps</div>
+        </div>
+      </div>
+      <div class="agent-node" id="agent-health-calculator">
+        <div class="agent-node-icon">▣</div>
+        <div class="agent-node-text">
+          <div class="agent-node-name">Health Calculator</div>
+          <div class="agent-node-role">Compute health score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optimization Play stream -->
+    <div class="agent-stream opt">
+      <div class="agent-stream-label"><span class="agent-stream-dot"></span> Optimization Play</div>
+      <div class="agent-node" id="agent-redundancy-inspector">
+        <div class="agent-node-icon">◆</div>
+        <div class="agent-node-text">
+          <div class="agent-node-name">Redundancy Inspector</div>
+          <div class="agent-node-role">Duplicates &amp; containment</div>
+        </div>
+      </div>
+      <div class="agent-node" id="agent-efficiency-inspector">
+        <div class="agent-node-icon">◆</div>
+        <div class="agent-node-text">
+          <div class="agent-node-name">Efficiency Inspector</div>
+          <div class="agent-node-role">False positives, mismatch, upstream</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Convergence -->
+    <div class="agent-stream converge">
+      <div class="agent-stream-label"><span class="agent-stream-dot"></span> Recommendation</div>
+      <div class="agent-node" id="agent-rule-advisor">
+        <div class="agent-node-icon">✦</div>
+        <div class="agent-node-text">
+          <div class="agent-node-name">Rule Advisor</div>
+          <div class="agent-node-role">NL + SQL recommendation</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="agent-panel-hint">Agents glow when their output feeds the widget you're hovering.</div>
+</div>
+
+</div><!-- /dqintel-layout -->
 
 </div><!-- /view-dqintel -->
 
@@ -1417,17 +1615,17 @@ function showView(view) {
 
 // ── DATA ─────────────────────────────────────────────────────
 const KPIS = [
-  { label:'Avg. Criticality Score', value:'71.1', deltaCls:'delta-down', delta:'↑ +2 vs prior month-end', cls:'k-amber',
+  { label:'Avg. Criticality Score', value:'71.1', deltaCls:'delta-down', delta:'↑ +2 vs prior month-end', cls:'k-amber', agents:'risk-analyzer',
     tip:'Average inherent criticality score (0–100) across all visible data assets, derived from regulatory materiality, downstream report dependency, and lineage depth.' },
-  { label:'Total Active DQ Rules', value:'147', deltaCls:'delta-up', delta:'↑ +12 since last sync', cls:'k-purple',
+  { label:'Total Active DQ Rules', value:'147', deltaCls:'delta-up', delta:'↑ +12 since last sync', cls:'k-purple', agents:'effectiveness-analyzer',
     tip:'Total count of DQ rules in Active status across visible data assets. Excludes Draft, Deprecated, and Pending Approval rules.' },
-  { label:'Avg. Rule Effectiveness Score', value:'82.4%', deltaCls:'delta-up', delta:'↑ +3.2% vs prior month-end', cls:'k-green',
+  { label:'Avg. Rule Effectiveness Score', value:'82.4%', deltaCls:'delta-up', delta:'↑ +3.2% vs prior month-end', cls:'k-green', agents:'effectiveness-analyzer',
     tip:'Average rule effectiveness (0–100%) across visible assets — the proportion of active rules passing executions with no gaps or false positives.' },
-  { label:'Avg. Health Score', value:'85.3', deltaCls:'delta-down', delta:'↓ -1.8 vs prior month-end', cls:'k-green',
+  { label:'Avg. Health Score', value:'85.3', deltaCls:'delta-down', delta:'↓ -1.8 vs prior month-end', cls:'k-green', agents:'risk-analyzer,effectiveness-analyzer,health-calculator',
     tip:'Average health score (0–100) across visible assets. Reflects rule effectiveness weighted against each asset\'s inherent risk. Higher is better.' },
-  { label:'High-Risk Data Assets', value:'11', deltaCls:'delta-up', delta:'↓ -1 vs prior month-end', cls:'k-red',
+  { label:'High-Risk Data Assets', value:'11', deltaCls:'delta-up', delta:'↓ -1 vs prior month-end', cls:'k-red', agents:'risk-analyzer,health-calculator',
     tip:'Count of data assets with a Poor health category (health score < 40). These have significant unmitigated risk and require Data Steward action.' },
-  { label:'Rules w/ Optimization Opportunities', value:'12', deltaCls:'delta-down', delta:'↑ +3 vs prior month-end', cls:'k-purple',
+  { label:'Rules w/ Optimization Opportunities', value:'12', deltaCls:'delta-down', delta:'↑ +3 vs prior month-end', cls:'k-purple', agents:'redundancy-inspector,efficiency-inspector',
     tip:'Total active rules flagged by AI as optimization candidates — to modify rule logic (high false positives) or decommission (redundant). See the Optimization Opportunities chart.' },
 ];
 
@@ -1568,7 +1766,7 @@ const HEALTH_COUNTS = { Good:50, Medium:26, Poor:11 };
 (function renderKPIs() {
   const row = document.getElementById('kpi-row');
   row.innerHTML = KPIS.map(k => `
-    <div class="kpi-card ${k.cls}">
+    <div class="kpi-card ${k.cls}"${k.agents ? ` data-agents="${k.agents}"` : ''}>
       <div class="kpi-label">${k.label}
         <span class="tooltip-icon tt-trigger" data-tip="${k.tip}">?</span>
       </div>
@@ -1578,10 +1776,41 @@ const HEALTH_COUNTS = { Good:50, Medium:26, Poor:11 };
   `).join('');
 })();
 
-// ── FILTER STATE ──────────────────────────────────────────────
-// health = Good/Medium/Poor (DQ Rule Health donut)
-// optType = Modify/Decommission (Optimization Opportunities donut)
-let activeFilters = { health: null, optType: null };
+// ── AGENT ACTIVITY PANEL ──────────────────────────────────────
+function toggleAgentPanel() {
+  document.getElementById('agent-panel').classList.toggle('collapsed');
+}
+
+function glowAgents(agentList) {
+  agentList.forEach(a => {
+    const node = document.getElementById('agent-' + a.trim());
+    if (node) node.classList.add('glow');
+  });
+}
+function clearAgentGlow() {
+  document.querySelectorAll('.agent-node.glow').forEach(n => n.classList.remove('glow'));
+}
+
+// Event delegation: any element with data-agents lights up its agents on hover
+(function wireAgentHover() {
+  const view = document.getElementById('view-dqintel');
+  if (!view) return;
+  view.addEventListener('mouseover', e => {
+    const widget = e.target.closest('[data-agents]');
+    if (!widget) return;
+    clearAgentGlow();
+    glowAgents(widget.getAttribute('data-agents').split(','));
+  });
+  view.addEventListener('mouseout', e => {
+    const widget = e.target.closest('[data-agents]');
+    if (!widget) return;
+    // only clear if we're actually leaving the widget (not moving within it)
+    if (widget.contains(e.relatedTarget)) return;
+    clearAgentGlow();
+  });
+})();
+
+
 
 function toggleHealthFilter(health, legendEl) {
   if (activeFilters.health === health) {
